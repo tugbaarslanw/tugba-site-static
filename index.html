@@ -5,30 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tuğba Arslan — Software Engineer</title>
   <meta name="description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
-  <link rel="canonical" href="https://example.com/">
+  <link rel="canonical" href="https://tugba-site-static-pibhcw8za-tugbaarslanws-projects.vercel.app/">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Tuğba Arslan — Software Engineer">
   <meta property="og:description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
-  <meta property="og:url" content="https://example.com/">
+  <meta property="og:url" content="https://tugba-site-static-pibhcw8za-tugbaarslanws-projects.vercel.app/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Tuğba Arslan — Software Engineer">
   <meta name="twitter:description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
+
+  <!-- Favicon (basit SVG) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%236E31FF'/%3E%3Ctext x='50' y='58' text-anchor='middle' font-size='48' fill='white' font-family='Arial,Helvetica,sans-serif'%3ETA%3C/text%3E%3C/svg%3E">
+
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Tuğba Arslan",
     "jobTitle": "Software Engineer",
-    "url": "https://example.com/",
-    "sameAs": ["https://github.com/", "https://www.linkedin.com/"]
+    "url": "https://tugba-site-static-pibhcw8za-tugbaarslanws-projects.vercel.app/",
+    "sameAs": [
+      "https://github.com/tugbaarslanw",
+      "https://www.linkedin.com/in/tugbaarslanw/",
+      "https://instagram.com/USERNAME"
+    ]
   }
   </script>
+
   <style>
-    :root{ --bg:#fff; --fg:#111827; --muted:#6b7280; --card:#fff; --line:#e5e7eb; --accent:#6E31FF; --accent-100:#ede9fe; }
+    :root{
+      --bg:#ffffff; --fg:#111827; --muted:#6b7280;
+      --card:#ffffff; --line:#e5e7eb; --accent:#6E31FF; --accent-100:#ede9fe;
+    }
     @media (prefers-color-scheme: dark){
       :root{ --bg:#0b0b10; --fg:#f3f4f6; --muted:#a1a1aa; --card:#12121a; --line:#1f2330; --accent:#8b5cf6; --accent-100:#1b1530; }
     }
@@ -42,7 +57,9 @@
     h1{font-size:42px;margin:6px 0 0} h2{font-size:24px;margin:0}
     p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
     section{padding:28px 0}
-    .grid{display:grid;gap:18px} .grid-3{grid-template-columns:repeat(1,1fr)} @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+    .grid{display:grid;gap:18px}
+    .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
+    @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
     .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
     .icon{height:48px;width:48px;border-radius:14px;background:var(--accent-100);display:flex;align-items:center;justify-content:center}
     footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px}
@@ -77,6 +94,7 @@
           <h3 style="margin:10px 0 4px">Web & iOS Geliştirme</h3>
           <p style="margin:0;color:var(--muted)">Next.js, Tailwind, Firebase • SwiftUI</p>
         </article>
+
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -88,6 +106,7 @@
           <h3 style="margin:10px 0 4px">Siber Güvenlik (Etik Hacker)</h3>
           <p style="margin:0;color:var(--muted)">Pentest, sertleştirme, temel red team</p>
         </article>
+
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -108,4 +127,27 @@
         <article class="card"><h3 style="margin:0 0 4px">iOS Wallet Pass</h3><p style="margin:0;color:var(--muted)">SwiftUI, Cloud Functions</p><p style="margin:10px 0 0"><a class="underline" href="#">Demo</a> · <a class="underline" href="#">GitHub</a></p></article>
         <article class="card"><h3 style="margin:0 0 4px">AdTech Toolkit</h3><p style="margin:0;color:var(--muted)">GA4, GTM SS, CAPI</p><p style="margin:10px 0 0"><a class="underline" href="#">Demo</a> · <a class="underline" href="#">GitHub</a></p></article>
       </div>
-    </s
+    </section>
+
+    <section aria-labelledby="about">
+      <h2 id="about">Hakkımda</h2>
+      <p style="color:var(--muted)">
+        Modern frontend, iOS ve güvenlik odaklı ürünler geliştiriyorum. Otomasyon ve veriyle karar almayı seviyorum; projelerde uçtan uca çözüm sunuyorum.
+      </p>
+
+      <h3>İletişim</h3>
+      <ul>
+        <li>E-posta: <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a></li>
+        <li>
+          <a class="underline" href="https://github.com/tugbaarslanw" target="_blank" rel="noopener">GitHub</a> •
+          <a class="underline" href="https://www.linkedin.com/in/tugbaarslanw/" target="_blank" rel="noopener">LinkedIn</a> •
+          <a class="underline" href="https://instagram.com/USERNAME" target="_blank" rel="noopener">Instagram</a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer><div class="container">© <span id="year"></span> Tuğba Arslan</div></footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+</body>
+</html>
