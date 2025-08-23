@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://example.com/sitemap.xml
+Sitemap: https://tugba-site-static-pibhcw8za-tugbaarslanws-projects.vercel.app/sitemap.xml
