@@ -7,7 +7,6 @@
   <title>Tuğba Arslan — Software Engineer</title>
   <meta name="description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri. Meta/Google reklam entegrasyonları, SEO ve hesap kurtarma.">
   <meta name="theme-color" content="#673AB7" />
-
   <link rel="canonical" href="https://tugba-site-static.vercel.app/">
 
   <meta http-equiv="Content-Security-Policy"
@@ -35,7 +34,6 @@
   <meta name="twitter:image" content="https://tugba-site-static.vercel.app/og-image.png">
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23673AB7'/%3E%3Ctext x='50' y='58' text-anchor='middle' font-size='48' fill='white' font-family='Arial,Helvetica,sans-serif'%3ETA%3C/text%3E%3C/svg%3E">
-
   <link rel="stylesheet" href="styles.css" />
 
   <script type="application/ld+json">
@@ -71,7 +69,7 @@
   }
   .container{max-width:1100px;margin:0 auto;padding:0 24px}
 
-  /* Top Nav */
+  /* Üst menü */
   .topnav{
     position:sticky;top:0;z-index:100;
     background:linear-gradient(90deg,var(--accent-500),var(--accent-400));
@@ -85,45 +83,34 @@
   .menu a:hover{background:rgba(255,255,255,.14)}
   .menu a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:12px}
 
-  /* Header/Hero */
+  /* Hero */
   header{padding:110px 0 40px;text-align:center}
   header .container{max-width:1000px;display:flex;flex-direction:column;align-items:center;gap:8px}
 
-  /* GÜÇLÜ, DERİNLİKLİ BAŞLIK */
+  /* >>> GÜÇLÜ VE OKUNAKLI BAŞLIK <<< */
   .hero-title{
-    margin:0 0 6px 0;                /* alt başlıkla yakın */
-    font-size:clamp(42px,7vw,64px);   /* büyük ve esnek */
+    margin:0 0 8px 0;
+    font-size:clamp(44px,7vw,68px);
+    font-weight:900;
     line-height:1.05;
-    font-weight:900;                  /* ekstra kalın */
     letter-spacing:-.015em;
-    color:#130A2A;                    /* yüksek kontrast koyu mor/lacivert */
-    position:relative;
+    color:#22114a;                       /* koyu mor/lacivert */
     text-shadow:
-      0 1px 0 rgba(255,255,255,.85),  /* üst parlaklık: açık zeminde netlik */
-      0 2px 4px rgba(19,10,42,.22),   /* yakın gölge */
-      0 12px 28px rgba(103,58,183,.35);/* mor ambiyans */
+      0 1px 0 rgba(255,255,255,.85),     /* üst parlaklık */
+      0 3px 8px rgba(0,0,0,.28);         /* net gölge */
   }
-  .hero-title::before{
-    content:"";
-    position:absolute; inset:-10px -18px; z-index:-1;
-    background:radial-gradient(120% 70% at 50% 65%, rgba(170,66,239,.18), transparent 60%);
-    filter:blur(12px);                 /* yumuşak bir “halo” */
-  }
+  /* olası önceki sürümdeki halo’yu tamamen kapatıyoruz */
+  .hero-title::before{content:none!important}
+
   @media (prefers-color-scheme: dark){
     .hero-title{
       color:#FFFFFF;
-      text-shadow:
-        0 1px 0 rgba(0,0,0,.55),
-        0 2px 6px rgba(0,0,0,.35),
-        0 16px 34px rgba(0,0,0,.50);
-    }
-    .hero-title::before{
-      background:radial-gradient(120% 70% at 50% 65%, rgba(170,66,239,.28), transparent 60%);
+      text-shadow:0 2px 10px rgba(0,0,0,.6);
     }
   }
 
   h2{font-size:24px;margin:0}
-  p.lead{color:var(--muted);font-size:18px;margin:0} /* başlığın hemen altı */
+  p.lead{color:var(--muted);font-size:18px;margin:0}
 
   section{padding:28px 0}
 
@@ -176,9 +163,7 @@
 
   <header>
     <div class="container">
-      <!-- GÜÇLÜ BAŞLIK -->
       <h1 class="hero-title">Tuğba Arslan</h1>
-      <!-- Tam HEMEN ALTINDAKİ alt başlıklar -->
       <p class="lead">Software Engineer • Etik Hacker • Automation</p>
 
       <p style="margin-top:14px">
