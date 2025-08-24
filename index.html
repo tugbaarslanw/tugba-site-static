@@ -50,56 +50,109 @@
   </script>
 
   <style>
-    :root{
-      --bg:#ffffff; --fg:#111827; --muted:#6b7280;
-      --card:#ffffff; --line:#e5e7eb; --accent:#6E31FF; --accent-100:#ede9fe;
-      --glass: rgba(255,255,255,.75);
-      --glass-border: rgba(17,24,39,.08);
-    }
-    @media (prefers-color-scheme: dark){
-      :root{
-        --bg:#0b0b10; --fg:#f3f4f6; --muted:#a1a1aa;
-        --card:#12121a; --line:#1f2330; --accent:#8b5cf6; --accent-100:#1b1530;
-        --glass: rgba(18,18,26,.7);
-        --glass-border: rgba(255,255,255,.06);
-      }
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,Helvetica,sans-serif}
-    .container{max-width:1100px;margin:0 auto;padding:0 24px}
-    .btn{display:inline-block;padding:12px 18px;border-radius:14px;background:var(--accent);color:#fff;text-decoration:none}
-    .btn:hover{opacity:.9}
-    .chip{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.7)}
-    header{padding:72px 0 24px;text-align:center}
-    h1{font-size:42px;margin:6px 0 0} h2{font-size:24px;margin:0}
-    p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
-    section{padding:28px 0}
-    .grid{display:grid;gap:18px}
-    .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
-    @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
-    .icon{height:48px;width:48px;border-radius:14px;background:var(--accent-100);display:flex;align-items:center;justify-content:center}
-    footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px}
-    a.underline{text-decoration:underline;text-underline-offset:4px}
+  :root{
+    --fg:#F3F4F6;
+    --muted:#C7C9D1;
+    --line:rgba(255,255,255,.14);
+    --card:rgba(255,255,255,.06);
+    --accent:#7C3AED;          /* mor ana renk */
+    --accent-100:rgba(124,58,237,.15);
+  }
 
-    /* ÜST MENÜ */
-    .topnav{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter:saturate(180%) blur(8px);
-      background:var(--glass); border-bottom:1px solid var(--glass-border);
-    }
-    .topnav .wrap{
-      max-width:1100px; margin:0 auto; padding:10px 24px;
-      display:flex; align-items:center; justify-content:space-between;
-    }
-    .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--fg); font-weight:700}
-    .brand .logo{height:28px; width:28px; border-radius:8px; background:var(--accent); display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:16px}
-    .menu{display:flex; gap:16px}
-    .menu a{color:var(--fg); text-decoration:none; padding:8px 10px; border-radius:10px}
-    .menu a:hover{background:var(--accent-100)}
-  </style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+
+  /* Mor tonlu gradient + hafif animasyon */
+  body{
+    color:var(--fg);
+    font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,Helvetica,sans-serif;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, rgba(124,58,237,.35), transparent 60%),
+      radial-gradient(900px 500px at 90% 0%, rgba(167,139,250,.25), transparent 65%),
+      linear-gradient(120deg, #0b0518, #1a0b35 40%, #2a1260);
+    background-size:auto, auto, 200% 200%;
+    background-position:center -100px, right top, 0% 50%;
+    animation:bgmove 18s ease-in-out infinite alternate;
+  }
+  @keyframes bgmove{
+    0%{   background-position:center -100px, right top, 0% 50%; }
+    100%{ background-position:center -160px, right 20% top, 100% 50%; }
+  }
+
+  .container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+  /* Buton: mor gradient + glow */
+  .btn{
+    display:inline-block;padding:12px 18px;border-radius:14px;
+    background:linear-gradient(90deg,#6E31FF,#A78BFA);
+    color:#fff;text-decoration:none;box-shadow:0 8px 20px rgba(124,58,237,.35)
+  }
+  .btn:hover{filter:brightness(1.06)}
+
+  .chip{
+    display:inline-block;padding:6px 10px;border-radius:999px;
+    border:1px solid var(--line);background:rgba(255,255,255,.06)
+  }
+
+  header{padding:72px 0 24px;text-align:center}
+  h1{font-size:42px;margin:6px 0 0}
+  h2{font-size:24px;margin:0}
+  p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
+  section{padding:28px 0}
+
+  .grid{display:grid;gap:18px}
+  .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
+  @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+
+  /* Kartlar: cam efekti (glass) + hover yükselme */
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    backdrop-filter:blur(6px);
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+  }
+  .card:hover{
+    transform:translateY(-2px);
+    border-color:rgba(124,58,237,.5);
+    box-shadow:0 18px 40px rgba(124,58,237,.25);
+  }
+
+  .icon{
+    height:48px;width:48px;border-radius:14px;
+    background:var(--accent-100);
+    display:flex;align-items:center;justify-content:center
+  }
+
+  footer{
+    padding:36px 0;text-align:center;color:var(--muted);
+    border-top:1px solid var(--line);margin-top:24px
+  }
+  a.underline{text-decoration:underline;text-underline-offset:4px}
+
+  /* Üst menü cam görünüm */
+  .topnav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:saturate(180%) blur(8px);
+    background:rgba(14,10,30,.6); border-bottom:1px solid var(--line);
+  }
+  .topnav .wrap{
+    max-width:1100px; margin:0 auto; padding:10px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--fg); font-weight:700}
+  .brand .logo{
+    height:28px; width:28px; border-radius:8px; background:#6E31FF;
+    display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:16px
+  }
+  .menu{display:flex; gap:16px}
+  .menu a{color:var(--fg); text-decoration:none; padding:8px 10px; border-radius:10px}
+  .menu a:hover{background:rgba(124,58,237,.15)}
+</style>
+
 </head>
 <body>
 
