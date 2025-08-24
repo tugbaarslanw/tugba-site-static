@@ -7,8 +7,11 @@
   <title>Tuğba Arslan — Software Engineer</title>
   <meta name="description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri. Meta/Google reklam entegrasyonları, SEO ve hesap kurtarma.">
   <meta name="theme-color" content="#673AB7" />
+
+  <!-- Canonical -->
   <link rel="canonical" href="https://tugba-site-static.vercel.app/">
 
+  <!-- CSP (inline yıl script'i için 'unsafe-inline' eklendi) -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
                  img-src 'self' data:;
@@ -21,6 +24,7 @@
                  frame-ancestors 'none';
                  upgrade-insecure-requests">
 
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Tuğba Arslan — Software Engineer">
   <meta property="og:description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
@@ -33,126 +37,202 @@
   <meta name="twitter:description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
   <meta name="twitter:image" content="https://tugba-site-static.vercel.app/og-image.png">
 
+  <!-- Favicon (inline SVG, Wapa 500) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23673AB7'/%3E%3Ctext x='50' y='58' text-anchor='middle' font-size='48' fill='white' font-family='Arial,Helvetica,sans-serif'%3ETA%3C/text%3E%3C/svg%3E">
+
+  <!-- Harici stil (opsiyonel) -->
   <link rel="stylesheet" href="styles.css" />
 
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
-    "@context":"https://schema.org",
-    "@type":"Person",
-    "name":"Tuğba Arslan",
-    "jobTitle":"Software Engineer",
-    "url":"https://tugba-site-static.vercel.app/",
-    "sameAs":["https://github.com/tugbaarslanw","https://www.linkedin.com/in/tugbaarslanw/"]
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Tuğba Arslan",
+    "jobTitle": "Software Engineer",
+    "url": "https://tugba-site-static.vercel.app/",
+    "sameAs": [
+      "https://github.com/tugbaarslanw",
+      "https://www.linkedin.com/in/tugbaarslanw/"
+    ]
   }
   </script>
 
   <style>
+  /* ——— Wapa renk paleti ———
+     Wapa 500: #673AB7   Wapa 400: #AA42EF   Wapa 300: #BB68F2
+     Nötr çizgi: #E6E6EA, Beyaz: #FFFFFF */
   :root{
-    --fg:#0F1222; --muted:#667085; --bg:#FFFFFF;
-    --accent-500:#673AB7; --accent-400:#AA42EF; --accent-300:#BB68F2;
-    --card:#FFFFFF; --line:#E6E6EA; --surface:#F5EEFF;
+    /* Metin & zemin */
+    --fg:#0F1222;
+    --muted:#667085;
+    --bg:#FFFFFF;
 
-    /* Wapa benzeri başlık rengi (koyu morumsu/kömür) */
-    --heading:#1B1740;
+    /* Başlık rengi (isteğin doğrultusunda düz siyah) */
+    --heading:#000000;
+
+    /* Wapa morları */
+    --accent-500:#673AB7;
+    --accent-400:#AA42EF;
+    --accent-300:#BB68F2;
+
+    /* Yüzeyler */
+    --card:#FFFFFF;
+    --line:#E6E6EA;
+    --surface:#F5EEFF; /* yumuşak lila */
   }
+
+  /* Koyu mod (istemci tercihi) */
   @media (prefers-color-scheme: dark){
     :root{
-      --fg:#F3F4F6; --muted:#A1A1AA; --bg:#0E0B14;
-      --card:#12101A; --line:#1E1A27; --surface:#1A1426;
-      --heading:#FFFFFF;
+      --fg:#F3F4F6;
+      --muted:#A1A1AA;
+      --bg:#0E0B14;
+      --heading:#FFFFFF;   /* koyu modda başlıklar beyaz */
+      --card:#12101A;
+      --line:#1E1A27;
+      --surface:#1A1426;
     }
   }
 
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   html{scroll-behavior:smooth}
+
+  /* Arka plan: Wapa tarzı açık-lila → beyaz geçiş */
   body{
-    background:linear-gradient(180deg,#F8F5FF 0%,#F3ECFF 35%,#FFFFFF 100%);
+    background: linear-gradient(180deg, #F8F5FF 0%, #F3ECFF 35%, #FFFFFF 100%);
     color:var(--fg);
     font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,Helvetica,sans-serif;
-    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   }
+
   .container{max-width:1100px;margin:0 auto;padding:0 24px}
 
-  /* ÜST MENÜ */
+  /* ——— ÜST MENÜ (sticky glass nav) ——— */
   .topnav{
-    position:sticky;top:0;z-index:100;
-    background:linear-gradient(90deg,var(--accent-500),var(--accent-400));
-    box-shadow:0 6px 16px rgba(103,58,183,.25)
+    position:sticky; top:0; z-index:100;
+    background:linear-gradient(90deg,#8E2DE2 0%, #6A11CB 100%);  /* header moru */
+    -webkit-backdrop-filter:saturate(160%) blur(8px);
+    backdrop-filter:saturate(160%) blur(8px);
+    border-bottom:1px solid rgba(255,255,255,.12);
   }
-  .topnav .wrap{max-width:1100px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:700}
-  .brand .logo{height:28px;width:28px;border-radius:8px;background:rgba(255,255,255,.18);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
-  .menu{display:flex;gap:14px}
-  .menu a{color:#fff;text-decoration:none;padding:8px 10px;border-radius:10px}
-  .menu a:hover{background:rgba(255,255,255,.14)}
-  .menu a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:12px}
+  .topnav .wrap{
+    max-width:1100px; margin:0 auto; padding:10px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{display:flex; align-items:center; gap:10px; color:#fff; text-decoration:none; font-weight:700}
+  .brand .logo{
+    height:28px; width:28px; border-radius:8px; background:#2B0F66;
+    display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:14px
+  }
+  .menu{display:flex; gap:18px}
+  .menu a{color:#fff; text-decoration:none; padding:8px 10px; border-radius:10px; opacity:.95}
+  .menu a:hover{background:rgba(255,255,255,.10); opacity:1}
 
-  /* HERO */
-  header{padding:110px 0 40px;text-align:center}
-  header .container{max-width:1000px;display:flex;flex-direction:column;align-items:center;gap:8px}
+  /* ——— HERO / HEADER ——— */
+  header{
+    padding:110px 0 40px;  /* sticky nav sonrası boşluk */
+    text-align:center
+  }
+  header .container{
+    max-width:1000px;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
 
-  /* >>> BAŞLIKLAR — wapa.dating tarzı: koyu, gölgesiz, net <<< */
-  .hero-title{
+  /* İSTENEN: Başlıklar düz, siyah, gölgesiz, net */
+  header h1{
     margin:0 0 8px 0;
     font-size:clamp(44px,7vw,68px);
     font-weight:800;
     line-height:1.08;
     letter-spacing:-.015em;
-    color:var(--heading);        /* gölge YOK */
+    color:var(--heading);
+    text-shadow:none;
+    filter:none;
   }
 
-  /* Bölüm başlıkları */
-  section > h2{
+  h2{
     margin:0 0 8px 0;
     font-size:clamp(22px,2.4vw,28px);
     font-weight:800;
     letter-spacing:-.01em;
-    color:var(--heading);        /* gölge YOK */
+    color:var(--heading);
+    text-shadow:none;
+    filter:none;
   }
 
-  /* “İletişim” alt başlığı (#about içindeki h3) */
+  /* about içindeki alt başlık */
   #about h3{
     margin:14px 0 8px 0;
     font-size:clamp(18px,2vw,22px);
     font-weight:700;
-    color:var(--heading);        /* gölge YOK */
+    color:var(--heading);
+    text-shadow:none;
+    filter:none;
   }
 
-  p.lead{color:var(--muted);font-size:18px;margin:0}
+  p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
   section{padding:28px 0}
 
-  /* CTA */
-  .btn{display:inline-block;padding:12px 18px;border-radius:16px;background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));color:#fff;text-decoration:none;box-shadow:0 6px 16px rgba(170,66,239,.30);transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
+  /* CTA buton */
+  .btn{
+    display:inline-block;
+    padding:12px 18px;
+    border-radius:16px;
+    background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));
+    color:#fff;
+    text-decoration:none;
+    box-shadow:0 6px 16px rgba(170,66,239,.30);
+    transition:transform .12s ease, filter .12s ease, box-shadow .12s ease;
+  }
   .btn:hover{transform:translateY(-1px);filter:brightness(1.04);box-shadow:0 10px 24px rgba(170,66,239,.38)}
 
-  .chip{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#F5EEFF;color:#3B0764}
+  /* Rozetler */
+  .chip{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:#F5EEFF;
+    color:#3B0764;
+  }
 
   .grid{display:grid;gap:18px}
   .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
   @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-  /* Kartlar: canlı mor */
+  /* Kartlar (daha canlı mor, header ile aynı family) */
   .card{
-    background:linear-gradient(135deg,var(--accent-400) 0%,#7B3EF2 40%,var(--accent-500) 100%);
-    border:1px solid rgba(255,255,255,.14);
+    color:#fff;
+    background:linear-gradient(135deg,#8E2DE2 0%, #6A11CB 100%);
+    border:none;
     border-radius:18px;
-    padding:20px;color:#fff;
-    box-shadow:0 14px 32px rgba(170,66,239,.40),0 2px 0 rgba(255,255,255,.08) inset;
-    transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+    padding:20px;
+    box-shadow:0 14px 28px rgba(106,17,203,.24), 0 4px 10px rgba(106,17,203,.16);
+    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
   }
-  .card:hover{transform:translateY(-3px);filter:saturate(1.08) brightness(1.05);box-shadow:0 18px 38px rgba(170,66,239,.48)}
-  .card h3{color:#fff}
-  .card p{color:rgba(255,255,255,.92)!important}
-  .card a{color:#fff}
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 18px 36px rgba(106,17,203,.28), 0 6px 14px rgba(106,17,203,.18);
+    filter:saturate(1.06);
+  }
 
-  .icon{height:48px;width:48px;border-radius:14px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.30);display:flex;align-items:center;justify-content:center}
-  .icon svg [stroke]{stroke:#FFFFFF}
-  .icon svg [fill="#6E31FF"]{fill:#FFFFFF}
+  /* ikon kapsülü */
+  .icon{
+    height:48px;width:48px;border-radius:14px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.18);
+    display:flex;align-items:center;justify-content:center
+  }
+  .icon svg [stroke]{stroke:#F5F3FF}
+  .icon svg [fill="#6E31FF"]{fill:#F5F3FF}
 
   /* Footer */
-  footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)}
+  footer{
+    padding:36px 0;text-align:center;color:var(--muted);
+    border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)
+  }
+
   a.underline{text-decoration:underline;text-underline-offset:4px}
   </style>
 </head>
@@ -161,7 +241,10 @@
   <!-- ÜST MENÜ -->
   <nav class="topnav" aria-label="Birincil">
     <div class="wrap">
-      <a class="brand" href="/"><span class="logo" aria-hidden="true">TA</span><span>Tuğba Arslan</span></a>
+      <a class="brand" href="/">
+        <span class="logo" aria-hidden="true">TA</span>
+        <span>Tuğba Arslan</span>
+      </a>
       <div class="menu" role="menubar">
         <a role="menuitem" href="#services">Hizmetler</a>
         <a role="menuitem" href="#projects">Projeler</a>
@@ -172,13 +255,9 @@
 
   <header>
     <div class="container">
-      <h1 class="hero-title">Tuğba Arslan</h1>
+      <h1>Tuğba Arslan</h1>
       <p class="lead">Software Engineer • Etik Hacker • Automation</p>
-
-      <p style="margin-top:14px">
-        <a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a>
-      </p>
-
+      <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
       <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
         <span class="chip">HTTPS</span><span class="chip">CSP</span><span class="chip">2FA</span><span class="chip">Rate Limit</span><span class="chip">WAF</span>
       </div>
@@ -186,83 +265,133 @@
   </header>
 
   <main class="container">
+
+    <!-- ===== Hizmetler ===== -->
     <section id="services" aria-labelledby="services-title">
       <h2 id="services-title">Hizmetler</h2>
       <div class="grid grid-3" style="margin-top:12px">
-        <article class="card"><div class="icon" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <rect x="2.5" y="5" width="12" height="9.5" rx="2" stroke="#FFFFFF" stroke-width="2"/>
-            <path d="M2.5 8.5H14.5" stroke="#FFFFFF" stroke-width="2"/>
-            <rect x="16" y="3" width="5.5" height="18" rx="1.2" stroke="#FFFFFF" stroke-width="2"/>
-            <circle cx="18.75" cy="18.5" r="0.6" fill="#FFFFFF"/>
-          </svg>
-        </div>
-        <h3 style="margin:10px 0 4px">Web & iOS Geliştirme</h3>
-        <p style="margin:0">Next.js, Tailwind, SwiftUI, Firebase</p></article>
 
-        <article class="card"><div class="icon" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-            <path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" stroke="#FFFFFF" stroke-width="2" fill="none"/>
-            <rect x="9" y="10" width="6" height="5" rx="1.5" stroke="#FFFFFF" stroke-width="2"/>
-            <path d="M12 10V9a2 2 0 114 0v1" stroke="#FFFFFF" stroke-width="2"/>
-          </svg>
-        </div>
-        <h3 style="margin:10px 0 4px">Siber Güvenlik (Pentest & Sertleştirme)</h3>
-        <p style="margin:0">Uygulama pentesti, güvenlik denetimi, hardening</p></article>
+        <!-- 1) Web & iOS Geliştirme -->
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="2.5" y="5" width="12" height="9.5" rx="2" stroke="#F5F3FF" stroke-width="2"/>
+              <path d="M2.5 8.5H14.5" stroke="#F5F3FF" stroke-width="2"/>
+              <rect x="16" y="3" width="5.5" height="18" rx="1.2" stroke="#F5F3FF" stroke-width="2"/>
+              <circle cx="18.75" cy="18.5" r="0.6" fill="#F5F3FF"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">Web & iOS Geliştirme</h3>
+          <p style="margin:0;opacity:.92">Next.js, Tailwind, SwiftUI, Firebase</p>
+        </article>
 
-        <article class="card"><div class="icon" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-            <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" stroke="#FFFFFF" stroke-width="2"/>
-            <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1l2.1-2.1M17 7l2.1-2.1" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3 style="margin:10px 0 4px">Otomasyon & Entegrasyon</h3>
-        <p style="margin:0">Hesap açma/kapama, API entegrasyonları, RPA</p></article>
+        <!-- 2) Siber Güvenlik -->
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" stroke="#F5F3FF" stroke-width="2" fill="none"/>
+              <rect x="9" y="10" width="6" height="5" rx="1.5" stroke="#F5F3FF" stroke-width="2"/>
+              <path d="M12 10V9a2 2 0 114 0v1" stroke="#F5F3FF" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">Siber Güvenlik (Pentest & Sertleştirme)</h3>
+          <p style="margin:0;opacity:.92">Uygulama pentesti, güvenlik denetimi, hardening</p>
+        </article>
 
-        <article class="card"><div class="icon" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-            <path d="M3 12h14M3 6h10M3 18h18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3 style="margin:10px 0 4px">Sosyal Medya & Reklam</h3>
-        <p style="margin:0">Meta/Google Ads, CAPI, GTM (Server-Side)</p></article>
+        <!-- 3) Otomasyon & Entegrasyon -->
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" stroke="#F5F3FF" stroke-width="2"/>
+              <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1l2.1-2.1M17 7l2.1-2.1" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">Otomasyon & Entegrasyon</h3>
+          <p style="margin:0;opacity:.92">Hesap açma/kapama, API entegrasyonları, RPA</p>
+        </article>
 
-        <article class="card"><div class="icon" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-            <path d="M4 18V6m0 12c3-6 5-8 8-3s5-5 8-9" stroke="#FFFFFF" stroke-width="2" fill="none"/>
-            <circle cx="4" cy="18" r="1.5" fill="#FFFFFF"/>
-          </svg>
-        </div>
-        <h3 style="margin:10px 0 4px">SEO & Analytics</h3>
-        <p style="margin:0">Teknik SEO, GSC, GA4, Lighthouse</p></article>
+        <!-- 4) Sosyal Medya & Reklam -->
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M3 12h14M3 6h10M3 18h18" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">Sosyal Medya & Reklam</h3>
+          <p style="margin:0;opacity:.92">Meta/Google Ads, CAPI, GTM (Server-Side)</p>
+        </article>
 
-        <article class="card"><div class="icon" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-            <path d="M12 5l7 4v4c0 4-3 7-7 8-4-1-7-4-7-8V9l7-4z" stroke="#FFFFFF" stroke-width="2"/>
-            <path d="M12 10v4" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3 style="margin:10px 0 4px">Hesap Kurtarma & Olay Müdahalesi</h3>
-        <p style="margin:0">Hesap geri alma, ihlal sonrası toparlama</p></article>
+        <!-- 5) SEO & Analytics -->
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M4 18V6m0 12c3-6 5-8 8-3s5-5 8-9" stroke="#F5F3FF" stroke-width="2" fill="none"/>
+              <circle cx="4" cy="18" r="1.5" fill="#F5F3FF"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">SEO & Analytics</h3>
+          <p style="margin:0;opacity:.92">Teknik SEO, GSC, GA4, Lighthouse</p>
+        </article>
+
+        <!-- 6) Hesap Kurtarma & Olay Müdahalesi -->
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M12 5l7 4v4c0 4-3 7-7 8-4-1-7-4-7-8V9l7-4z" stroke="#F5F3FF" stroke-width="2"/>
+              <path d="M12 10v4" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">Hesap Kurtarma & Olay Müdahalesi</h3>
+          <p style="margin:0;opacity:.92">Hesap geri alma, ihlal sonrası toparlama</p>
+        </article>
+
       </div>
     </section>
 
+    <!-- ===== Öne Çıkan Projeler ===== -->
     <section id="projects" aria-labelledby="projects-title">
-      <h2 id="projects-title">Öne Çıkan Projeler</h2>
+      <h2 id="projects-title">Projeler</h2>
       <div class="grid grid-3" style="margin-top:12px">
-        <article class="card"><h3 style="margin:0 0 4px">LinkPie</h3><p style="margin:0">Next.js, Firebase, Tailwind</p><p style="margin:10px 0 0"><a class="underline" href="#" target="_blank" rel="noopener">Demo</a> · <a class="underline" href="#" target="_blank" rel="noopener">GitHub</a></p></article>
-        <article class="card"><h3 style="margin:0 0 4px">iOS Wallet Pass</h3><p style="margin:0">SwiftUI, Cloud Functions</p><p style="margin:10px 0 0"><a class="underline" href="#" target="_blank" rel="noopener">Demo</a> · <a class="underline" href="#" target="_blank" rel="noopener">GitHub</a></p></article>
-        <article class="card"><h3 style="margin:0 0 4px">AdTech Toolkit</h3><p style="margin:0">GA4, GTM SS, CAPI</p><p style="margin:10px 0 0"><a class="underline" href="#" target="_blank" rel="noopener">Demo</a> · <a class="underline" href="#" target="_blank" rel="noopener">GitHub</a></p></article>
+        <article class="card">
+          <h3 style="margin:0 0 4px">LinkPie</h3>
+          <p style="margin:0;opacity:.92">Next.js, Firebase, Tailwind</p>
+          <p style="margin:10px 0 0">
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
+          </p>
+        </article>
+        <article class="card">
+          <h3 style="margin:0 0 4px">iOS Wallet Pass</h3>
+          <p style="margin:0;opacity:.92">SwiftUI, Cloud Functions</p>
+          <p style="margin:10px 0 0">
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
+          </p>
+        </article>
+        <article class="card">
+          <h3 style="margin:0 0 4px">AdTech Toolkit</h3>
+          <p style="margin:0;opacity:.92">GA4, GTM SS, CAPI</p>
+          <p style="margin:10px 0 0">
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
+          </p>
+        </article>
       </div>
     </section>
 
+    <!-- ===== Hakkımda & İletişim ===== -->
     <section id="about" aria-labelledby="about-title">
       <h2 id="about-title">Hakkımda & İletişim</h2>
-      <p style="color:var(--muted)">Modern frontend, iOS ve güvenlik odaklı ürünler geliştiriyorum. Otomasyon ve veriyle karar almayı seviyorum; projelerde uçtan uca çözüm sunuyorum.</p>
+      <p style="color:var(--muted)">
+        Modern frontend, iOS ve güvenlik odaklı ürünler geliştiriyorum. Otomasyon ve veriyle karar almayı seviyorum; projelerde uçtan uca çözüm sunuyorum.
+      </p>
       <h3>İletişim</h3>
       <ul>
         <li>E-posta: <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a></li>
-        <li><a class="underline" href="https://github.com/tugbaarslanw" target="_blank" rel="noopener">GitHub</a> · <a class="underline" href="https://www.linkedin.com/in/tugbaarslanw/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li>
+          <a class="underline" href="https://github.com/tugbaarslanw" target="_blank" rel="noopener">GitHub</a> ·
+          <a class="underline" href="https://www.linkedin.com/in/tugbaarslanw/" target="_blank" rel="noopener">LinkedIn</a>
+        </li>
       </ul>
     </section>
   </main>
@@ -270,14 +399,38 @@
   <footer>
     <div class="container">
       <div class="grid grid-3" style="text-align:center">
-        <div><strong>Hızlı Erişim</strong><div style="margin-top:8px"><a class="underline" href="#services">Hizmetler</a> · <a class="underline" href="#projects">Projeler</a> · <a class="underline" href="#about">İletişim</a></div></div>
-        <div><strong>İletişim</strong><div style="margin-top:8px"><a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a></div></div>
-        <div><strong>Güvenlik</strong><div style="margin-top:8px"><a class="underline" href="mailto:hello@tugbaarslan.com?subject=Vulnerability%20Disclosure&body=K%C4%B1sa%20%C3%B6zet%3A%0AEtki%3A%0APoC%3A">Security Contact</a></div></div>
+        <div>
+          <strong>Hızlı Erişim</strong>
+          <div style="margin-top:8px">
+            <a class="underline" href="#services">Hizmetler</a> ·
+            <a class="underline" href="#projects">Projeler</a> ·
+            <a class="underline" href="#about">İletişim</a>
+          </div>
+        </div>
+
+        <div>
+          <strong>İletişim</strong>
+          <div style="margin-top:8px">
+            <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a>
+          </div>
+        </div>
+
+        <div>
+          <strong>Güvenlik</strong>
+          <div style="margin-top:8px">
+            <a class="underline" href="mailto:hello@tugbaarslan.com?subject=Vulnerability%20Disclosure&body=K%C4%B1sa%20%C3%B6zet%3A%0AEtki%3A%0APoC%3A">
+              Security Contact
+            </a>
+          </div>
+        </div>
       </div>
-      <div style="margin-top:18px;color:var(--muted)">© <span id="year"></span> Tuğba Arslan</div>
+
+      <div style="margin-top:18px; color:var(--muted);">
+        © <span id="year"></span> Tuğba Arslan
+      </div>
     </div>
   </footer>
 
-  <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
 </body>
 </html>
