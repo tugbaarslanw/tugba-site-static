@@ -6,14 +6,23 @@
 
   <title>Tuğba Arslan — Software Engineer</title>
   <meta name="description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri. Meta/Google reklam entegrasyonları, SEO ve hesap kurtarma.">
-  <meta name="theme-color" content="#6E31FF" />
+  <meta name="theme-color" content="#673AB7" />
 
   <!-- Canonical -->
   <link rel="canonical" href="https://tugba-site-static.vercel.app/">
 
-  <!-- Güvenlik (ek olarak vercel.json'da header'lar var) -->
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <!-- CSP (inline yıl script'i için 'unsafe-inline' eklendi) -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 img-src 'self' data:;
+                 style-src 'self' 'unsafe-inline';
+                 script-src 'self' 'unsafe-inline';
+                 font-src 'self';
+                 base-uri 'self';
+                 form-action 'self';
+                 object-src 'none';
+                 frame-ancestors 'none';
+                 upgrade-insecure-requests">
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
@@ -28,8 +37,8 @@
   <meta name="twitter:description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
   <meta name="twitter:image" content="https://tugba-site-static.vercel.app/og-image.png">
 
-  <!-- Favicon (inline SVG) -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%236E31FF'/%3E%3Ctext x='50' y='58' text-anchor='middle' font-size='48' fill='white' font-family='Arial,Helvetica,sans-serif'%3ETA%3C/text%3E%3C/svg%3E">
+  <!-- Favicon (inline SVG, Wapa 500) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23673AB7'/%3E%3Ctext x='50' y='58' text-anchor='middle' font-size='48' fill='white' font-family='Arial,Helvetica,sans-serif'%3ETA%3C/text%3E%3C/svg%3E">
 
   <!-- Harici stil (opsiyonel) -->
   <link rel="stylesheet" href="styles.css" />
@@ -70,7 +79,7 @@
     --surface:#F5EEFF; /* yumuşak lila */
   }
 
-  /* Koyu modda daha derin bir menekşe tınısı */
+  /* Koyu mod (istemci tercihi) */
   @media (prefers-color-scheme: dark){
     :root{
       --fg:#F3F4F6;
@@ -84,6 +93,7 @@
 
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
 
   /* Arka plan: Wapa tarzı açık-lila → beyaz geçiş */
   body{
@@ -94,60 +104,101 @@
 
   .container{max-width:1100px;margin:0 auto;padding:0 24px}
 
-  header{padding:72px 0 24px;text-align:center}
-  h1{font-size:42px;margin:6px 0 0}
+  /* ——— ÜST MENÜ (header kaymasını engelleyen sticky glass nav) ——— */
+  .topnav{
+    position:sticky; top:0; z-index:100;
+    background:rgba(255,255,255,.82);
+    -webkit-backdrop-filter:saturate(180%) blur(12px);
+    backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .topnav .wrap{
+    max-width:1100px; margin:0 auto; padding:10px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{display:flex; align-items:center; gap:10px; color:var(--fg); text-decoration:none; font-weight:700}
+  .brand .logo{
+    height:28px; width:28px; border-radius:8px; background:var(--accent-500);
+    display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:14px
+  }
+  .menu{display:flex; gap:14px}
+  .menu a{color:var(--fg); text-decoration:none; padding:8px 10px; border-radius:10px}
+  .menu a:hover{background:#F5EEFF}
+
+  /* ——— HERO / HEADER ——— */
+  header{
+    padding:110px 0 40px;  /* sticky nav sonrası nefes */
+    text-align:center
+  }
+  header .container{
+    max-width:1000px;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  h1{margin:0; line-height:1.1; letter-spacing:-.02em; font-size:clamp(36px,6vw,56px)}
   h2{font-size:24px;margin:0}
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
   section{padding:28px 0}
+
+  /* CTA buton */
+  .btn{
+    display:inline-block;
+    padding:12px 18px;
+    border-radius:16px;
+    background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));
+    color:#fff;
+    text-decoration:none;
+    box-shadow:0 6px 16px rgba(170,66,239,.30);
+    transition:transform .12s ease, filter .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover{transform:translateY(-1px);filter:brightness(1.04);box-shadow:0 10px 24px rgba(170,66,239,.38)}
+
+  /* Rozetler */
+  .chip{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:#F5EEFF;
+    color:#3B0764;
+  }
 
   .grid{display:grid;gap:18px}
   .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
   @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
 
+  /* Kartlar */
   .card{
     background:var(--card);
     border:1px solid var(--line);
     border-radius:18px;
     padding:20px;
     box-shadow:0 2px 10px rgba(103,58,183,.08); /* Wapa 500 gölge */
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    border-color:rgba(170,66,239,.35);
+    box-shadow:0 12px 28px rgba(170,66,239,.18);
   }
 
-  .btn{
-    display:inline-block;
-    padding:12px 18px;
-    border-radius:14px;
-    background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));
-    color:#fff;
-    text-decoration:none;
-    box-shadow:0 6px 16px rgba(170,66,239,.35);
-    transition:transform .12s ease, filter .12s ease;
-  }
-  .btn:hover{transform:translateY(-1px);filter:brightness(1.03)}
-
-  .chip{
-    display:inline-block;
-    padding:6px 10px;
-    border-radius:999px;
-    border:1px solid var(--line);
-    background:rgba(170,66,239,.06); /* Wapa 400'den çok hafif */
-  }
-
+  /* Kart ikon kapsülü + ikon renkleri (Wapa moru) */
   .icon{
     height:48px;width:48px;border-radius:14px;
-    background:rgba(170,66,239,.12);
+    background:rgba(170,66,239,.10);
     border:1px solid rgba(170,66,239,.18);
     display:flex;align-items:center;justify-content:center
   }
+  .icon svg [stroke]{stroke:var(--accent-500)}
+  .icon svg [fill="#6E31FF"]{fill:var(--accent-500)}
 
+  /* Footer */
   footer{
     padding:36px 0;text-align:center;color:var(--muted);
-    border-top:1px solid var(--line);margin-top:24px
+    border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)
   }
 
   a.underline{text-decoration:underline;text-underline-offset:4px}
-</style>
-
-
+  </style>
 </head>
 <body>
 
@@ -309,40 +360,41 @@
     </section>
   </main>
 
-<footer>
-  <div class="container">
-    <div class="grid grid-3" style="text-align:center">
-      <div>
-        <strong>Hızlı Erişim</strong>
-        <div style="margin-top:8px">
-          <a class="underline" href="#services">Hizmetler</a> ·
-          <a class="underline" href="#projects">Projeler</a> ·
-          <a class="underline" href="#about">İletişim</a>
+  <footer>
+    <div class="container">
+      <div class="grid grid-3" style="text-align:center">
+        <div>
+          <strong>Hızlı Erişim</strong>
+          <div style="margin-top:8px">
+            <a class="underline" href="#services">Hizmetler</a> ·
+            <a class="underline" href="#projects">Projeler</a> ·
+            <a class="underline" href="#about">İletişim</a>
+          </div>
+        </div>
+
+        <div>
+          <strong>İletişim</strong>
+          <div style="margin-top:8px">
+            <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a>
+          </div>
+        </div>
+
+        <div>
+          <strong>Güvenlik</strong>
+          <div style="margin-top:8px">
+            <a class="underline" href="mailto:hello@tugbaarslan.com?subject=Vulnerability%20Disclosure&body=K%C4%B1sa%20%C3%B6zet%3A%0AEtki%3A%0APoC%3A">
+              Security Contact
+            </a>
+          </div>
         </div>
       </div>
 
-      <div>
-        <strong>İletişim</strong>
-        <div style="margin-top:8px">
-          <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a>
-        </div>
-      </div>
-
-      <div>
-        <strong>Güvenlik</strong>
-        <div style="margin-top:8px">
-          <a class="underline" href="mailto:hello@tugbaarslan.com?subject=Vulnerability%20Disclosure&body=K%C4%B1sa%20%C3%B6zet%3A%0AEtki%3A%0APoC%3A">
-            Security Contact
-          </a>
-        </div>
+      <div style="margin-top:18px; color:var(--muted);">
+        © <span id="year"></span> Tuğba Arslan
       </div>
     </div>
+  </footer>
 
-    <div style="margin-top:18px; color:var(--muted);">
-      © <span id="year"></span> Tuğba Arslan
-    </div>
-  </div>
-</footer>
   <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
 </body>
 </html>
