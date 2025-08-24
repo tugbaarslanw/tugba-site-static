@@ -7,11 +7,8 @@
   <title>Tuğba Arslan — Software Engineer</title>
   <meta name="description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri. Meta/Google reklam entegrasyonları, SEO ve hesap kurtarma.">
   <meta name="theme-color" content="#673AB7" />
-
-  <!-- Canonical -->
   <link rel="canonical" href="https://tugba-site-static.vercel.app/">
 
-  <!-- CSP (inline yıl script'i için 'unsafe-inline' eklendi) -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
                  img-src 'self' data:;
@@ -24,7 +21,6 @@
                  frame-ancestors 'none';
                  upgrade-insecure-requests">
 
-  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Tuğba Arslan — Software Engineer">
   <meta property="og:description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
@@ -37,13 +33,9 @@
   <meta name="twitter:description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
   <meta name="twitter:image" content="https://tugba-site-static.vercel.app/og-image.png">
 
-  <!-- Favicon (inline SVG, Wapa 500) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23673AB7'/%3E%3Ctext x='50' y='58' text-anchor='middle' font-size='48' fill='white' font-family='Arial,Helvetica,sans-serif'%3ETA%3C/text%3E%3C/svg%3E">
-
-  <!-- Harici stil (opsiyonel) -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -51,46 +43,23 @@
     "name": "Tuğba Arslan",
     "jobTitle": "Software Engineer",
     "url": "https://tugba-site-static.vercel.app/",
-    "sameAs": [
-      "https://github.com/tugbaarslanw",
-      "https://www.linkedin.com/in/tugbaarslanw/"
-    ]
+    "sameAs": ["https://github.com/tugbaarslanw","https://www.linkedin.com/in/tugbaarslanw/"]
   }
   </script>
 
   <style>
-  /* ——— Wapa renk paleti ———
-     Wapa 500: #673AB7   Wapa 400: #AA42EF   Wapa 300: #BB68F2
-     Nötr çizgi: #E6E6EA, Beyaz: #FFFFFF */
   :root{
-    /* Metin & zemin */
-    --fg:#0F1222;
-    --muted:#667085;
-    --bg:#FFFFFF;
-
-    /* Başlık rengi: her modda düz siyah */
+    --fg:#0F1222; --muted:#667085; --bg:#FFFFFF;
+    /* Başlık rengi: her koşulda siyah */
     --heading:#000000;
 
-    /* Wapa morları */
-    --accent-500:#673AB7;
-    --accent-400:#AA42EF;
-    --accent-300:#BB68F2;
-
-    /* Yüzeyler */
-    --card:#FFFFFF;
-    --line:#E6E6EA;
-    --surface:#F5EEFF; /* yumuşak lila */
+    --accent-500:#673AB7; --accent-400:#AA42EF; --accent-300:#BB68F2;
+    --card:#FFFFFF; --line:#E6E6EA; --surface:#F5EEFF;
   }
-
-  /* Koyu mod (başlık rengi sabit kalsın diye --heading'i burada değiştirmiyoruz) */
   @media (prefers-color-scheme: dark){
     :root{
-      --fg:#F3F4F6;
-      --muted:#A1A1AA;
-      --bg:#0E0B14;
-      --card:#12101A;
-      --line:#1E1A27;
-      --surface:#1A1426;
+      --fg:#F3F4F6; --muted:#A1A1AA; --bg:#0E0B14;
+      --card:#12101A; --line:#1E1A27; --surface:#1A1426;
       /* --heading siyah kalır */
     }
   }
@@ -98,48 +67,33 @@
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   html{scroll-behavior:smooth}
-
-  /* Arka plan: Wapa tarzı açık-lila → beyaz geçiş */
   body{
-    background: linear-gradient(180deg, #F8F5FF 0%, #F3ECFF 35%, #FFFFFF 100%);
+    background:linear-gradient(180deg,#F8F5FF 0%,#F3ECFF 35%,#FFFFFF 100%);
     color:var(--fg);
     font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,Helvetica,sans-serif;
   }
-
   .container{max-width:1100px;margin:0 auto;padding:0 24px}
 
-  /* ——— ÜST MENÜ (sticky glass nav) ——— */
+  /* ÜST MENÜ */
   .topnav{
     position:sticky; top:0; z-index:100;
-    background:linear-gradient(90deg,#8E2DE2 0%, #6A11CB 100%);  /* header moru */
+    background:linear-gradient(90deg,#8E2DE2 0%, #6A11CB 100%);
     -webkit-backdrop-filter:saturate(160%) blur(8px);
     backdrop-filter:saturate(160%) blur(8px);
     border-bottom:1px solid rgba(255,255,255,.12);
   }
-  .topnav .wrap{
-    max-width:1100px; margin:0 auto; padding:10px 24px;
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .brand{display:flex; align-items:center; gap:10px; color:#fff; text-decoration:none; font-weight:700}
-  .brand .logo{
-    height:28px; width:28px; border-radius:8px; background:#2B0F66;
-    display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:14px
-  }
-  .menu{display:flex; gap:18px}
-  .menu a{color:#fff; text-decoration:none; padding:8px 10px; border-radius:10px; opacity:.95}
-  .menu a:hover{background:rgba(255,255,255,.10); opacity:1}
+  .topnav .wrap{max-width:1100px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:700}
+  .brand .logo{height:28px;width:28px;border-radius:8px;background:#2B0F66;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+  .menu{display:flex;gap:18px}
+  .menu a{color:#fff;text-decoration:none;padding:8px 10px;border-radius:10px;opacity:.95}
+  .menu a:hover{background:rgba(255,255,255,.10);opacity:1}
 
-  /* ——— HERO / HEADER ——— */
-  header{
-    padding:110px 0 40px;  /* sticky nav sonrası boşluk */
-    text-align:center
-  }
-  header .container{
-    max-width:1000px;
-    display:flex; flex-direction:column; align-items:center; gap:10px;
-  }
+  /* HERO */
+  header{padding:110px 0 40px;text-align:center}
+  header .container{max-width:1000px;display:flex;flex-direction:column;align-items:center;gap:10px}
 
-  /* BAŞLIKLAR: düz siyah, gölgesiz, net */
+  /* Başlıklar */
   header h1{
     margin:0 0 8px 0;
     font-size:clamp(44px,7vw,68px);
@@ -147,92 +101,60 @@
     line-height:1.08;
     letter-spacing:-.015em;
     color:var(--heading);
-    text-shadow:none;
-    filter:none;
   }
-
   h2{
     margin:0 0 8px 0;
     font-size:clamp(22px,2.4vw,28px);
     font-weight:800;
     letter-spacing:-.01em;
     color:var(--heading);
-    text-shadow:none;
-    filter:none;
   }
-
-  /* about içindeki alt başlık */
   #about h3{
     margin:14px 0 8px 0;
     font-size:clamp(18px,2vw,22px);
     font-weight:700;
     color:var(--heading);
-    text-shadow:none;
-    filter:none;
+  }
+
+  /* SADECE İSTENEN BAŞLIKLAR İÇİN KESİN SİYAH */
+  header h1,
+  #services-title,
+  #projects-title,
+  #about-title,
+  #about h3{
+    color:#000 !important;
+    text-shadow:none !important;
+    filter:none !important;
   }
 
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
   section{padding:28px 0}
 
-  /* CTA buton */
-  .btn{
-    display:inline-block;
-    padding:12px 18px;
-    border-radius:16px;
-    background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));
-    color:#fff;
-    text-decoration:none;
-    box-shadow:0 6px 16px rgba(170,66,239,.30);
-    transition:transform .12s ease, filter .12s ease, box-shadow .12s ease;
-  }
+  /* CTA */
+  .btn{display:inline-block;padding:12px 18px;border-radius:16px;background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));color:#fff;text-decoration:none;box-shadow:0 6px 16px rgba(170,66,239,.30);transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
   .btn:hover{transform:translateY(-1px);filter:brightness(1.04);box-shadow:0 10px 24px rgba(170,66,239,.38)}
 
-  /* Rozetler */
-  .chip{
-    display:inline-block;
-    padding:6px 10px;
-    border-radius:999px;
-    border:1px solid var(--line);
-    background:#F5EEFF;
-    color:#3B0764;
-  }
+  .chip{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#F5EEFF;color:#3B0764}
 
   .grid{display:grid;gap:18px}
   .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
   @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-  /* Kartlar (daha canlı mor, header ile aynı family) */
+  /* Kartlar (mor) */
   .card{
     color:#fff;
     background:linear-gradient(135deg,#8E2DE2 0%, #6A11CB 100%);
-    border:none;
-    border-radius:18px;
-    padding:20px;
+    border:none;border-radius:18px;padding:20px;
     box-shadow:0 14px 28px rgba(106,17,203,.24), 0 4px 10px rgba(106,17,203,.16);
     transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
   }
-  .card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 18px 36px rgba(106,17,203,.28), 0 6px 14px rgba(106,17,203,.18);
-    filter:saturate(1.06);
-  }
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(106,17,203,.28), 0 6px 14px rgba(106,17,203,.18);filter:saturate(1.06)}
 
-  /* ikon kapsülü */
-  .icon{
-    height:48px;width:48px;border-radius:14px;
-    background:rgba(255,255,255,.12);
-    border:1px solid rgba(255,255,255,.18);
-    display:flex;align-items:center;justify-content:center
-  }
+  .icon{height:48px;width:48px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
   .icon svg [stroke]{stroke:#F5F3FF}
   .icon svg [fill="#6E31FF"]{fill:#F5F3FF}
 
-  /* Footer */
-  footer{
-    padding:36px 0;text-align:center;color:var(--muted);
-    border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)
-  }
-
+  footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)}
   a.underline{text-decoration:underline;text-underline-offset:4px}
   </style>
 </head>
