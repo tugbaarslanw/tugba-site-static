@@ -69,7 +69,7 @@
   }
   .container{max-width:1100px;margin:0 auto;padding:0 24px}
 
-  /* Üst menü */
+  /* ÜST MENÜ */
   .topnav{
     position:sticky;top:0;z-index:100;
     background:linear-gradient(90deg,var(--accent-500),var(--accent-400));
@@ -83,35 +83,40 @@
   .menu a:hover{background:rgba(255,255,255,.14)}
   .menu a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:12px}
 
-  /* Hero */
+  /* HERO */
   header{padding:110px 0 40px;text-align:center}
   header .container{max-width:1000px;display:flex;flex-direction:column;align-items:center;gap:8px}
 
-  /* >>> GÜÇLÜ VE OKUNAKLI BAŞLIK <<< */
+  /* Güçlü başlık */
   .hero-title{
     margin:0 0 8px 0;
     font-size:clamp(44px,7vw,68px);
     font-weight:900;
     line-height:1.05;
     letter-spacing:-.015em;
-    color:#22114a;                       /* koyu mor/lacivert */
-    text-shadow:
-      0 1px 0 rgba(255,255,255,.85),     /* üst parlaklık */
-      0 3px 8px rgba(0,0,0,.28);         /* net gölge */
+    color:#22114a;
+    text-shadow:0 1px 0 rgba(255,255,255,.85), 0 3px 8px rgba(0,0,0,.28);
   }
-  /* olası önceki sürümdeki halo’yu tamamen kapatıyoruz */
   .hero-title::before{content:none!important}
-
   @media (prefers-color-scheme: dark){
-    .hero-title{
-      color:#FFFFFF;
-      text-shadow:0 2px 10px rgba(0,0,0,.6);
-    }
+    .hero-title{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
   }
 
-  h2{font-size:24px;margin:0}
-  p.lead{color:var(--muted);font-size:18px;margin:0}
+  /* Bölüm başlıkları — daha belirgin */
+  section > h2{
+    margin:0 0 8px 0;
+    font-size:clamp(22px,2.4vw,28px);
+    font-weight:800;
+    letter-spacing:-.01em;
+    color:#2a125a; /* koyu mor */
+    text-shadow:0 1px 0 rgba(255,255,255,.85), 0 2px 10px rgba(0,0,0,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    section > h2{color:#ffffff;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+  }
 
+  h2{font-size:24px;margin:0} /* (genel default; yukarıdaki selector bunu override ediyor) */
+  p.lead{color:var(--muted);font-size:18px;margin:0}
   section{padding:28px 0}
 
   /* CTA */
