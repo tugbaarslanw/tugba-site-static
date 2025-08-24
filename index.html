@@ -50,62 +50,54 @@
   </script>
 
   <style>
+  /* Wapa tarzı: açık lavanta arka plan + canlı mor accent */
   :root{
-    /* Daha aydınlık mor paleti */
-    --fg:#F8FAFC;
-    --muted:#E7E7EF;
-    --line:rgba(255,255,255,.22);
-    --card:rgba(255,255,255,.10);
-    --accent:#7C3AED;          /* mor ana renk */
-    --accent-2:#C084FC;        /* gradient eşleşeni */
-    --accent-100:rgba(124,58,237,.16);
+    --ink:#0F172A;            /* koyu metin (lacivert/siyah) */
+    --muted:#475569;          /* açıklama gri-mavi */
+    --line:rgba(15,23,42,.08);/* ince sınır */
+    --card:rgba(255,255,255,.85); /* cam/white kart */
+    --chip:#F3E8FF;           /* rozet zemini (çok açık lavanta) */
+    --accent:#9B5CFF;         /* mor accent */
+    --accent-2:#C084FC;       /* mor-pembe geçişi */
   }
 
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   html{scroll-behavior:smooth}
 
-  /* Daha açık, enerjik mor gradient + hafif hareket */
+  /* Açık lavanta degrade (wapa vibe) */
   body{
-    color:var(--fg);
+    color:var(--ink);
     font:16px/1.6 system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,Helvetica,sans-serif;
     background:
-      radial-gradient(1000px 520px at 12% 12%, rgba(192,132,252,.35), transparent 60%),
-      radial-gradient(820px 420px at 88% 0%, rgba(124,58,237,.25), transparent 65%),
-      linear-gradient(180deg, #3B1B8F 0%, #6336E4 45%, #8B5CF6 80%, #C084FC 100%);
-    background-size:auto, auto, 200% 200%;
-    background-position:left top, right top, 0% 40%;
-    animation:bgmove 22s ease-in-out infinite alternate;
-  }
-  @keyframes bgmove{
-    0%{   background-position:left top, right top, 0% 40% }
-    100%{ background-position:left 10% top -6%, right 8% top, 100% 60% }
+      radial-gradient(1000px 520px at 15% 10%, #F5EEFF 0%, transparent 60%),
+      radial-gradient(900px 480px at 85% 0%,  #F1E8FF 0%, transparent 65%),
+      linear-gradient(180deg, #FFFFFF 0%, #F7F2FF 45%, #EADCFD 100%);
+    background-attachment: fixed;
   }
 
-  .container{max-width:1100px;margin:0 auto;padding:0 24px}
-
-  /* Başlıklar daha okunaklı */
+  /* Başlıklar daha okunaklı (koyu yazı, açık zemin) */
   header{padding:72px 0 24px;text-align:center}
-  h1{font-size:42px;margin:6px 0 0;text-shadow:0 6px 22px rgba(0,0,0,.35),0 1px 0 rgba(0,0,0,.25)}
+  h1{font-size:44px;margin:6px 0 0;letter-spacing:-.02em}
   h2{font-size:24px;margin:0}
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
 
-  /* Buton: canlı mor gradient + hafif glow */
+  .container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+  /* Canlı mor gradient buton + hafif yükselme */
   .btn{
-    display:inline-block;padding:12px 18px;border-radius:14px;
+    display:inline-block;padding:12px 18px;border-radius:16px;
     background:linear-gradient(90deg,var(--accent),var(--accent-2));
     color:#fff;text-decoration:none;
-    box-shadow:0 0 0 1px rgba(124,58,237,.45),
-               0 12px 28px rgba(124,58,237,.35),
-               inset 0 -2px 8px rgba(255,255,255,.15);
-    transition:transform .15s ease, filter .15s ease;
+    box-shadow:0 6px 18px rgba(155,92,255,.35);
+    transition:transform .15s ease, filter .15s ease, box-shadow .15s ease;
   }
-  .btn:hover{filter:brightness(1.07);transform:translateY(-1px)}
+  .btn:hover{filter:brightness(1.06);transform:translateY(-1px);box-shadow:0 10px 26px rgba(155,92,255,.45)}
 
-  /* Rozetler */
+  /* Rozetler (ikon etiketleri) */
   .chip{
     display:inline-block;padding:6px 10px;border-radius:999px;
-    border:1px solid var(--line);background:rgba(255,255,255,.10)
+    background:var(--chip); border:1px solid rgba(124,58,237,.18); color:#3B0764;
   }
 
   section{padding:28px 0}
@@ -113,32 +105,37 @@
   .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
   @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-  /* Kartlar: cam efekti + hover’da mor vurgulu */
+  /* Kartlar: beyaz/cam efekti, yumuşak gölge, hover’da mor vurgu */
   .card{
     background:var(--card);
     border:1px solid var(--line);
     border-radius:18px;
     padding:20px;
     backdrop-filter:blur(6px);
+    box-shadow:0 8px 24px rgba(2,6,23,.06);
     transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-    box-shadow:0 10px 30px rgba(0,0,0,.20);
   }
   .card:hover{
-    transform:translateY(-4px) scale(1.01);
-    border-color:rgba(192,132,252,.70);
-    box-shadow:0 16px 44px rgba(139,92,246,.35);
+    transform:translateY(-4px);
+    border-color:rgba(155,92,255,.45);
+    box-shadow:0 14px 36px rgba(155,92,255,.20);
   }
 
-  /* Kart içi ikon zeminleri daha parlak mor */
+  /* Kart içi ikon kapsülü: açık lavanta arkaplan */
   .icon{
     height:48px;width:48px;border-radius:14px;
-    background:var(--accent-100);
+    background:#F1E8FF;
     display:flex;align-items:center;justify-content:center
   }
 
+  /* SVG çizgileri mor olsun (ikonların stroke rengi) */
+  .icon svg [stroke]{stroke:var(--accent)}
+  .icon svg [fill="#6E31FF"]{fill:var(--accent)}
+
+  /* Alt bilgi */
   footer{
     padding:36px 0;text-align:center;color:var(--muted);
-    border-top:1px solid var(--line);margin-top:24px
+    border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.35)
   }
   a.underline{text-decoration:underline;text-underline-offset:4px}
 </style>
