@@ -51,61 +51,69 @@
 
   <style>
   :root{
-    --fg:#F3F4F6;
-    --muted:#C7C9D1;
-    --line:rgba(255,255,255,.14);
-    --card:rgba(255,255,255,.06);
+    /* Daha aydınlık mor paleti */
+    --fg:#F8FAFC;
+    --muted:#E7E7EF;
+    --line:rgba(255,255,255,.22);
+    --card:rgba(255,255,255,.10);
     --accent:#7C3AED;          /* mor ana renk */
-    --accent-100:rgba(124,58,237,.15);
+    --accent-2:#C084FC;        /* gradient eşleşeni */
+    --accent-100:rgba(124,58,237,.16);
   }
 
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   html{scroll-behavior:smooth}
 
-  /* Mor tonlu gradient + hafif animasyon */
+  /* Daha açık, enerjik mor gradient + hafif hareket */
   body{
     color:var(--fg);
-    font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,Helvetica,sans-serif;
+    font:16px/1.6 system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,Helvetica,sans-serif;
     background:
-      radial-gradient(1200px 600px at 10% -10%, rgba(124,58,237,.35), transparent 60%),
-      radial-gradient(900px 500px at 90% 0%, rgba(167,139,250,.25), transparent 65%),
-      linear-gradient(120deg, #0b0518, #1a0b35 40%, #2a1260);
+      radial-gradient(1000px 520px at 12% 12%, rgba(192,132,252,.35), transparent 60%),
+      radial-gradient(820px 420px at 88% 0%, rgba(124,58,237,.25), transparent 65%),
+      linear-gradient(180deg, #3B1B8F 0%, #6336E4 45%, #8B5CF6 80%, #C084FC 100%);
     background-size:auto, auto, 200% 200%;
-    background-position:center -100px, right top, 0% 50%;
-    animation:bgmove 18s ease-in-out infinite alternate;
+    background-position:left top, right top, 0% 40%;
+    animation:bgmove 22s ease-in-out infinite alternate;
   }
   @keyframes bgmove{
-    0%{   background-position:center -100px, right top, 0% 50%; }
-    100%{ background-position:center -160px, right 20% top, 100% 50%; }
+    0%{   background-position:left top, right top, 0% 40% }
+    100%{ background-position:left 10% top -6%, right 8% top, 100% 60% }
   }
 
   .container{max-width:1100px;margin:0 auto;padding:0 24px}
 
-  /* Buton: mor gradient + glow */
-  .btn{
-    display:inline-block;padding:12px 18px;border-radius:14px;
-    background:linear-gradient(90deg,#6E31FF,#A78BFA);
-    color:#fff;text-decoration:none;box-shadow:0 8px 20px rgba(124,58,237,.35)
-  }
-  .btn:hover{filter:brightness(1.06)}
-
-  .chip{
-    display:inline-block;padding:6px 10px;border-radius:999px;
-    border:1px solid var(--line);background:rgba(255,255,255,.06)
-  }
-
+  /* Başlıklar daha okunaklı */
   header{padding:72px 0 24px;text-align:center}
-  h1{font-size:42px;margin:6px 0 0}
+  h1{font-size:42px;margin:6px 0 0;text-shadow:0 6px 22px rgba(0,0,0,.35),0 1px 0 rgba(0,0,0,.25)}
   h2{font-size:24px;margin:0}
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
-  section{padding:28px 0}
 
+  /* Buton: canlı mor gradient + hafif glow */
+  .btn{
+    display:inline-block;padding:12px 18px;border-radius:14px;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    color:#fff;text-decoration:none;
+    box-shadow:0 0 0 1px rgba(124,58,237,.45),
+               0 12px 28px rgba(124,58,237,.35),
+               inset 0 -2px 8px rgba(255,255,255,.15);
+    transition:transform .15s ease, filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.07);transform:translateY(-1px)}
+
+  /* Rozetler */
+  .chip{
+    display:inline-block;padding:6px 10px;border-radius:999px;
+    border:1px solid var(--line);background:rgba(255,255,255,.10)
+  }
+
+  section{padding:28px 0}
   .grid{display:grid;gap:18px}
   .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
   @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-  /* Kartlar: cam efekti (glass) + hover yükselme */
+  /* Kartlar: cam efekti + hover’da mor vurgulu */
   .card{
     background:var(--card);
     border:1px solid var(--line);
@@ -113,14 +121,15 @@
     padding:20px;
     backdrop-filter:blur(6px);
     transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    box-shadow:0 10px 30px rgba(0,0,0,.20);
   }
   .card:hover{
-    transform:translateY(-2px);
-    border-color:rgba(124,58,237,.5);
-    box-shadow:0 18px 40px rgba(124,58,237,.25);
+    transform:translateY(-4px) scale(1.01);
+    border-color:rgba(192,132,252,.70);
+    box-shadow:0 16px 44px rgba(139,92,246,.35);
   }
 
+  /* Kart içi ikon zeminleri daha parlak mor */
   .icon{
     height:48px;width:48px;border-radius:14px;
     background:var(--accent-100);
@@ -132,26 +141,8 @@
     border-top:1px solid var(--line);margin-top:24px
   }
   a.underline{text-decoration:underline;text-underline-offset:4px}
-
-  /* Üst menü cam görünüm */
-  .topnav{
-    position:sticky; top:0; z-index:50;
-    backdrop-filter:saturate(180%) blur(8px);
-    background:rgba(14,10,30,.6); border-bottom:1px solid var(--line);
-  }
-  .topnav .wrap{
-    max-width:1100px; margin:0 auto; padding:10px 24px;
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--fg); font-weight:700}
-  .brand .logo{
-    height:28px; width:28px; border-radius:8px; background:#6E31FF;
-    display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:16px
-  }
-  .menu{display:flex; gap:16px}
-  .menu a{color:var(--fg); text-decoration:none; padding:8px 10px; border-radius:10px}
-  .menu a:hover{background:rgba(124,58,237,.15)}
 </style>
+
 
 </head>
 <body>
