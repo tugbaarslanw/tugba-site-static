@@ -167,30 +167,33 @@
   .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
   @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-  /* Kartlar */
+  /* ——— KARTLAR: SİYAH YERİNE MOR ——— */
   .card{
-    background:var(--card);
-    border:1px solid var(--line);
+    /* eski: arka plan koyu/aydınlık */
+    /* yeni: mor degrade + beyaz metin */
+    background: linear-gradient(180deg, rgba(170,66,239,.16) 0%, rgba(103,58,183,.32) 100%);
+    border:1px solid rgba(170,66,239,.45);
     border-radius:18px;
     padding:20px;
-    box-shadow:0 2px 10px rgba(103,58,183,.08); /* Wapa 500 gölge */
+    color:#fff;
+    box-shadow:0 6px 22px rgba(103,58,183,.22);
     transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   }
   .card:hover{
     transform:translateY(-3px);
-    border-color:rgba(170,66,239,.35);
-    box-shadow:0 12px 28px rgba(170,66,239,.18);
+    border-color:rgba(170,66,239,.60);
+    box-shadow:0 14px 30px rgba(170,66,239,.28);
   }
 
-  /* Kart ikon kapsülü + ikon renkleri (Wapa moru) */
+  /* Kart ikon kapsülü + ikon çizgileri mor kalsın */
   .icon{
     height:48px;width:48px;border-radius:14px;
-    background:rgba(170,66,239,.10);
-    border:1px solid rgba(170,66,239,.18);
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
     display:flex;align-items:center;justify-content:center
   }
-  .icon svg [stroke]{stroke:var(--accent-500)}
-  .icon svg [fill="#6E31FF"]{fill:var(--accent-500)}
+  .icon svg [stroke]{stroke:#FFFFFF}
+  .icon svg [fill="#6E31FF"]{fill:#FFFFFF}
 
   /* Footer */
   footer{
@@ -240,10 +243,10 @@
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="2.5" y="5" width="12" height="9.5" rx="2" stroke="#6E31FF" stroke-width="2"/>
-              <path d="M2.5 8.5H14.5" stroke="#6E31FF" stroke-width="2"/>
-              <rect x="16" y="3" width="5.5" height="18" rx="1.2" stroke="#6E31FF" stroke-width="2"/>
-              <circle cx="18.75" cy="18.5" r="0.6" fill="#6E31FF"/>
+              <rect x="2.5" y="5" width="12" height="9.5" rx="2" stroke="#FFFFFF" stroke-width="2"/>
+              <path d="M2.5 8.5H14.5" stroke="#FFFFFF" stroke-width="2"/>
+              <rect x="16" y="3" width="5.5" height="18" rx="1.2" stroke="#FFFFFF" stroke-width="2"/>
+              <circle cx="18.75" cy="18.5" r="0.6" fill="#FFFFFF"/>
             </svg>
           </div>
           <h3 style="margin:10px 0 4px">Web & iOS Geliştirme</h3>
@@ -254,9 +257,9 @@
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" stroke="#6E31FF" stroke-width="2" fill="none"/>
-              <rect x="9" y="10" width="6" height="5" rx="1.5" stroke="#6E31FF" stroke-width="2"/>
-              <path d="M12 10V9a2 2 0 114 0v1" stroke="#6E31FF" stroke-width="2"/>
+              <path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+              <rect x="9" y="10" width="6" height="5" rx="1.5" stroke="#FFFFFF" stroke-width="2"/>
+              <path d="M12 10V9a2 2 0 114 0v1" stroke="#FFFFFF" stroke-width="2"/>
             </svg>
           </div>
           <h3 style="margin:10px 0 4px">Siber Güvenlik (Pentest & Sertleştirme)</h3>
@@ -267,8 +270,8 @@
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" stroke="#6E31FF" stroke-width="2"/>
-              <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1l2.1-2.1M17 7l2.1-2.1" stroke="#6E31FF" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" stroke="#FFFFFF" stroke-width="2"/>
+              <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1l2.1-2.1M17 7l2.1-2.1" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
           <h3 style="margin:10px 0 4px">Otomasyon & Entegrasyon</h3>
@@ -279,7 +282,7 @@
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M3 12h14M3 6h10M3 18h18" stroke="#6E31FF" stroke-width="2" stroke-linecap="round"/>
+              <path d="M3 12h14M3 6h10M3 18h18" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
           <h3 style="margin:10px 0 4px">Sosyal Medya & Reklam</h3>
@@ -290,8 +293,8 @@
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M4 18V6m0 12c3-6 5-8 8-3s5-5 8-9" stroke="#6E31FF" stroke-width="2" fill="none"/>
-              <circle cx="4" cy="18" r="1.5" fill="#6E31FF"/>
+              <path d="M4 18V6m0 12c3-6 5-8 8-3s5-5 8-9" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+              <circle cx="4" cy="18" r="1.5" fill="#FFFFFF"/>
             </svg>
           </div>
           <h3 style="margin:10px 0 4px">SEO & Analytics</h3>
@@ -302,8 +305,8 @@
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M12 5l7 4v4c0 4-3 7-7 8-4-1-7-4-7-8V9l7-4z" stroke="#6E31FF" stroke-width="2"/>
-              <path d="M12 10v4" stroke="#6E31FF" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 5l7 4v4c0 4-3 7-7 8-4-1-7-4-7-8V9l7-4z" stroke="#FFFFFF" stroke-width="2"/>
+              <path d="M12 10v4" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
           <h3 style="margin:10px 0 4px">Hesap Kurtarma & Olay Müdahalesi</h3>
