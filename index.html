@@ -52,10 +52,12 @@
   </script>
 
   <style>
-  /* Wapa paleti */
+  /* Palet */
   :root{
     --fg:#0F1222; --muted:#667085; --bg:#FFFFFF;
-    --accent-500:#673AB7; --accent-400:#AA42EF; --accent-300:#BB68F2;
+    --accent-500:#673AB7; /* header gradient soldaki */
+    --accent-400:#AA42EF; /* header gradient sağdaki */
+    --accent-300:#BB68F2;
     --card:#FFFFFF; --line:#E6E6EA; --surface:#F5EEFF;
   }
   @media (prefers-color-scheme: dark){
@@ -74,7 +76,7 @@
   }
   .container{max-width:1100px;margin:0 auto;padding:0 24px}
 
-  /* Üst menü */
+  /* Üst menü (değişmedi) */
   .topnav{
     position:sticky; top:0; z-index:100;
     background:linear-gradient(90deg,var(--accent-500),var(--accent-400));
@@ -88,7 +90,7 @@
   .menu a:hover{background:rgba(255,255,255,.14)}
   .menu a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:12px}
 
-  /* Header */
+  /* Header (değişmedi) */
   header{padding:110px 0 40px;text-align:center}
   header .container{max-width:1000px;display:flex;flex-direction:column;align-items:center;gap:10px}
   h1{margin:0;line-height:1.1;letter-spacing:-.02em;font-size:clamp(36px,6vw,56px)}
@@ -96,37 +98,50 @@
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
   section{padding:28px 0}
 
-  /* CTA */
+  /* CTA (değişmedi) */
   .btn{display:inline-block;padding:12px 18px;border-radius:16px;background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));color:#fff;text-decoration:none;box-shadow:0 6px 16px rgba(170,66,239,.30);transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
   .btn:hover{transform:translateY(-1px);filter:brightness(1.04);box-shadow:0 10px 24px rgba(170,66,239,.38)}
 
-  /* Rozetler */
+  /* Rozet (değişmedi) */
   .chip{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#F5EEFF;color:#3B0764}
 
   .grid{display:grid;gap:18px}
   .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
   @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-  /* === KARTLAR: SİYAH YERİNE MOR === */
+  /* === KARTLAR: DAHA CANLI, HEADER İLE AYNI TON === */
   .card{
-    background:linear-gradient(180deg,#7B3EF2 0%, #673AB7 100%); /* net mor */
-    border:1px solid rgba(255,255,255,.10);
+    /* header’dakiyle aynı tonlarda, daha doygun gradient */
+    background:linear-gradient(135deg, var(--accent-400) 0%, #7B3EF2 40%, var(--accent-500) 100%);
+    border:1px solid rgba(255,255,255,.14);
     border-radius:18px;
     padding:20px;
-    color:#fff;                       /* tüm kart metni beyaz */
-    box-shadow:0 10px 24px rgba(103,58,183,.28);
+    color:#fff; /* metinler */
+    box-shadow:
+      0 14px 32px rgba(170,66,239,.40),
+      0 2px 0 rgba(255,255,255,.08) inset;
     transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
   }
-  .card:hover{transform:translateY(-3px);filter:brightness(1.05);box-shadow:0 14px 30px rgba(170,66,239,.32)}
+  .card:hover{
+    transform:translateY(-3px);
+    filter:saturate(1.08) brightness(1.05);
+    box-shadow:0 18px 38px rgba(170,66,239,.48);
+  }
   .card h3{color:#fff}
-  .card p{color:rgba(255,255,255,.88) !important}  /* inline griyi ezmek için */
+  .card p{color:rgba(255,255,255,.9) !important}
+  .card a{color:#fff}
 
-  /* ikon kapsülü + çizgiler */
-  .icon{height:48px;width:48px;border-radius:14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);display:flex;align-items:center;justify-content:center}
+  /* ikon kapsülü: mor üstünde daha belirgin */
+  .icon{
+    height:48px;width:48px;border-radius:14px;
+    background:rgba(255,255,255,.22);
+    border:1px solid rgba(255,255,255,.30);
+    display:flex;align-items:center;justify-content:center
+  }
   .icon svg [stroke]{stroke:#FFFFFF}
   .icon svg [fill="#6E31FF"]{fill:#FFFFFF}
 
-  /* Footer */
+  /* Footer (değişmedi) */
   footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)}
   a.underline{text-decoration:underline;text-underline-offset:4px}
   </style>
