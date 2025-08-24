@@ -128,12 +128,22 @@
   /* ——— HERO / HEADER ——— */
   header{
     padding:110px 0 40px;  /* sticky nav sonrası nefes */
-    text-align:center
+    text-align:center;
+    /* >>> SADECE HEADER ARKA PLANINI AYIR <<< */
+    background:
+      radial-gradient(800px 360px at 50% 0%, rgba(170,66,239,0.10), transparent 60%),
+      linear-gradient(180deg, #FFFFFF 0%, var(--surface) 100%);
+    border-bottom:1px solid var(--line);
   }
   header .container{
     max-width:1000px;
     display:flex; flex-direction:column; align-items:center; gap:10px;
   }
+  /* Header içinde metin seçilebilir olsun */
+  header, header *{
+    -webkit-user-select:text; -moz-user-select:text; -ms-user-select:text; user-select:text;
+  }
+
   h1{margin:0; line-height:1.1; letter-spacing:-.02em; font-size:clamp(36px,6vw,56px)}
   h2{font-size:24px;margin:0}
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
