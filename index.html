@@ -68,7 +68,7 @@
     --muted:#667085;
     --bg:#FFFFFF;
 
-    /* Başlık rengi (isteğin doğrultusunda düz siyah) */
+    /* Başlık rengi: her modda düz siyah */
     --heading:#000000;
 
     /* Wapa morları */
@@ -82,16 +82,16 @@
     --surface:#F5EEFF; /* yumuşak lila */
   }
 
-  /* Koyu mod (istemci tercihi) */
+  /* Koyu mod (başlık rengi sabit kalsın diye --heading'i burada değiştirmiyoruz) */
   @media (prefers-color-scheme: dark){
     :root{
       --fg:#F3F4F6;
       --muted:#A1A1AA;
       --bg:#0E0B14;
-      --heading:#FFFFFF;   /* koyu modda başlıklar beyaz */
       --card:#12101A;
       --line:#1E1A27;
       --surface:#1A1426;
+      /* --heading siyah kalır */
     }
   }
 
@@ -139,7 +139,7 @@
     display:flex; flex-direction:column; align-items:center; gap:10px;
   }
 
-  /* İSTENEN: Başlıklar düz, siyah, gölgesiz, net */
+  /* BAŞLIKLAR: düz siyah, gölgesiz, net */
   header h1{
     margin:0 0 8px 0;
     font-size:clamp(44px,7vw,68px);
@@ -348,7 +348,7 @@
       </div>
     </section>
 
-    <!-- ===== Öne Çıkan Projeler ===== -->
+    <!-- ===== Projeler ===== -->
     <section id="projects" aria-labelledby="projects-title">
       <h2 id="projects-title">Projeler</h2>
       <div class="grid grid-3" style="margin-top:12px">
