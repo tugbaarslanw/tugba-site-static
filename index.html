@@ -50,7 +50,7 @@
   <style>
   :root{
     --fg:#0F1222; --muted:#667085; --bg:#FFFFFF;
-    /* Başlık rengi: her koşulda siyah */
+    /* başlıklar her koşulda siyah */
     --heading:#000000;
 
     --accent-500:#673AB7; --accent-400:#AA42EF; --accent-300:#BB68F2;
@@ -116,7 +116,7 @@
     color:var(--heading);
   }
 
-  /* SADECE İSTENEN BAŞLIKLAR İÇİN KESİN SİYAH */
+  /* SADECE İSTENEN BAŞLIKLAR KESİN SİYAH */
   header h1,
   #services-title,
   #projects-title,
@@ -153,6 +153,25 @@
   .icon{height:48px;width:48px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
   .icon svg [stroke]{stroke:#F5F3FF}
   .icon svg [fill="#6E31FF"]{fill:#F5F3FF}
+
+  /* AVATAR (yeni) */
+  .avatar-wrap{display:flex;align-items:center;gap:14px;margin:12px 0 6px}
+  .avatar{
+    width:96px;height:96px;border-radius:50%;object-fit:cover;
+    border:2px solid rgba(0,0,0,.08);
+    box-shadow:0 10px 24px rgba(106,17,203,.18);
+    background:#eee;
+  }
+  .avatar-fallback{
+    width:96px;height:96px;border-radius:50%;
+    display:none;align-items:center;justify-content:center;
+    font-weight:800;color:#fff;user-select:none;
+    background:linear-gradient(135deg,#8E2DE2,#6A11CB);
+    box-shadow:0 10px 24px rgba(106,17,203,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    .avatar{border-color:rgba(255,255,255,.15)}
+  }
 
   footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)}
   a.underline{text-decoration:underline;text-underline-offset:4px}
@@ -307,7 +326,17 @@
       <p style="color:var(--muted)">
         Modern frontend, iOS ve güvenlik odaklı ürünler geliştiriyorum. Otomasyon ve veriyle karar almayı seviyorum; projelerde uçtan uca çözüm sunuyorum.
       </p>
+
       <h3>İletişim</h3>
+
+      <!-- PROFİL FOTO ALANI (yeni) -->
+      <div class="avatar-wrap">
+        <img id="avatar-img" class="avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
+             loading="lazy"
+             onerror="this.style.display='none';document.getElementById('avatar-fallback').style.display='inline-flex'">
+        <span id="avatar-fallback" class="avatar-fallback" aria-hidden="true">TA</span>
+      </div>
+
       <ul>
         <li>E-posta: <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a></li>
         <li>
