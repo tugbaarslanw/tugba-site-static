@@ -50,8 +50,7 @@
   <style>
   :root{
     --fg:#0F1222; --muted:#667085; --bg:#FFFFFF;
-    /* başlıklar her koşulda siyah */
-    --heading:#000000;
+    --heading:#000000; /* başlıklar kesin siyah */
 
     --accent-500:#673AB7; --accent-400:#AA42EF; --accent-300:#BB68F2;
     --card:#FFFFFF; --line:#E6E6EA; --surface:#F5EEFF;
@@ -60,7 +59,6 @@
     :root{
       --fg:#F3F4F6; --muted:#A1A1AA; --bg:#0E0B14;
       --card:#12101A; --line:#1E1A27; --surface:#1A1426;
-      /* --heading siyah kalır */
     }
   }
 
@@ -74,7 +72,7 @@
   }
   .container{max-width:1100px;margin:0 auto;padding:0 24px}
 
-  /* ÜST MENÜ */
+  /* NAVBAR */
   .topnav{
     position:sticky; top:0; z-index:100;
     background:linear-gradient(90deg,#8E2DE2 0%, #6A11CB 100%);
@@ -90,12 +88,25 @@
   .menu a:hover{background:rgba(255,255,255,.10);opacity:1}
 
   /* HERO */
-  header{padding:110px 0 40px;text-align:center}
-  header .container{max-width:1000px;display:flex;flex-direction:column;align-items:center;gap:10px}
+  header{padding:110px 0 40px}
+  header .container{max-width:1000px}
+
+  /* Sol avatar + sağ içerik düzeni */
+  .hero{
+    display:grid;
+    grid-template-columns:128px 1fr;
+    gap:24px;
+    align-items:center;
+  }
+  @media (max-width:640px){
+    .hero{grid-template-columns:96px 1fr; gap:16px;}
+  }
+  .hero-copy{text-align:left}
+  .hero-copy .lead{color:var(--muted);font-size:18px;margin:6px 0 0}
 
   /* Başlıklar */
-  header h1{
-    margin:0 0 8px 0;
+  .hero-copy h1{
+    margin:0 0 6px 0;
     font-size:clamp(44px,7vw,68px);
     font-weight:800;
     line-height:1.08;
@@ -116,19 +127,8 @@
     color:var(--heading);
   }
 
-  /* SADECE İSTENEN BAŞLIKLAR KESİN SİYAH */
-  header h1,
-  #services-title,
-  #projects-title,
-  #about-title,
-  #about h3{
-    color:#000 !important;
-    text-shadow:none !important;
-    filter:none !important;
-  }
-
-  p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
-  section{padding:28px 0}
+  /* İstenen başlıklar her durumda siyah */
+  #services-title,#projects-title,#about-title,#about h3{color:#000 !important}
 
   /* CTA */
   .btn{display:inline-block;padding:12px 18px;border-radius:16px;background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));color:#fff;text-decoration:none;box-shadow:0 6px 16px rgba(170,66,239,.30);transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
@@ -155,22 +155,14 @@
   .icon svg [fill="#6E31FF"]{fill:#F5F3FF}
 
   /* AVATAR */
-  .avatar-wrap{display:flex;align-items:center;gap:14px;margin:12px 0 6px}
   .avatar{
-    width:96px;height:96px;border-radius:50%;object-fit:cover;
+    width:128px;height:128px;border-radius:50%;object-fit:cover;
     border:2px solid rgba(0,0,0,.08);
     box-shadow:0 10px 24px rgba(106,17,203,.18);
     background:#eee;
   }
-  .avatar-fallback{
-    width:96px;height:96px;border-radius:50%;
-    display:none;align-items:center;justify-content:center;
-    font-weight:800;color:#fff;user-select:none;
-    background:linear-gradient(135deg,#8E2DE2,#6A11CB);
-    box-shadow:0 10px 24px rgba(106,17,203,.18);
-  }
-  @media (prefers-color-scheme: dark){
-    .avatar{border-color:rgba(255,255,255,.15)}
+  @media (max-width:640px){
+    .avatar{width:96px;height:96px;}
   }
 
   footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)}
@@ -179,7 +171,7 @@
 </head>
 <body>
 
-  <!-- ÜST MENÜ -->
+  <!-- NAVBAR -->
   <nav class="topnav" aria-label="Birincil">
     <div class="wrap">
       <a class="brand" href="/">
@@ -196,13 +188,17 @@
 
   <header>
     <div class="container">
-      <!-- HERO AVATAR (eklenen) -->
-      <img src="avatar.jpg" alt="Tuğba Arslan" class="avatar" width="96" height="96" loading="eager" decoding="async" onerror="this.style.display='none'">
-      <h1>Tuğba Arslan</h1>
-      <p class="lead">Software Engineer • Etik Hacker • Automation</p>
-      <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
-      <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-        <span class="chip">HTTPS</span><span class="chip">CSP</span><span class="chip">2FA</span><span class="chip">Rate Limit</span><span class="chip">WAF</span>
+      <!-- SOLDA AVATAR, SAĞDA METİN -->
+      <div class="hero">
+        <img src="avatar.jpg" alt="Tuğba Arslan" class="avatar" width="128" height="128" loading="eager" decoding="async" onerror="this.style.display='none'">
+        <div class="hero-copy">
+          <h1>Tuğba Arslan</h1>
+          <p class="lead">Software Engineer • Etik Hacker • Automation</p>
+          <p style="margin:14px 0 0"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <span class="chip">HTTPS</span><span class="chip">CSP</span><span class="chip">2FA</span><span class="chip">Rate Limit</span><span class="chip">WAF</span>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -214,7 +210,6 @@
       <h2 id="services-title">Hizmetler</h2>
       <div class="grid grid-3" style="margin-top:12px">
 
-        <!-- 1) Web & iOS Geliştirme -->
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -228,7 +223,6 @@
           <p style="margin:0;opacity:.92">Next.js, Tailwind, SwiftUI, Firebase</p>
         </article>
 
-        <!-- 2) Siber Güvenlik -->
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -241,7 +235,6 @@
           <p style="margin:0;opacity:.92">Uygulama pentesti, güvenlik denetimi, hardening</p>
         </article>
 
-        <!-- 3) Otomasyon & Entegrasyon -->
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -253,7 +246,6 @@
           <p style="margin:0;opacity:.92">Hesap açma/kapama, API entegrasyonları, RPA</p>
         </article>
 
-        <!-- 4) Sosyal Medya & Reklam -->
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -264,7 +256,6 @@
           <p style="margin:0;opacity:.92">Meta/Google Ads, CAPI, GTM (Server-Side)</p>
         </article>
 
-        <!-- 5) SEO & Analytics -->
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -276,7 +267,6 @@
           <p style="margin:0;opacity:.92">Teknik SEO, GSC, GA4, Lighthouse</p>
         </article>
 
-        <!-- 6) Hesap Kurtarma & Olay Müdahalesi -->
         <article class="card">
           <div class="icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -331,12 +321,9 @@
 
       <h3>İletişim</h3>
 
-      <!-- PROFİL FOTO ALANI (var olan) -->
-      <div class="avatar-wrap">
-        <img id="avatar-img" class="avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
-             loading="lazy"
-             onerror="this.style.display='none';document.getElementById('avatar-fallback').style.display='inline-flex'">
-        <span id="avatar-fallback" class="avatar-fallback" aria-hidden="true">TA</span>
+      <!-- (İstersen burada da avatar kalabilir) -->
+      <div style="display:flex;align-items:center;gap:14px;margin:12px 0 6px">
+        <img src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı" class="avatar" loading="lazy" onerror="this.style.display='none'">
       </div>
 
       <ul>
