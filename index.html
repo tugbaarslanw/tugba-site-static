@@ -55,7 +55,7 @@
   <style>
   :root{
     --fg:#0F1222; --muted:#667085; --bg:#FFFFFF;
-    --heading:#000000; /* başlıklar kesin siyah */
+    --heading:#000000;
     --accent-500:#673AB7; --accent-400:#AA42EF; --accent-300:#BB68F2;
     --card:#FFFFFF; --line:#E6E6EA; --surface:#F5EEFF;
   }
@@ -70,7 +70,6 @@
   html,body{margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
-    /* sayfa genel zemini – statik */
     background:linear-gradient(180deg,#F8F5FF 0%,#F3ECFF 35%,#FFFFFF 100%);
     color:var(--fg);
     font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,Helvetica,sans-serif;
@@ -92,14 +91,13 @@
   .menu a{color:#fff;text-decoration:none;padding:8px 10px;border-radius:10px;opacity:.95}
   .menu a:hover{background:rgba(255,255,255,.10);opacity:1}
 
-  /* ===== HERO (sadece burada animasyon) ===== */
+  /* ===== HERO ===== */
   header.hero{
     position:relative; overflow:hidden;
-    padding:110px 0 40px; text-align:center;
-    isolation:isolate;
+    padding:110px 0 12px;          /* alt boşluğu kıstım; dalga chips'e yaklaşsın */
+    text-align:center; isolation:isolate;
   }
 
-  /* Nebula katmanları */
   .hero-bg{position:absolute; inset:0; z-index:0; pointer-events:none}
   .nebula-sky{
     position:absolute; inset:-20% -10% -10% -10%;
@@ -117,7 +115,6 @@
     100%{transform:translate3d(0,0,0) scale(1)}
   }
 
-  /* Yıldız dokusu (tekrarlı SVG) */
   .stars, .twinkles{
     position:absolute; inset:0;
     background-image:
@@ -129,7 +126,6 @@
   @keyframes starDrift{from{background-position:0 0} to{background-position:-600px 300px}}
   @keyframes twinkle{from{opacity:.25} to{opacity:.7}}
 
-  /* Kuyruklu yıldız */
   .meteor{
     position:absolute; top:18%; left:-20%;
     width:220px; height:2px;
@@ -144,28 +140,27 @@
     100%{opacity:0; transform:translate(60vw,24vh) rotate(15deg)}
   }
 
-  /* İçerik okunurluğu için hafif spot aydınlatma */
   .hero-spot{
     position:absolute; inset:0; z-index:1; pointer-events:none;
     background:radial-gradient( circle at 50% 46%, rgba(255,255,255,.35), rgba(255,255,255,0) 55% );
   }
 
-  /* Alt tarafta dalga (sayfaya bağlanır) */
+  /* ==== ALT DALGA ==== */
   .wave{
-    position:absolute; left:0; right:0; bottom:-28px; /* ↓ dalgayı biraz aşağı indir */
+    position:absolute; left:0; right:0;
+    bottom:-78px;           /* ↓ Hizmetler'e doğru sarkıt */
     width:100%;
-    height:190px;           /* ↑ dalgayı uzat */
+    height:260px;           /* ↑ Dalgayı büyüt */
     z-index:1; pointer-events:none;
-    filter: drop-shadow(0 -2px 8px rgba(0,0,0,.04));
+    filter: drop-shadow(0 -2px 10px rgba(0,0,0,.04));
   }
   @media(min-width:860px){
-    .wave{ height:230px; bottom:-36px; } /* geniş ekranda biraz daha derin */
+    .wave{ height:300px; bottom:-96px; }  /* geniş ekranda biraz daha derin */
   }
 
-  /* hero içeriği (her zaman üstte) */
+  /* hero içeriği */
   .hero-inner{position:relative; z-index:2; max-width:1000px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:10px}
 
-  /* hero avatar */
   .hero-avatar{
     width:112px;height:112px;border-radius:50%;object-fit:cover;
     margin-bottom:10px;background:#eee;
@@ -181,7 +176,6 @@
     box-shadow:0 10px 24px rgba(106,17,203,.25);
   }
 
-  /* Başlıklar */
   header h1{
     margin:0 0 8px 0;
     font-size:clamp(44px,7vw,68px);
@@ -190,7 +184,6 @@
     letter-spacing:-.015em;
     color:var(--heading);
   }
-  /* yalnızca istenen başlıklar siyah */
   #services-title, #projects-title, #about-title, #about h3, header h1{
     color:#000 !important; text-shadow:none !important; filter:none !important;
   }
@@ -198,9 +191,15 @@
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
   section{padding:28px 0}
 
-  /* CTA */
   .btn{display:inline-block;padding:12px 18px;border-radius:16px;background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));color:#fff;text-decoration:none;box-shadow:0 6px 16px rgba(170,66,239,.30);transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
   .btn:hover{transform:translateY(-1px);filter:brightness(1.04);box-shadow:0 10px 24px rgba(170,66,239,.38)}
+
+  /* CHIP satırı — dalgaya yakın yerleştir */
+  .hero-chips{
+    margin-top:12px;
+    margin-bottom:10px;     /* ↑ chips hemen üstünde, dalga hemen altında */
+    display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+  }
 
   .chip{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#F5EEFF;color:#3B0764}
 
@@ -208,7 +207,6 @@
   .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
   @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-  /* Kartlar (mor) */
   .card{
     color:#fff;
     background:linear-gradient(135deg,#8E2DE2 0%, #6A11CB 100%);
@@ -222,7 +220,6 @@
   .icon svg [stroke]{stroke:#F5F3FF}
   .icon svg [fill="#6E31FF"]{fill:#F5F3FF}
 
-  /* İletişim bölümü avatar (aynı) */
   .avatar-wrap{display:flex;align-items:center;gap:14px;margin:12px 0 6px}
   .avatar{
     width:96px;height:96px;border-radius:50%;object-fit:cover;
@@ -239,13 +236,6 @@
   }
   @media (prefers-color-scheme: dark){
     .avatar{border-color:rgba(255,255,255,.15)}
-  }
-
-  /* CHIP satırı – dalgaya değmesin diye altta boşluk */
-  .hero-chips{
-    margin-top:12px;
-    margin-bottom:28px; /* ↓ dalga ile güvenli boşluk */
-    display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
   }
 
   /* Footer */
@@ -270,7 +260,7 @@
     </div>
   </nav>
 
-  <!-- HERO: sadece burada animasyon -->
+  <!-- HERO -->
   <header class="hero" data-hero>
     <div class="hero-bg" aria-hidden="true">
       <div class="nebula-sky"></div>
@@ -286,7 +276,6 @@
     </div>
 
     <div class="hero-inner">
-      <!-- Profil foto (başlığın üstünde) -->
       <img class="hero-avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
            onerror="this.style.display='none';document.getElementById('hero-fallback').style.display='inline-flex'">
       <span id="hero-fallback" class="hero-fallback" aria-hidden="true">TA</span>
@@ -295,7 +284,7 @@
       <p class="lead">Software Engineer • Etik Hacker • Automation</p>
       <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
 
-      <!-- chip satırı (ortalanmış + alttan boşluklu) -->
+      <!-- chips: dalganın hemen üstünde ortalı -->
       <div class="hero-chips">
         <span class="chip">HTTPS</span>
         <span class="chip">CSP</span>
@@ -424,7 +413,6 @@
 
       <h3>İletişim</h3>
 
-      <!-- Bu bölümdeki profil alanı (değişmedi) -->
       <div class="avatar-wrap">
         <img id="avatar-img" class="avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
              loading="lazy"
@@ -477,7 +465,7 @@
     </div>
   </footer>
 
-  <!-- 3D Hero (aynı) -->
+  <!-- 3D Hero -->
   <script src="hero-space-webgl.js" defer></script>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
