@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#673AB7" />
   <link rel="canonical" href="https://tugba-site-static.vercel.app/">
 
-  <!-- CSP, inline script'e izin veriliyor -->
+  <!-- CSP -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
                  img-src 'self' data:;
@@ -56,7 +56,6 @@
   :root{
     --fg:#0F1222; --muted:#667085; --bg:#FFFFFF;
     --heading:#000000; /* başlıklar kesin siyah */
-
     --accent-500:#673AB7; --accent-400:#AA42EF; --accent-300:#BB68F2;
     --card:#FFFFFF; --line:#E6E6EA; --surface:#F5EEFF;
   }
@@ -64,7 +63,6 @@
     :root{
       --fg:#F3F4F6; --muted:#A1A1AA; --bg:#0E0B14;
       --card:#12101A; --line:#1E1A27; --surface:#1A1426;
-      /* --heading siyah kalır */
     }
   }
 
@@ -72,11 +70,38 @@
   html,body{margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
+    /* sayfanın genel aydınlık halı – animasyon bunun altında kalır */
     background:linear-gradient(180deg,#F8F5FF 0%,#F3ECFF 35%,#FFFFFF 100%);
     color:var(--fg);
     font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,Helvetica,sans-serif;
   }
   .container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+  /* —— ANİMASYONLU UZAY ARKA PLAN (daima arkada) —— */
+  #bg{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+  #bg canvas{position:absolute; inset:0}
+  #bg .nebula{position:absolute; inset:0}
+  .blob{
+    position:absolute; width:60vmax; height:60vmax; border-radius:50%;
+    filter:blur(80px); opacity:.42; mix-blend-mode:plus-lighter;
+    will-change:transform;
+  }
+  #b1{left:-12vmax; top:-10vmax;
+      background:radial-gradient(circle at 30% 30%, rgba(170,66,239,.55), rgba(106,17,203,.18) 60%, transparent 70%);
+      animation:drift1 18s ease-in-out infinite alternate;}
+  #b2{right:-16vmax; top:6vmax;
+      background:radial-gradient(circle at 70% 40%, rgba(187,104,242,.55), rgba(142,45,226,.18) 60%, transparent 70%);
+      animation:drift2 22s ease-in-out infinite alternate;}
+  #b3{left:8vmax; bottom:-15vmax;
+      background:radial-gradient(circle at 40% 70%, rgba(106,17,203,.55), rgba(170,66,239,.18) 60%, transparent 70%);
+      animation:drift3 26s ease-in-out infinite alternate;}
+  @keyframes drift1{from{transform:translate(0,0) scale(1)} to{transform:translate(6vmax,3vmax) scale(1.1)}}
+  @keyframes drift2{from{transform:translate(0,0) scale(1)} to{transform:translate(-5vmax,2vmax) scale(1.08)}}
+  @keyframes drift3{from{transform:translate(0,0) scale(1)} to{transform:translate(3vmax,-4vmax) scale(1.12)}}
+  @media (prefers-reduced-motion: reduce){ #bg{display:none} }
+
+  /* site içeriği daima arka planın üstünde */
+  .site{position:relative; z-index:1}
 
   /* NAV */
   .topnav{
@@ -97,6 +122,22 @@
   header{padding:110px 0 40px;text-align:center}
   header .container{max-width:1000px;display:flex;flex-direction:column;align-items:center;gap:10px}
 
+  /* hero avatar (geri geldi) */
+  .hero-avatar{
+    width:112px;height:112px;border-radius:50%;object-fit:cover;
+    margin-bottom:10px;background:#eee;
+    border:3px solid rgba(255,255,255,.9);
+    box-shadow:0 10px 24px rgba(106,17,203,.25);
+  }
+  .hero-fallback{
+    width:112px;height:112px;border-radius:50%;
+    display:none;align-items:center;justify-content:center;
+    font-weight:800;color:#fff;user-select:none;
+    background:linear-gradient(135deg,#8E2DE2,#6A11CB);
+    margin-bottom:10px; border:3px solid rgba(255,255,255,.9);
+    box-shadow:0 10px 24px rgba(106,17,203,.25);
+  }
+
   header h1{
     margin:0 0 8px 0;
     font-size:clamp(44px,7vw,68px);
@@ -105,29 +146,13 @@
     letter-spacing:-.015em;
     color:var(--heading);
   }
-  h2{
-    margin:0 0 8px 0;
-    font-size:clamp(22px,2.4vw,28px);
-    font-weight:800;
-    letter-spacing:-.01em;
-    color:var(--heading);
-  }
-  #about h3{
-    margin:14px 0 8px 0;
-    font-size:clamp(18px,2vw,22px);
-    font-weight:700;
-    color:var(--heading);
-  }
-
-  /* sadece belirtilen başlıklar siyah */
-  header h1, #services-title, #projects-title, #about-title, #about h3{
-    color:#000 !important;
-    text-shadow:none !important;
-    filter:none !important;
-  }
-
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
   section{padding:28px 0}
+
+  /* sadece istenen başlıklar siyah */
+  #services-title, #projects-title, #about-title, #about h3, header h1{
+    color:#000 !important; text-shadow:none !important; filter:none !important;
+  }
 
   /* CTA */
   .btn{display:inline-block;padding:12px 18px;border-radius:16px;background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));color:#fff;text-decoration:none;box-shadow:0 6px 16px rgba(170,66,239,.30);transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
@@ -153,7 +178,7 @@
   .icon svg [stroke]{stroke:#F5F3FF}
   .icon svg [fill="#6E31FF"]{fill:#F5F3FF}
 
-  /* Avatar (iletişim bölümünde) */
+  /* İletişim bölümü avatar (aynı kalsın) */
   .avatar-wrap{display:flex;align-items:center;gap:14px;margin:12px 0 6px}
   .avatar{
     width:96px;height:96px;border-radius:50%;object-fit:cover;
@@ -172,16 +197,6 @@
     .avatar{border-color:rgba(255,255,255,.15)}
   }
 
-  /* --- ANİMASYONLU UZAY ARKA PLAN --- */
-  #space-bg{
-    position:fixed; inset:0; z-index:0;
-    pointer-events:none;
-    opacity:.85; filter:saturate(1.05);
-  }
-  @media (prefers-reduced-motion: reduce){
-    #space-bg{display:none}
-  }
-
   /* Footer */
   footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)}
   a.underline{text-decoration:underline;text-underline-offset:4px}
@@ -189,286 +204,272 @@
 </head>
 <body>
 
-  <!-- ANİMASYONLU ARKA PLAN CANVAS -->
-  <canvas id="space-bg" aria-hidden="true"></canvas>
-
-  <!-- ÜST MENÜ -->
-  <nav class="topnav" aria-label="Birincil">
-    <div class="wrap">
-      <a class="brand" href="/">
-        <span class="logo" aria-hidden="true">TA</span>
-        <span>Tuğba Arslan</span>
-      </a>
-      <div class="menu" role="menubar">
-        <a role="menuitem" href="#services">Hizmetler</a>
-        <a role="menuitem" href="#projects">Projeler</a>
-        <a role="menuitem" href="#about">İletişim</a>
-      </div>
+  <!-- ARKA PLAN (nebula + yıldızlar) -->
+  <div id="bg" aria-hidden="true">
+    <div class="nebula">
+      <div id="b1" class="blob"></div>
+      <div id="b2" class="blob"></div>
+      <div id="b3" class="blob"></div>
     </div>
-  </nav>
+    <canvas id="stars"></canvas>
+  </div>
 
-  <header>
-    <div class="container">
-      <h1>Tuğba Arslan</h1>
-      <p class="lead">Software Engineer • Etik Hacker • Automation</p>
-      <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
-      <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-        <span class="chip">HTTPS</span><span class="chip">CSP</span><span class="chip">2FA</span><span class="chip">Rate Limit</span><span class="chip">WAF</span>
+  <!-- TÜM İÇERİK -->
+  <div class="site">
+
+    <!-- ÜST MENÜ -->
+    <nav class="topnav" aria-label="Birincil">
+      <div class="wrap">
+        <a class="brand" href="/">
+          <span class="logo" aria-hidden="true">TA</span>
+          <span>Tuğba Arslan</span>
+        </a>
+        <div class="menu" role="menubar">
+          <a role="menuitem" href="#services">Hizmetler</a>
+          <a role="menuitem" href="#projects">Projeler</a>
+          <a role="menuitem" href="#about">İletişim</a>
+        </div>
       </div>
-    </div>
-  </header>
+    </nav>
 
-  <main class="container">
+    <header>
+      <div class="container">
+        <!-- HERO AVATAR (geri geldi) -->
+        <img class="hero-avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
+             onerror="this.style.display='none';document.getElementById('hero-fallback').style.display='inline-flex'">
+        <span id="hero-fallback" class="hero-fallback" aria-hidden="true">TA</span>
 
-    <!-- Hizmetler -->
-    <section id="services" aria-labelledby="services-title">
-      <h2 id="services-title">Hizmetler</h2>
-      <div class="grid grid-3" style="margin-top:12px">
-
-        <article class="card">
-          <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="2.5" y="5" width="12" height="9.5" rx="2" stroke="#F5F3FF" stroke-width="2"/>
-              <path d="M2.5 8.5H14.5" stroke="#F5F3FF" stroke-width="2"/>
-              <rect x="16" y="3" width="5.5" height="18" rx="1.2" stroke="#F5F3FF" stroke-width="2"/>
-              <circle cx="18.75" cy="18.5" r="0.6" fill="#F5F3FF"/>
-            </svg>
-          </div>
-          <h3 style="margin:10px 0 4px">Web & iOS Geliştirme</h3>
-          <p style="margin:0;opacity:.92">Next.js, Tailwind, SwiftUI, Firebase</p>
-        </article>
-
-        <article class="card">
-          <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" stroke="#F5F3FF" stroke-width="2" fill="none"/>
-              <rect x="9" y="10" width="6" height="5" rx="1.5" stroke="#F5F3FF" stroke-width="2"/>
-              <path d="M12 10V9a2 2 0 114 0v1" stroke="#F5F3FF" stroke-width="2"/>
-            </svg>
-          </div>
-          <h3 style="margin:10px 0 4px">Siber Güvenlik (Pentest & Sertleştirme)</h3>
-          <p style="margin:0;opacity:.92">Uygulama pentesti, güvenlik denetimi, hardening</p>
-        </article>
-
-        <article class="card">
-          <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" stroke="#F5F3FF" stroke-width="2"/>
-              <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1l2.1-2.1M17 7l2.1-2.1" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3 style="margin:10px 0 4px">Otomasyon & Entegrasyon</h3>
-          <p style="margin:0;opacity:.92">Hesap açma/kapama, API entegrasyonları, RPA</p>
-        </article>
-
-        <article class="card">
-          <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M3 12h14M3 6h10M3 18h18" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3 style="margin:10px 0 4px">Sosyal Medya & Reklam</h3>
-          <p style="margin:0;opacity:.92">Meta/Google Ads, CAPI, GTM (Server-Side)</p>
-        </article>
-
-        <article class="card">
-          <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M4 18V6m0 12c3-6 5-8 8-3s5-5 8-9" stroke="#F5F3FF" stroke-width="2" fill="none"/>
-              <circle cx="4" cy="18" r="1.5" fill="#F5F3FF"/>
-            </svg>
-          </div>
-          <h3 style="margin:10px 0 4px">SEO & Analytics</h3>
-          <p style="margin:0;opacity:.92">Teknik SEO, GSC, GA4, Lighthouse</p>
-        </article>
-
-        <article class="card">
-          <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M12 5l7 4v4c0 4-3 7-7 8-4-1-7-4-7-8V9l7-4z" stroke="#F5F3FF" stroke-width="2"/>
-              <path d="M12 10v4" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3 style="margin:10px 0 4px">Hesap Kurtarma & Olay Müdahalesi</h3>
-          <p style="margin:0;opacity:.92">Hesap geri alma, ihlal sonrası toparlama</p>
-        </article>
-
+        <h1>Tuğba Arslan</h1>
+        <p class="lead">Software Engineer • Etik Hacker • Automation</p>
+        <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
+        <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+          <span class="chip">HTTPS</span><span class="chip">CSP</span><span class="chip">2FA</span><span class="chip">Rate Limit</span><span class="chip">WAF</span>
+        </div>
       </div>
-    </section>
+    </header>
 
-    <!-- Projeler -->
-    <section id="projects" aria-labelledby="projects-title">
-      <h2 id="projects-title">Projeler</h2>
-      <div class="grid grid-3" style="margin-top:12px">
-        <article class="card">
-          <h3 style="margin:0 0 4px">LinkPie</h3>
-          <p style="margin:0;opacity:.92">Next.js, Firebase, Tailwind</p>
-          <p style="margin:10px 0 0">
-            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
-            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
-          </p>
-        </article>
-        <article class="card">
-          <h3 style="margin:0 0 4px">iOS Wallet Pass</h3>
-          <p style="margin:0;opacity:.92">SwiftUI, Cloud Functions</p>
-          <p style="margin:10px 0 0">
-            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
-            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
-          </p>
-        </article>
-        <article class="card">
-          <h3 style="margin:0 0 4px">AdTech Toolkit</h3>
-          <p style="margin:0;opacity:.92">GA4, GTM SS, CAPI</p>
-          <p style="margin:10px 0 0">
-            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
-            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
-          </p>
-        </article>
-      </div>
-    </section>
+    <main class="container">
 
-    <!-- Hakkımda & İletişim -->
-    <section id="about" aria-labelledby="about-title">
-      <h2 id="about-title">Hakkımda & İletişim</h2>
-      <p style="color:var(--muted)">
-        Modern frontend, iOS ve güvenlik odaklı ürünler geliştiriyorum. Otomasyon ve veriyle karar almayı seviyorum; projelerde uçtan uca çözüm sunuyorum.
-      </p>
+      <!-- Hizmetler -->
+      <section id="services" aria-labelledby="services-title">
+        <h2 id="services-title">Hizmetler</h2>
+        <div class="grid grid-3" style="margin-top:12px">
 
-      <h3>İletişim</h3>
+          <article class="card">
+            <div class="icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="2.5" y="5" width="12" height="9.5" rx="2" stroke="#F5F3FF" stroke-width="2"/>
+                <path d="M2.5 8.5H14.5" stroke="#F5F3FF" stroke-width="2"/>
+                <rect x="16" y="3" width="5.5" height="18" rx="1.2" stroke="#F5F3FF" stroke-width="2"/>
+                <circle cx="18.75" cy="18.5" r="0.6" fill="#F5F3FF"/>
+              </svg>
+            </div>
+            <h3 style="margin:10px 0 4px">Web & iOS Geliştirme</h3>
+            <p style="margin:0;opacity:.92">Next.js, Tailwind, SwiftUI, Firebase</p>
+          </article>
 
-      <!-- Profil foto -->
-      <div class="avatar-wrap">
-        <img id="avatar-img" class="avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
-             loading="lazy"
-             onerror="this.style.display='none';document.getElementById('avatar-fallback').style.display='inline-flex'">
-        <span id="avatar-fallback" class="avatar-fallback" aria-hidden="true">TA</span>
-      </div>
+          <article class="card">
+            <div class="icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" stroke="#F5F3FF" stroke-width="2" fill="none"/>
+                <rect x="9" y="10" width="6" height="5" rx="1.5" stroke="#F5F3FF" stroke-width="2"/>
+                <path d="M12 10V9a2 2 0 114 0v1" stroke="#F5F3FF" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3 style="margin:10px 0 4px">Siber Güvenlik (Pentest & Sertleştirme)</h3>
+            <p style="margin:0;opacity:.92">Uygulama pentesti, güvenlik denetimi, hardening</p>
+          </article>
 
-      <ul>
-        <li>E-posta: <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a></li>
-        <li>
-          <a class="underline" href="https://github.com/tugbaarslanw" target="_blank" rel="noopener">GitHub</a> ·
-          <a class="underline" href="https://www.linkedin.com/in/tugbaarslanw/" target="_blank" rel="noopener">LinkedIn</a>
-        </li>
-      </ul>
-    </section>
-  </main>
+          <article class="card">
+            <div class="icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" stroke="#F5F3FF" stroke-width="2"/>
+                <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1l2.1-2.1M17 7l2.1-2.1" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 style="margin:10px 0 4px">Otomasyon & Entegrasyon</h3>
+            <p style="margin:0;opacity:.92">Hesap açma/kapama, API entegrasyonları, RPA</p>
+          </article>
 
-  <footer>
-    <div class="container">
-      <div class="grid grid-3" style="text-align:center">
-        <div>
-          <strong>Hızlı Erişim</strong>
-          <div style="margin-top:8px">
-            <a class="underline" href="#services">Hizmetler</a> ·
-            <a class="underline" href="#projects">Projeler</a> ·
-            <a class="underline" href="#about">İletişim</a>
+          <article class="card">
+            <div class="icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M3 12h14M3 6h10M3 18h18" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 style="margin:10px 0 4px">Sosyal Medya & Reklam</h3>
+            <p style="margin:0;opacity:.92">Meta/Google Ads, CAPI, GTM (Server-Side)</p>
+          </article>
+
+          <article class="card">
+            <div class="icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M4 18V6m0 12c3-6 5-8 8-3s5-5 8-9" stroke="#F5F3FF" stroke-width="2" fill="none"/>
+                <circle cx="4" cy="18" r="1.5" fill="#F5F3FF"/>
+              </svg>
+            </div>
+            <h3 style="margin:10px 0 4px">SEO & Analytics</h3>
+            <p style="margin:0;opacity:.92">Teknik SEO, GSC, GA4, Lighthouse</p>
+          </article>
+
+          <article class="card">
+            <div class="icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M12 5l7 4v4c0 4-3 7-7 8-4-1-7-4-7-8V9l7-4z" stroke="#F5F3FF" stroke-width="2"/>
+                <path d="M12 10v4" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 style="margin:10px 0 4px">Hesap Kurtarma & Olay Müdahalesi</h3>
+            <p style="margin:0;opacity:.92">Hesap geri alma, ihlal sonrası toparlama</p>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Projeler -->
+      <section id="projects" aria-labelledby="projects-title">
+        <h2 id="projects-title">Projeler</h2>
+        <div class="grid grid-3" style="margin-top:12px">
+          <article class="card">
+            <h3 style="margin:0 0 4px">LinkPie</h3>
+            <p style="margin:0;opacity:.92">Next.js, Firebase, Tailwind</p>
+            <p style="margin:10px 0 0">
+              <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
+              <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
+            </p>
+          </article>
+          <article class="card">
+            <h3 style="margin:0 0 4px">iOS Wallet Pass</h3>
+            <p style="margin:0;opacity:.92">SwiftUI, Cloud Functions</p>
+            <p style="margin:10px 0 0">
+              <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
+              <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
+            </p>
+          </article>
+          <article class="card">
+            <h3 style="margin:0 0 4px">AdTech Toolkit</h3>
+            <p style="margin:0;opacity:.92">GA4, GTM SS, CAPI</p>
+            <p style="margin:10px 0 0">
+              <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
+              <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Hakkımda & İletişim -->
+      <section id="about" aria-labelledby="about-title">
+        <h2 id="about-title">Hakkımda & İletişim</h2>
+        <p style="color:var(--muted)">
+          Modern frontend, iOS ve güvenlik odaklı ürünler geliştiriyorum. Otomasyon ve veriyle karar almayı seviyorum; projelerde uçtan uca çözüm sunuyorum.
+        </p>
+
+        <h3>İletişim</h3>
+
+        <!-- Profil foto (bu bölümdeki eski alan da duruyor) -->
+        <div class="avatar-wrap">
+          <img id="avatar-img" class="avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
+               loading="lazy"
+               onerror="this.style.display='none';document.getElementById('avatar-fallback').style.display='inline-flex'">
+          <span id="avatar-fallback" class="avatar-fallback" aria-hidden="true">TA</span>
+        </div>
+
+        <ul>
+          <li>E-posta: <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a></li>
+          <li>
+            <a class="underline" href="https://github.com/tugbaarslanw" target="_blank" rel="noopener">GitHub</a> ·
+            <a class="underline" href="https://www.linkedin.com/in/tugbaarslanw/" target="_blank" rel="noopener">LinkedIn</a>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="grid grid-3" style="text-align:center">
+          <div>
+            <strong>Hızlı Erişim</strong>
+            <div style="margin-top:8px">
+              <a class="underline" href="#services">Hizmetler</a> ·
+              <a class="underline" href="#projects">Projeler</a> ·
+              <a class="underline" href="#about">İletişim</a>
+            </div>
+          </div>
+
+          <div>
+            <strong>İletişim</strong>
+            <div style="margin-top:8px">
+              <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a>
+            </div>
+          </div>
+
+          <div>
+            <strong>Güvenlik</strong>
+            <div style="margin-top:8px">
+              <a class="underline" href="mailto:hello@tugbaarslan.com?subject=Vulnerability%20Disclosure&body=K%C4%B1sa%20%C3%B6zet%3A%0AEtki%3A%0APoC%3A">
+                Security Contact
+              </a>
+            </div>
           </div>
         </div>
 
-        <div>
-          <strong>İletişim</strong>
-          <div style="margin-top:8px">
-            <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a>
-          </div>
-        </div>
-
-        <div>
-          <strong>Güvenlik</strong>
-          <div style="margin-top:8px">
-            <a class="underline" href="mailto:hello@tugbaarslan.com?subject=Vulnerability%20Disclosure&body=K%C4%B1sa%20%C3%B6zet%3A%0AEtki%3A%0APoC%3A">
-              Security Contact
-            </a>
-          </div>
+        <div style="margin-top:18px; color:var(--muted);">
+          © <span id="year"></span> Tuğba Arslan
         </div>
       </div>
+    </footer>
+  </div><!-- /.site -->
 
-      <div style="margin-top:18px; color:var(--muted);">
-        © <span id="year"></span> Tuğba Arslan
-      </div>
-    </div>
-  </footer>
-
-  <!-- Uzay arka plan animasyonu -->
+  <!-- Yıldız alanı animasyonu (daima arka plan) -->
   <script>
   (function(){
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const canvas = document.getElementById('space-bg');
-    if (!canvas || prefersReduced) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const c = document.getElementById('stars');
+    if(!c || reduce) return;
+    const ctx = c.getContext('2d', { alpha:true });
 
-    const ctx = canvas.getContext('2d', { alpha: true });
-    let dpr = Math.max(1, window.devicePixelRatio || 1);
-    let W = 0, H = 0, stars = [], mx = 0.5, my = 0.5;
-
+    let dpr = Math.max(1, devicePixelRatio || 1), W=0, H=0, stars=[];
     function resize(){
-      W = Math.floor(window.innerWidth  * dpr);
-      H = Math.floor(window.innerHeight * dpr);
-      canvas.width  = W;
-      canvas.height = H;
-      canvas.style.width  = window.innerWidth  + 'px';
-      canvas.style.height = window.innerHeight + 'px';
-      makeStars();
+      W = Math.floor(innerWidth * dpr);
+      H = Math.floor(innerHeight * dpr);
+      c.width = W; c.height = H;
+      c.style.width = innerWidth+'px'; c.style.height = innerHeight+'px';
+      const area = innerWidth * innerHeight;
+      const count = Math.min(220, Math.max(100, Math.floor(area/12000)));
+      stars = Array.from({length: count}, () => ({
+        x: Math.random()*W,
+        y: Math.random()*H,
+        z: 0.3 + Math.random()*0.7,                 // derinlik
+        r: (0.6 + Math.random()*1.6) * dpr,
+        s: 0.15 + Math.random()*0.45,               // hız
+        hue: [0,270,287,300][(Math.random()*4)|0],  // beyaz + mor tonlar
+        tw: Math.random()*Math.PI*2,
+        tSpeed: 0.02 + Math.random()*0.03
+      }));
     }
-
-    function makeStars(){
-      const area = window.innerWidth * window.innerHeight;
-      const count = Math.min(180, Math.max(80, Math.floor(area / 14000))); // 80–180
-      stars = Array.from({length: count}, () => {
-        const depth = Math.random() ** 2;
-        return {
-          x: Math.random() * W,
-          y: Math.random() * H,
-          r: (0.7 + Math.random()*1.8) * (1 - depth) * dpr,
-          vx: (Math.random() - 0.5) * 0.10 * dpr,
-          vy: (0.02 + Math.random()*0.12) * dpr,
-          tint: ['#ffffff','#EEDCFF','#D9B7FF','#BB68F2','#AA42EF'][ (Math.random()*5)|0 ],
-          t: Math.random()*Math.PI*2,
-          ts: 0.015 + Math.random()*0.02,
-          depth
-        };
-      });
-    }
-
     function draw(){
-      const g = ctx.createLinearGradient(0,0,0,H);
-      g.addColorStop(0,   'rgba(142,45,226,0.12)');
-      g.addColorStop(0.5, 'rgba(106,17,203,0.08)');
-      g.addColorStop(1,   'rgba(255,255,255,0.00)');
       ctx.clearRect(0,0,W,H);
-      ctx.fillStyle = g;
-      ctx.fillRect(0,0,W,H);
+      // üstten alta morumsu şeffaf örtü
+      const g = ctx.createLinearGradient(0,0,0,H);
+      g.addColorStop(0,'rgba(142,45,226,0.10)');
+      g.addColorStop(0.5,'rgba(106,17,203,0.06)');
+      g.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
 
-      const px = (mx - 0.5) * 10 * dpr;
-      const py = (my - 0.5) * 10 * dpr;
-
-      for (let s of stars){
-        s.t += s.ts;
-        s.x += s.vx + (px * (1 - s.depth) * 0.02);
-        s.y += s.vy + (py * (1 - s.depth) * 0.02);
-
-        if (s.y > H + 10) { s.y = -10; s.x = Math.random()*W; }
-        if (s.x > W + 10)  s.x = -10;
-        if (s.x < -10)     s.x = W + 10;
-
-        const tw = 0.55 + Math.sin(s.t)*0.45;
-        ctx.globalAlpha = Math.min(1, Math.max(0.15, tw * (0.8 + (1 - s.depth)*0.4)));
-        ctx.fillStyle = s.tint;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-        ctx.fill();
+      for(const s of stars){
+        s.y += s.s * s.z * dpr * 0.6;
+        s.tw += s.tSpeed;
+        if(s.y > H+10){ s.y = -10; s.x = Math.random()*W; }
+        const a = 0.35 + 0.65 * (0.5 + Math.sin(s.tw)*0.5); // yumuşak twinkle
+        ctx.globalAlpha = a * 0.8;
+        ctx.fillStyle = `hsl(${s.hue} 100% 95%)`;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r*s.z, 0, Math.PI*2); ctx.fill();
       }
       ctx.globalAlpha = 1;
       requestAnimationFrame(draw);
     }
-
-    window.addEventListener('resize', resize, { passive: true });
-    window.addEventListener('mousemove', e => {
-      mx = e.clientX / window.innerWidth;
-      my = e.clientY / window.innerHeight;
-    }, { passive: true });
-
-    resize();
-    draw();
+    addEventListener('resize', resize, {passive:true});
+    resize(); draw();
   })();
   </script>
 
