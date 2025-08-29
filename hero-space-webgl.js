@@ -22,16 +22,15 @@
   const canvas = document.createElement('canvas');
   canvas.className = 'hero-canvas';
   canvas.setAttribute('aria-hidden','true');
-  // Yalnızca canvas için gerekli stilleri inline veriyoruz (diğer ayarlara dokunmuyoruz)
+  // Yalnızca canvas için gerekli stiller (diğer ayarlara dokunmuyoruz)
   canvas.style.position = 'absolute';
   canvas.style.inset = '0';
-  canvas.style.zIndex = '1'; // <— ÖNEMLİ: .hero-bg (z-index:0) ÜSTÜNDE, .hero-inner (z-index:2) ALTINDA
+  canvas.style.zIndex = '1'; // .hero-bg (z-index:0) ÜSTÜNDE, .hero-inner (z-index:2) ALTINDA
   canvas.style.pointerEvents = 'none';
 
-  // Kapsayıcı "relative" değilse sadece Hero üzerinde relative yapıyoruz (layout'u bozmaz)
+  // Kapsayıcı relative değilse sadece Hero'da relative yap
   const cs = getComputedStyle(target);
   if (cs.position === 'static') target.style.position = 'relative';
-  // Taşmaların görünmemesi için yalnızca Hero'da gizleme
   if (cs.overflow === 'visible') target.style.overflow = 'hidden';
 
   // En alta ekle
@@ -41,7 +40,7 @@
   const gl = canvas.getContext('webgl', { antialias: true, alpha: true });
   if(!gl){ console.error('[Hero3D] WebGL desteklenmiyor.'); return; }
 
-  // Shader kaynakları
+  // --- Shaders ---
   const vertSrc = `
     attribute vec3 position;
     attribute vec3 color;
@@ -148,24 +147,44 @@
 
       sizes[i] = sizeMin + Math.random()*(sizeMax-sizeMin);
     }
-    return {positions, colors, sizes};
+    return {positions, colors, sizes, count};
   }
 
   const far  = makeCloud(STAR_COUNT_FAR,  450.0, 1200.0, 0.8, 1.4, 0.58, 0.70);
   const near = makeCloud(STAR_COUNT_NEAR, 120.0,  450.0, 1.4, 2.6, 0.58, 0.70);
 
-  function makeBuffer(data, attribLoc, size, type=gl.FLOAT){
-    const buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(attribLoc);
-    gl.vertexAttribPointer(attribLoc, size, type, false, 0, 0);
-    return buf;
+  // --- BUFFERLARI TEK SEFER OLUŞTUR (performans) ---
+  function createCloudBuffers(cloud){
+    const posBuf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, cloud.positions, gl.STATIC_DRAW);
+
+    const colBuf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, colBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, cloud.colors, gl.STATIC_DRAW);
+
+    const sizeBuf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, sizeBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, cloud.sizes, gl.STATIC_DRAW);
+
+    return { posBuf, colBuf, sizeBuf, count: cloud.count };
   }
-  function bindCloud(cloud){
-    makeBuffer(cloud.positions, aPos, 3);
-    makeBuffer(cloud.colors,   aCol, 3);
-    makeBuffer(cloud.sizes,    aSize, 1);
+
+  const farGL  = createCloudBuffers(far);
+  const nearGL = createCloudBuffers(near);
+
+  function bindCloudBuffers(glCloud){
+    gl.bindBuffer(gl.ARRAY_BUFFER, glCloud.posBuf);
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, glCloud.colBuf);
+    gl.enableVertexAttribArray(aCol);
+    gl.vertexAttribPointer(aCol, 3, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, glCloud.sizeBuf);
+    gl.enableVertexAttribArray(aSize);
+    gl.vertexAttribPointer(aSize, 1, gl.FLOAT, false, 0, 0);
   }
 
   // Basit matris yardımcıları
@@ -207,7 +226,12 @@
     canvas.height = Math.max(1, Math.floor(rect.height * dpr));
     gl.viewport(0,0,canvas.width, canvas.height);
   }
-  const ro = new ResizeObserver(resize); ro.observe(target); resize();
+  if ('ResizeObserver' in window){
+    const ro = new ResizeObserver(resize); ro.observe(target);
+  } else {
+    window.addEventListener('resize', resize);
+  }
+  resize();
 
   // Parallax
   let tRX = 0, tRY = 0; // hedef rotasyon
@@ -225,7 +249,7 @@
 
   let rx = 0, ry = 0, rotY = 0;
 
-  function drawCloud(cloud, viewProj, baseRotSpeed){
+  function drawCloud(glCloud, viewProj, baseRotSpeed){
     rx += (tRX - rx) * 0.05;
     ry += (tRY - ry) * 0.05;
     rotY += baseRotSpeed;
@@ -233,7 +257,9 @@
     const model = mat4RotateY(mat4RotateX(mat4Identity(), rx), ry + rotY);
     const mvp = mat4Multiply(viewProj, model);
     gl.uniformMatrix4fv(uMVP, false, new Float32Array(mvp));
-    gl.drawArrays(gl.POINTS, 0, cloud.sizes.length);
+
+    bindCloudBuffers(glCloud);
+    gl.drawArrays(gl.POINTS, 0, glCloud.count);
   }
 
   function render(){
@@ -245,14 +271,13 @@
     const aspect = canvas.width / Math.max(1, canvas.height);
     const proj = mat4Perspective(60.0*Math.PI/180.0, aspect, 0.1, 2500.0);
     const view = mat4Translate(mat4Identity(), 0, 0, -350.0);
+    const viewProj = mat4Multiply(proj, view);
 
     // UZAK katman
-    bindCloud(far);
-    drawCloud(far, mat4Multiply(proj, view), 0.00012);
+    drawCloud(farGL, viewProj, 0.00012);
 
     // YAKIN katman
-    bindCloud(near);
-    drawCloud(near, mat4Multiply(proj, view), 0.00024);
+    drawCloud(nearGL, viewProj, 0.00024);
 
     if(!prefersReduced) requestAnimationFrame(render);
   }
