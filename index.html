@@ -94,7 +94,7 @@
   /* ===== HERO ===== */
   header.hero{
     position:relative; overflow:hidden;
-    padding:110px 0 180px;   /* ALT PAYI BÜYÜTÜLDÜ: dalga chips’in ALTINDA kalsın */
+    padding:110px 0 140px;   /* ↓ önce 180'di; biraz yukarı aldık */
     text-align:center; isolation:isolate;
   }
 
@@ -145,18 +145,18 @@
     background:radial-gradient( circle at 50% 46%, rgba(255,255,255,.35), rgba(255,255,255,0) 55% );
   }
 
-  /* ==== ALT DALGA (yumuşak, chips’in hemen ALTINDA) ==== */
+  /* ==== ALT DALGA (biraz yukarı) ==== */
   .wave{
-    position:absolute; left:0; right:0; bottom:0; /* NEGATİF bottom YOK */
-    width:100%; height:220px;                     /* Hizmetler’e doğru sarkar */
+    position:absolute; left:0; right:0; bottom:0;
+    width:100%; height:210px;                 /* önce 220'ydi */
     z-index:1; pointer-events:none;
     filter: drop-shadow(0 -2px 10px rgba(0,0,0,.04));
   }
   @media(min-width:860px){
-    .wave{ height:260px; }
+    .wave{ height:240px; }                     /* önce 260'tı */
   }
 
-  /* hero içeriği (üstte) */
+  /* hero içeriği */
   .hero-inner{position:relative; z-index:2; max-width:1000px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:10px}
 
   .hero-avatar{
@@ -190,10 +190,10 @@
   .btn{display:inline-block;padding:12px 18px;border-radius:16px;background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));color:#fff;text-decoration:none;box-shadow:0 6px 16px rgba(170,66,239,.30);transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
   .btn:hover{transform:translateY(-1px);filter:brightness(1.04);box-shadow:0 10px 24px rgba(170,66,239,.38)}
 
-  /* CHIP satırı — dalganın hemen ÜSTÜNDE */
+  /* CHIP satırı — dalganın hemen üstü */
   .hero-chips{
     margin-top:12px;
-    margin-bottom:24px;   /* chips ile dalga arasında güvenli boşluk */
+    margin-bottom:16px;   /* önce 24'tü — dalgaya biraz yaklaştırıldı */
     display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
   }
 
@@ -228,7 +228,6 @@
     display:none;align-items:center;justify-content:center;
     font-weight:800;color:#fff;user-select:none;
     background:linear-gradient(135deg,#8E2DE2,#6A11CB);
-    box-shadow:0 10px 24px rgba(106,17,203,.18);
   }
   @media (prefers-color-scheme: dark){
     .avatar{border-color:rgba(255,255,255,.15)}
@@ -264,12 +263,12 @@
       <div class="meteor"></div>
       <div class="hero-spot"></div>
 
-      <!-- alt dalga (yumuşak eğri) -->
+      <!-- alt dalga (yumuşak) -->
       <svg class="wave" viewBox="0 0 1440 160" preserveAspectRatio="none" aria-hidden="true">
         <path fill="#FFFFFF"
-              d="M0,100
-                 C240,140 480,60 720,100
-                 C960,140 1200,120 1440,130
+              d="M0,90
+                 C240,125 480,55 720,90
+                 C960,125 1200,110 1440,120
                  L1440,160 L0,160 Z"></path>
       </svg>
     </div>
@@ -283,7 +282,7 @@
       <p class="lead">Software Engineer • Etik Hacker • Automation</p>
       <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
 
-      <!-- chips: dalganın hemen üstünde, ortalı -->
+      <!-- chips -->
       <div class="hero-chips">
         <span class="chip">HTTPS</span>
         <span class="chip">CSP</span>
