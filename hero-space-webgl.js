@@ -1,291 +1,310 @@
-/*  Hero 3D Space Background (WebGL, no external libs)
-    - SADECE Hero arka planına canvas ekler ve 3D yıldız alanı çizer.
-    - Parallax (mouse/touch) + çok hafif oto-rotation.
-    - prefers-reduced-motion'a saygı duyar.
-    - Mevcut içerik, stil ve düzen bozulmaz.
+/* Ultra-Light Premium Hero Space (WebGL, no libs)
+   - Fly-through galaxy: yıldızlar derinden öne akıyor (yakınlaşma).
+   - Tüm hareket shader'da; buffer'lar tek sefer oluşturulur (yüksek FPS).
+   - Parallax (mouse/touch), soft auto-rotate, additive "bloom" hissi.
+   - Hiçbir başka bölüme dokunmaz; sadece HERO arka planı.
 */
 
-(function(){
-  // Hangi kapsayıcı? Önce data-hero, sonra #hero, sonra .hero sırayla denenir.
-  const target =
+(function () {
+  // HERO kapsayıcı
+  const hero =
     document.querySelector('[data-hero]') ||
-    document.querySelector('#hero') ||
-    document.querySelector('.hero') ||
     document.querySelector('header.hero') ||
-    document.querySelector('section.hero');
+    document.querySelector('#hero') ||
+    document.querySelector('.hero');
 
-  if(!target){ console.warn('[Hero3D] Hero kapsayıcısı bulunamadı.'); return; }
+  if (!hero) return;
 
-  const prefersReduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Canvas oluştur ve en alta yerleştir
+  // Canvas
   const canvas = document.createElement('canvas');
   canvas.className = 'hero-canvas';
-  canvas.setAttribute('aria-hidden','true');
-  // Yalnızca canvas için gerekli stiller (diğer ayarlara dokunmuyoruz)
-  canvas.style.position = 'absolute';
-  canvas.style.inset = '0';
-  canvas.style.zIndex = '1'; // .hero-bg (z-index:0) ÜSTÜNDE, .hero-inner (z-index:2) ALTINDA
-  canvas.style.pointerEvents = 'none';
+  canvas.setAttribute('aria-hidden', 'true');
+  Object.assign(canvas.style, {
+    position: 'absolute',
+    inset: '0',
+    zIndex: '1',        // .hero-bg (0) üstünde, .hero-inner (2) altında
+    pointerEvents: 'none'
+  });
 
-  // Kapsayıcı relative değilse sadece Hero'da relative yap
-  const cs = getComputedStyle(target);
-  if (cs.position === 'static') target.style.position = 'relative';
-  if (cs.overflow === 'visible') target.style.overflow = 'hidden';
+  const cs = getComputedStyle(hero);
+  if (cs.position === 'static') hero.style.position = 'relative';
+  if (cs.overflow === 'visible') hero.style.overflow = 'hidden';
 
-  // En alta ekle
-  target.prepend(canvas);
+  // hero-inner'dan önce ekle (arka planın üstünde, içerikten aşağıda)
+  const inner = hero.querySelector('.hero-inner');
+  if (inner) hero.insertBefore(canvas, inner); else hero.appendChild(canvas);
 
-  // WebGL
-  const gl = canvas.getContext('webgl', { antialias: true, alpha: true });
-  if(!gl){ console.error('[Hero3D] WebGL desteklenmiyor.'); return; }
+  const gl = canvas.getContext('webgl', { antialias: true, alpha: true, premultipliedAlpha: false });
+  if (!gl) { console.warn('[Hero3D] WebGL not supported'); return; }
 
-  // --- Shaders ---
-  const vertSrc = `
-    attribute vec3 position;
-    attribute vec3 color;
-    attribute float size;
-    uniform mat4 uMVP;
-    varying vec3 vColor;
+  const prefersReduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = matchMedia('(max-width: 768px)').matches;
+
+  // ---------- SHADERS ----------
+  // Vertex: Z'i zamanla ileri sarar (fly-through). Parallax için view rotasyonunu uygular.
+  const vs = `
+    attribute vec3 aPos;     // (x,y,z0) — z0: başlangıç derinliği
+    attribute vec3 aCol;     // renk
+    attribute float aSize;    // baz boyut
+
+    uniform mat4 uProj;
+    uniform mat4 uView;
+    uniform float uTime;      // saniye
+    uniform float uSpeed;     // birim/s
+    uniform float uZMin;
+    uniform float uZRange;    // zMax - zMin
+
+    varying vec3 vCol;
+
+    // pozitif mod
+    float pmod(float x, float y){ return x - y*floor(x/y); }
+
     void main(){
-      vec4 p = uMVP * vec4(position, 1.0);
-      gl_Position = p;
-      float s = size * (300.0 / -p.z);
-      gl_PointSize = clamp(s, 1.0, 8.0);
-      vColor = color;
+      // derinlik akışı: z = z0 - time*speed  (range içinde wrap)
+      float z = pmod(aPos.z - uTime * uSpeed, uZRange) + uZMin;
+
+      // perspektif hesabı için eye-space koordinatı
+      vec4 eye = uView * vec4(aPos.xy, z, 1.0);
+
+      // Derine göre yıldız parlaklığı ve boyutu ufakça artar
+      float depth = -eye.z; // positive
+      float size = aSize * clamp(280.0 / depth, 1.0, 12.0);
+
+      gl_PointSize = size;
+      gl_Position = uProj * eye;
+
+      // Renk: derine doğru hafifçe mavi-cyana kaydır
+      float t = clamp((depth - uZMin) / (uZRange), 0.0, 1.0);
+      vCol = mix(aCol, vec3(0.70, 0.85, 1.0), t*0.25);
     }
   `;
-  const fragSrc = `
+
+  // Fragment: yumuşak disk + çekirdek, additive blend
+  const fs = `
     precision mediump float;
-    varying vec3 vColor;
+    varying vec3 vCol;
     void main(){
-      vec2 c = gl_PointCoord * 2.0 - 1.0;
-      float r = length(c);
+      vec2 q = gl_PointCoord * 2.0 - 1.0;
+      float r = length(q);
+      // yumuşak disk + hafif core
       float alpha = smoothstep(1.0, 0.0, r);
-      alpha *= 0.85 + 0.15 * smoothstep(0.3, 0.0, r);
-      gl_FragColor = vec4(vColor, alpha);
+      alpha *= 0.85 + 0.15 * smoothstep(0.25, 0.0, r);
+      gl_FragColor = vec4(vCol, alpha);
     }
   `;
 
-  function compile(type, src){
-    const sh = gl.createShader(type);
-    gl.shaderSource(sh, src); gl.compileShader(sh);
-    if(!gl.getShaderParameter(sh, gl.COMPILE_STATUS)){
-      console.error('[Hero3D] Shader hata:', gl.getShaderInfoLog(sh));
-      gl.deleteShader(sh); return null;
+  function sh(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.error(gl.getShaderInfoLog(s)); return null;
     }
-    return sh;
+    return s;
   }
-  function createProgram(vs, fs){
+  function prog(vsSrc, fsSrc) {
     const p = gl.createProgram();
-    gl.attachShader(p, vs); gl.attachShader(p, fs); gl.linkProgram(p);
-    if(!gl.getProgramParameter(p, gl.LINK_STATUS)){
-      console.error('[Hero3D] Program link hata:', gl.getProgramInfoLog(p));
-      return null;
+    const v = sh(gl.VERTEX_SHADER, vsSrc);
+    const f = sh(gl.FRAGMENT_SHADER, fsSrc);
+    if (!v || !f) return null;
+    gl.attachShader(p, v); gl.attachShader(p, f); gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+      console.error(gl.getProgramInfoLog(p)); return null;
     }
     return p;
   }
 
-  const vs = compile(gl.VERTEX_SHADER, vertSrc);
-  const fs = compile(gl.FRAGMENT_SHADER, fragSrc);
-  if(!vs || !fs) return;
-  const prog = createProgram(vs, fs);
-  if(!prog) return;
-  gl.useProgram(prog);
+  const program = prog(vs, fs);
+  if (!program) return;
+  gl.useProgram(program);
 
-  const aPos = gl.getAttribLocation(prog, 'position');
-  const aCol = gl.getAttribLocation(prog, 'color');
-  const aSize = gl.getAttribLocation(prog, 'size');
-  const uMVP = gl.getUniformLocation(prog, 'uMVP');
+  // ---------- ATTR/UNIF ----------
+  const aPos = gl.getAttribLocation(program, 'aPos');
+  const aCol = gl.getAttribLocation(program, 'aCol');
+  const aSize = gl.getAttribLocation(program, 'aSize');
 
-  // HSL -> RGB yardımcı
-  function hsl2rgb(h,s,l){
-    function hue2rgb(p, q, t){
-      if (t < 0.0) t += 1.0;
-      if (t > 1.0) t -= 1.0;
-      if (t < 1.0/6.0) return p + (q - p) * 6.0 * t;
-      if (t < 1.0/2.0) return q;
-      if (t < 2.0/3.0) return p + (q - p) * (2.0/3.0 - t) * 6.0;
+  const uProj = gl.getUniformLocation(program, 'uProj');
+  const uView = gl.getUniformLocation(program, 'uView');
+  const uTime = gl.getUniformLocation(program, 'uTime');
+  const uSpeed = gl.getUniformLocation(program, 'uSpeed');
+  const uZMin = gl.getUniformLocation(program, 'uZMin');
+  const uZRange = gl.getUniformLocation(program, 'uZRange');
+
+  // ---------- STAR FIELD DATA (static buffers) ----------
+  const STAR_COUNT = isMobile ? 1100 : 2200;
+  const XY_RADIUS = 180.0;      // yıldız bulutunun yarıçapı (görsel yoğunluk)
+  const Z_MIN = 60.0;           // en yakın
+  const Z_MAX = 900.0;          // en uzak
+  const Z_RANGE = Z_MAX - Z_MIN;
+
+  // hız: mobilde daha düşük
+  const SPEED = isMobile ? 22.0 : 30.0; // birim/s
+
+  function hsl2rgb(h, s, l) {
+    const hue2rgb = (p, q, t) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
       return p;
-    }
-    let r,g,b;
-    if(s === 0){ r=g=b=l; }
-    else{
+    };
+    let r, g, b;
+    if (s === 0) { r = g = b = l; }
+    else {
       const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
       const p = 2 * l - q;
-      r = hue2rgb(p, q, h + 1/3);
+      r = hue2rgb(p, q, h + 1 / 3);
       g = hue2rgb(p, q, h);
-      b = hue2rgb(p, q, h - 1/3);
+      b = hue2rgb(p, q, h - 1 / 3);
     }
-    return [r,g,b];
+    return [r, g, b];
   }
 
-  const isMobile = matchMedia('(max-width: 768px)').matches;
-  const STAR_COUNT_FAR  = isMobile ? 1200 : 2400;
-  const STAR_COUNT_NEAR = isMobile ?  600 : 1200;
+  // Noktaları dairesel dağıt (merkez yoğun), z0 rastgele
+  const pos = new Float32Array(STAR_COUNT * 3);
+  const col = new Float32Array(STAR_COUNT * 3);
+  const size = new Float32Array(STAR_COUNT);
 
-  function makeCloud(count, innerR, outerR, sizeMin, sizeMax, hueMin, hueMax){
-    const positions = new Float32Array(count*3);
-    const colors = new Float32Array(count*3);
-    const sizes = new Float32Array(count);
-    for(let i=0;i<count;i++){
-      const u = Math.random();
-      const r = innerR + Math.pow(u, 0.7) * (outerR - innerR);
-      const theta = Math.random()*Math.PI*2.0;
-      const v = Math.random()*2.0-1.0;
-      const phi = Math.acos(v);
-      const x = r * Math.sin(phi) * Math.cos(theta);
-      const y = r * Math.sin(phi) * Math.sin(theta);
-      const z = r * Math.cos(phi);
-      positions[i*3+0]=x; positions[i*3+1]=y; positions[i*3+2]=z;
+  for (let i = 0; i < STAR_COUNT; i++) {
+    // XY: merkez yakın daha yoğun (sqrt dağılım)
+    const u = Math.random();
+    const r = Math.sqrt(u) * XY_RADIUS;
+    const theta = Math.random() * Math.PI * 2;
+    const x = r * Math.cos(theta);
+    const y = r * Math.sin(theta);
+    const z0 = Z_MIN + Math.random() * Z_RANGE;
 
-      const h = hueMin + Math.random()*(hueMax-hueMin);
-      const s = 0.65;
-      const l = 0.80 - Math.random()*0.20;
-      const [rr,gg,bb] = hsl2rgb(h, s, l);
-      colors[i*3+0]=rr; colors[i*3+1]=gg; colors[i*3+2]=bb;
+    pos[i * 3 + 0] = x;
+    pos[i * 3 + 1] = y;
+    pos[i * 3 + 2] = z0;
 
-      sizes[i] = sizeMin + Math.random()*(sizeMax-sizeMin);
-    }
-    return {positions, colors, sizes, count};
+    // Renk paleti: mor -> eflatun -> camgöbeği (premium)
+    const h = 0.72 - Math.random() * 0.18; // 0.54–0.72 arası (mavi-mor)
+    const s = 0.70;
+    const l = 0.65 + Math.random() * 0.20;
+    const [rR, rG, rB] = hsl2rgb(h, s, l);
+    col[i * 3 + 0] = rR;
+    col[i * 3 + 1] = rG;
+    col[i * 3 + 2] = rB;
+
+    // boyut
+    size[i] = isMobile ? (1.2 + Math.random() * 1.4) : (1.6 + Math.random() * 2.2);
   }
 
-  const far  = makeCloud(STAR_COUNT_FAR,  450.0, 1200.0, 0.8, 1.4, 0.58, 0.70);
-  const near = makeCloud(STAR_COUNT_NEAR, 120.0,  450.0, 1.4, 2.6, 0.58, 0.70);
-
-  // --- BUFFERLARI TEK SEFER OLUŞTUR (performans) ---
-  function createCloudBuffers(cloud){
-    const posBuf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
-    gl.bufferData(gl.ARRAY_BUFFER, cloud.positions, gl.STATIC_DRAW);
-
-    const colBuf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, colBuf);
-    gl.bufferData(gl.ARRAY_BUFFER, cloud.colors, gl.STATIC_DRAW);
-
-    const sizeBuf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, sizeBuf);
-    gl.bufferData(gl.ARRAY_BUFFER, cloud.sizes, gl.STATIC_DRAW);
-
-    return { posBuf, colBuf, sizeBuf, count: cloud.count };
+  function makeBuffer(data, loc, sizeComp) {
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, sizeComp, gl.FLOAT, false, 0, 0);
+    return buf;
   }
 
-  const farGL  = createCloudBuffers(far);
-  const nearGL = createCloudBuffers(near);
+  const posBuf = makeBuffer(pos, aPos, 3);
+  const colBuf = makeBuffer(col, aCol, 3);
+  const sizeBuf = makeBuffer(size, aSize, 1);
 
-  function bindCloudBuffers(glCloud){
-    gl.bindBuffer(gl.ARRAY_BUFFER, glCloud.posBuf);
-    gl.enableVertexAttribArray(aPos);
-    gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, glCloud.colBuf);
-    gl.enableVertexAttribArray(aCol);
-    gl.vertexAttribPointer(aCol, 3, gl.FLOAT, false, 0, 0);
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, glCloud.sizeBuf);
-    gl.enableVertexAttribArray(aSize);
-    gl.vertexAttribPointer(aSize, 1, gl.FLOAT, false, 0, 0);
+  // ---------- MATRİSLER ----------
+  function mat4Identity() { return [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]; }
+  function mat4Multiply(a, b) {
+    const o = new Array(16).fill(0);
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++)
+      o[r * 4 + c] = a[r * 4 + 0] * b[0 * 4 + c] + a[r * 4 + 1] * b[1 * 4 + c] + a[r * 4 + 2] * b[2 * 4 + c] + a[r * 4 + 3] * b[3 * 4 + c];
+    return o;
   }
-
-  // Basit matris yardımcıları
-  function mat4Identity(){ return [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]; }
-  function mat4Multiply(a,b){
-    const out = new Array(16).fill(0);
-    for(let r=0;r<4;r++){
-      for(let c=0;c<4;c++){
-        out[r*4+c]=a[r*4+0]*b[0*4+c]+a[r*4+1]*b[1*4+c]+a[r*4+2]*b[2*4+c]+a[r*4+3]*b[3*4+c];
-      }
-    }
-    return out;
+  function mat4Perspective(fovy, aspect, near, far) {
+    const f = 1 / Math.tan(fovy / 2), nf = 1 / (near - far);
+    return [f / aspect, 0, 0, 0, 0, f, 0, 0, 0, 0, (far + near) * nf, -1, 0, 0, 2 * far * near * nf, 0];
   }
-  function mat4Perspective(fovy, aspect, near, far){
-    const f = 1.0 / Math.tan(fovy/2);
-    const nf = 1/(near-far);
-    return [f/aspect,0,0,0, 0,f,0,0, 0,0,(far+near)*nf,-1, 0,0,(2*far*near)*nf,0];
+  function mat4Translate(m, x, y, z) {
+    const t = mat4Identity(); t[12] = x; t[13] = y; t[14] = z; return mat4Multiply(m, t);
   }
-  function mat4Translate(m, x,y,z){
-    const t = mat4Identity(); t[12]=x; t[13]=y; t[14]=z;
-    return mat4Multiply(m,t);
+  function mat4RotateX(m, a) {
+    const c = Math.cos(a), s = Math.sin(a);
+    const r = [1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1]; return mat4Multiply(m, r);
   }
-  function mat4RotateX(m, a){
-    const c=Math.cos(a), s=Math.sin(a);
-    const r=[1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1];
-    return mat4Multiply(m,r);
-  }
-  function mat4RotateY(m, a){
-    const c=Math.cos(a), s=Math.sin(a);
-    const r=[c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1];
-    return mat4Multiply(m,r);
+  function mat4RotateY(m, a) {
+    const c = Math.cos(a), s = Math.sin(a);
+    const r = [c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1]; return mat4Multiply(m, r);
   }
 
   // Boyutlandırma
-  function resize(){
-    const rect = target.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio||1, 2);
-    canvas.width  = Math.max(1, Math.floor(rect.width  * dpr));
+  function resize() {
+    const rect = hero.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.max(1, Math.floor(rect.width * dpr));
     canvas.height = Math.max(1, Math.floor(rect.height * dpr));
-    gl.viewport(0,0,canvas.width, canvas.height);
+    gl.viewport(0, 0, canvas.width, canvas.height);
   }
-  if ('ResizeObserver' in window){
-    const ro = new ResizeObserver(resize); ro.observe(target);
-  } else {
-    window.addEventListener('resize', resize);
-  }
+  if ('ResizeObserver' in window) new ResizeObserver(resize).observe(hero);
+  window.addEventListener('orientationchange', resize);
   resize();
 
   // Parallax
   let tRX = 0, tRY = 0; // hedef rotasyon
-  function onPointerMove(e){
-    const rect = target.getBoundingClientRect();
+  function onPointerMove(e) {
+    const rect = hero.getBoundingClientRect();
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
     const x = (clientX - rect.left) / rect.width;
     const y = (clientY - rect.top) / rect.height;
-    tRY = (x - 0.5) * 0.15;
+    tRY = (x - 0.5) * 0.16;
     tRX = (y - 0.5) * -0.12;
   }
-  target.addEventListener('mousemove', onPointerMove, {passive:true});
-  target.addEventListener('touchmove', onPointerMove, {passive:true});
+  hero.addEventListener('mousemove', onPointerMove, { passive: true });
+  hero.addEventListener('touchmove', onPointerMove, { passive: true });
 
-  let rx = 0, ry = 0, rotY = 0;
+  let rx = 0, ry = 0, auto = 0;
 
-  function drawCloud(glCloud, viewProj, baseRotSpeed){
+  // ---------- RENDER ----------
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE); // additive
+  gl.clearColor(0, 0, 0, 0);
+
+  const t0 = performance.now();
+  function draw(now) {
+    const sec = (now - t0) / 1000;
     rx += (tRX - rx) * 0.05;
     ry += (tRY - ry) * 0.05;
-    rotY += baseRotSpeed;
+    auto += 0.02 * (isMobile ? 0.6 : 1.0); // yumuşak oto-rotate
 
-    const model = mat4RotateY(mat4RotateX(mat4Identity(), rx), ry + rotY);
-    const mvp = mat4Multiply(viewProj, model);
-    gl.uniformMatrix4fv(uMVP, false, new Float32Array(mvp));
-
-    bindCloudBuffers(glCloud);
-    gl.drawArrays(gl.POINTS, 0, glCloud.count);
-  }
-
-  function render(){
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE); // additive
-    gl.clearColor(0,0,0,0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
+    // Projeksiyon & View (kamera)
     const aspect = canvas.width / Math.max(1, canvas.height);
-    const proj = mat4Perspective(60.0*Math.PI/180.0, aspect, 0.1, 2500.0);
-    const view = mat4Translate(mat4Identity(), 0, 0, -350.0);
-    const viewProj = mat4Multiply(proj, view);
+    const proj = mat4Perspective(60 * Math.PI / 180, aspect, 0.1, 4000);
+    let view = mat4Identity();
+    view = mat4Translate(view, 0, 0, -320);        // kamera geri
+    view = mat4RotateX(view, rx * 0.9);
+    view = mat4RotateY(view, ry + auto * 0.0025);  // çok hafif auto-rotate
 
-    // UZAK katman
-    drawCloud(farGL, viewProj, 0.00012);
+    gl.uniformMatrix4fv(uProj, false, new Float32Array(proj));
+    gl.uniformMatrix4fv(uView, false, new Float32Array(view));
+    gl.uniform1f(uTime, sec);
+    gl.uniform1f(uSpeed, SPEED);
+    gl.uniform1f(uZMin, Z_MIN);
+    gl.uniform1f(uZRange, Z_RANGE);
 
-    // YAKIN katman
-    drawCloud(nearGL, viewProj, 0.00024);
+    // attrib buffer'lar zaten bağlı (static)
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, colBuf);
+    gl.enableVertexAttribArray(aCol);
+    gl.vertexAttribPointer(aCol, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, sizeBuf);
+    gl.enableVertexAttribArray(aSize);
+    gl.vertexAttribPointer(aSize, 1, gl.FLOAT, false, 0, 0);
 
-    if(!prefersReduced) requestAnimationFrame(render);
+    gl.drawArrays(gl.POINTS, 0, STAR_COUNT);
+
+    if (!prefersReduced) requestAnimationFrame(draw);
   }
 
-  if(!prefersReduced) requestAnimationFrame(render);
-  else { render(); }
+  if (!prefersReduced) requestAnimationFrame(draw);
+  else draw(performance.now());
 
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && !prefersReduced) requestAnimationFrame(render);
+    if (!document.hidden && !prefersReduced) requestAnimationFrame(draw);
   });
 })();
