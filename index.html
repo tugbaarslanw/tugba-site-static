@@ -96,37 +96,67 @@
   header.hero{
     position:relative; overflow:hidden;
     padding:110px 0 40px; text-align:center;
-    isolation:isolate; /* nav’ın gölgesiyle karışmasın */
-  }
-  .hero-bg{ /* animasyon katmanı */
-    position:absolute; inset:0; z-index:0; pointer-events:none;
-  }
-  .hero-veil{
-    position:absolute; inset:0;
-    background:linear-gradient(180deg, rgba(255,255,255,.00) 0%, rgba(255,255,255,.35) 100%);
-  }
-  .blob{
-    position:absolute; width:60vmax; height:60vmax; border-radius:50%;
-    filter:blur(80px); opacity:.45; mix-blend-mode:plus-lighter; will-change:transform;
-  }
-  .hb1{left:-12vmax; top:-16vmax;
-       background:radial-gradient(circle at 30% 30%, rgba(170,66,239,.55), rgba(106,17,203,.18) 60%, transparent 70%);
-       animation:drift1 18s ease-in-out infinite alternate;}
-  .hb2{right:-16vmax; top:-6vmax;
-       background:radial-gradient(circle at 70% 40%, rgba(187,104,242,.55), rgba(142,45,226,.18) 60%, transparent 70%);
-       animation:drift2 22s ease-in-out infinite alternate;}
-  .hb3{left:10vmax; bottom:-18vmax;
-       background:radial-gradient(circle at 40% 70%, rgba(106,17,203,.55), rgba(170,66,239,.18) 60%, transparent 70%);
-       animation:drift3 26s ease-in-out infinite alternate;}
-  @keyframes drift1{from{transform:translate(0,0) scale(1)} to{transform:translate(8vmax,4vmax) scale(1.1)}}
-  @keyframes drift2{from{transform:translate(0,0) scale(1)} to{transform:translate(-6vmax,2vmax) scale(1.06)}}
-  @keyframes drift3{from{transform:translate(0,0) scale(1)} to{transform:translate(3vmax,-5vmax) scale(1.12)}}
-  @media (prefers-reduced-motion: reduce){
-    .blob{animation:none}
+    isolation:isolate;
   }
 
-  /* hero içeriği daima üstte */
-  .hero-inner{position:relative; z-index:1; max-width:1000px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:10px}
+  /* Nebula katmanları */
+  .hero-bg{position:absolute; inset:0; z-index:0; pointer-events:none}
+  .nebula-sky{
+    position:absolute; inset:-20% -10% -10% -10%;
+    background:
+      radial-gradient(1200px 700px at 10% 15%, rgba(142,45,226,.55), transparent 60%),
+      radial-gradient(900px 600px at 85% 25%, rgba(170,66,239,.45), transparent 60%),
+      radial-gradient(1000px 800px at 50% 70%, rgba(106,17,203,.45), transparent 60%),
+      linear-gradient(180deg, #2B0F66 0%, #3B0E86 40%, #4C10A6 70%, #5A11BF 100%);
+    filter: saturate(1.1) contrast(1.05);
+    animation: skyPan 60s linear infinite;
+  }
+  @keyframes skyPan{
+    0%{transform:translate3d(0,0,0) scale(1)}
+    50%{transform:translate3d(2%, -1%, 0) scale(1.02)}
+    100%{transform:translate3d(0,0,0) scale(1)}
+  }
+
+  /* Yıldız dokusu (tekrarlı SVG) */
+  .stars, .twinkles{
+    position:absolute; inset:0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='10' cy='20' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='80' cy='60' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='150' cy='90' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='30' cy='140' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='190' cy='160' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='110' cy='170' r='1' fill='white' opacity='.6'/%3E%3Ccircle cx='60' cy='15' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='175' cy='35' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='140' cy='150' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='20' cy='90' r='1' fill='white' opacity='.8'/%3E%3C/svg%3E");
+    background-size:300px 300px; background-repeat:repeat;
+  }
+  .stars{opacity:.55; animation: starDrift 120s linear infinite}
+  .twinkles{opacity:.8; animation: twinkle 2.8s ease-in-out infinite alternate}
+  @keyframes starDrift{from{background-position:0 0} to{background-position:-600px 300px}}
+  @keyframes twinkle{from{opacity:.25} to{opacity:.7}}
+
+  /* Kuyruklu yıldız */
+  .meteor{
+    position:absolute; top:18%; left:-20%;
+    width:220px; height:2px;
+    background:linear-gradient(90deg, rgba(255,255,255,.95), rgba(255,255,255,0));
+    filter:drop-shadow(0 0 6px rgba(255,255,255,.6));
+    transform:rotate(15deg);
+    animation: shoot 7s ease-in-out infinite;
+  }
+  @keyframes shoot{
+    0%,60%{opacity:0; transform:translate(-40vw,-20vh) rotate(15deg)}
+    66%,72%{opacity:1; transform:translate(5vw,2vh) rotate(15deg)}
+    100%{opacity:0; transform:translate(60vw,24vh) rotate(15deg)}
+  }
+
+  /* İçerik okunurluğu için hafif spot aydınlatma */
+  .hero-spot{
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:radial-gradient( circle at 50% 46%, rgba(255,255,255,.35), rgba(255,255,255,0) 55% );
+  }
+
+  /* Alt tarafta dalga (sayfaya bağlanır) */
+  .wave{
+    position:absolute; left:0; right:0; bottom:-1px; width:100%; height:120px; z-index:1; pointer-events:none;
+  }
+
+  /* hero içeriği (her zaman üstte) */
+  .hero-inner{position:relative; z-index:2; max-width:1000px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:10px}
 
   /* hero avatar */
   .hero-avatar{
@@ -153,13 +183,13 @@
     letter-spacing:-.015em;
     color:var(--heading);
   }
-  p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
-  section{padding:28px 0}
-
-  /* Yalnızca istenen başlıklar siyah */
+  /* yalnızca istenen başlıklar siyah */
   #services-title, #projects-title, #about-title, #about h3, header h1{
     color:#000 !important; text-shadow:none !important; filter:none !important;
   }
+
+  p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
+  section{padding:28px 0}
 
   /* CTA */
   .btn{display:inline-block;padding:12px 18px;border-radius:16px;background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));color:#fff;text-decoration:none;box-shadow:0 6px 16px rgba(170,66,239,.30);transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
@@ -229,10 +259,16 @@
   <!-- HERO: sadece burada animasyon -->
   <header class="hero">
     <div class="hero-bg" aria-hidden="true">
-      <div class="blob hb1"></div>
-      <div class="blob hb2"></div>
-      <div class="blob hb3"></div>
-      <div class="hero-veil"></div>
+      <div class="nebula-sky"></div>
+      <div class="stars"></div>
+      <div class="twinkles"></div>
+      <div class="meteor"></div>
+      <div class="hero-spot"></div>
+
+      <!-- alt dalga -->
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="#FFFFFF" d="M0,40 C120,70 240,90 360,90 C600,90 600,30 840,30 C1080,30 1080,100 1320,100 C1380,100 1440,94 1440,94 L1440,120 L0,120 Z"></path>
+      </svg>
     </div>
 
     <div class="hero-inner">
