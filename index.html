@@ -152,7 +152,14 @@
 
   /* Alt tarafta dalga (sayfaya bağlanır) */
   .wave{
-    position:absolute; left:0; right:0; bottom:-1px; width:100%; height:120px; z-index:1; pointer-events:none;
+    position:absolute; left:0; right:0; bottom:-28px; /* ↓ dalgayı biraz aşağı indir */
+    width:100%;
+    height:190px;           /* ↑ dalgayı uzat */
+    z-index:1; pointer-events:none;
+    filter: drop-shadow(0 -2px 8px rgba(0,0,0,.04));
+  }
+  @media(min-width:860px){
+    .wave{ height:230px; bottom:-36px; } /* geniş ekranda biraz daha derin */
   }
 
   /* hero içeriği (her zaman üstte) */
@@ -234,6 +241,13 @@
     .avatar{border-color:rgba(255,255,255,.15)}
   }
 
+  /* CHIP satırı – dalgaya değmesin diye altta boşluk */
+  .hero-chips{
+    margin-top:12px;
+    margin-bottom:28px; /* ↓ dalga ile güvenli boşluk */
+    display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+  }
+
   /* Footer */
   footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)}
   a.underline{text-decoration:underline;text-underline-offset:4px}
@@ -280,8 +294,14 @@
       <h1>Tuğba Arslan</h1>
       <p class="lead">Software Engineer • Etik Hacker • Automation</p>
       <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
-      <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-        <span class="chip">HTTPS</span><span class="chip">CSP</span><span class="chip">2FA</span><span class="chip">Rate Limit</span><span class="chip">WAF</span>
+
+      <!-- chip satırı (ortalanmış + alttan boşluklu) -->
+      <div class="hero-chips">
+        <span class="chip">HTTPS</span>
+        <span class="chip">CSP</span>
+        <span class="chip">2FA</span>
+        <span class="chip">Rate Limit</span>
+        <span class="chip">WAF</span>
       </div>
     </div>
   </header>
@@ -457,7 +477,7 @@
     </div>
   </footer>
 
-  <!-- 3D Hero (sadece bu eklendi) -->
+  <!-- 3D Hero (aynı) -->
   <script src="hero-space-webgl.js" defer></script>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
