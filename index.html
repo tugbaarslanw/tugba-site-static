@@ -9,6 +9,7 @@
   <meta name="theme-color" content="#673AB7" />
   <link rel="canonical" href="https://tugba-site-static.vercel.app/">
 
+  <!-- CSP, inline script'e izin veriliyor -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
                  img-src 'self' data:;
@@ -21,6 +22,7 @@
                  frame-ancestors 'none';
                  upgrade-insecure-requests">
 
+  <!-- OG / Twitter -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Tuğba Arslan — Software Engineer">
   <meta property="og:description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
@@ -33,9 +35,12 @@
   <meta name="twitter:description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
   <meta name="twitter:image" content="https://tugba-site-static.vercel.app/og-image.png">
 
+  <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23673AB7'/%3E%3Ctext x='50' y='58' text-anchor='middle' font-size='48' fill='white' font-family='Arial,Helvetica,sans-serif'%3ETA%3C/text%3E%3C/svg%3E">
+
   <link rel="stylesheet" href="styles.css" />
 
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -59,6 +64,7 @@
     :root{
       --fg:#F3F4F6; --muted:#A1A1AA; --bg:#0E0B14;
       --card:#12101A; --line:#1E1A27; --surface:#1A1426;
+      /* --heading siyah kalır */
     }
   }
 
@@ -72,9 +78,9 @@
   }
   .container{max-width:1100px;margin:0 auto;padding:0 24px}
 
-  /* NAVBAR */
+  /* NAV */
   .topnav{
-    position:sticky; top:0; z-index:100;
+    position:sticky; top:0; z-index:200;
     background:linear-gradient(90deg,#8E2DE2 0%, #6A11CB 100%);
     -webkit-backdrop-filter:saturate(160%) blur(8px);
     backdrop-filter:saturate(160%) blur(8px);
@@ -87,23 +93,12 @@
   .menu a{color:#fff;text-decoration:none;padding:8px 10px;border-radius:10px;opacity:.95}
   .menu a:hover{background:rgba(255,255,255,.10);opacity:1}
 
-  /* HERO (merkez) */
+  /* HERO */
   header{padding:110px 0 40px;text-align:center}
-  header .container{max-width:1000px}
+  header .container{max-width:1000px;display:flex;flex-direction:column;align-items:center;gap:10px}
 
-  .hero-avatar{
-    width:128px;height:128px;border-radius:50%;object-fit:cover;
-    border:2px solid rgba(0,0,0,.08);
-    box-shadow:0 10px 24px rgba(106,17,203,.18);
-    margin:0 auto 14px auto; display:block; background:#eee;
-  }
-  @media (max-width:640px){
-    .hero-avatar{width:96px;height:96px;margin-bottom:12px}
-  }
-
-  /* Başlıklar */
   header h1{
-    margin:0 0 6px 0;
+    margin:0 0 8px 0;
     font-size:clamp(44px,7vw,68px);
     font-weight:800;
     line-height:1.08;
@@ -123,9 +118,15 @@
     font-weight:700;
     color:var(--heading);
   }
-  #services-title,#projects-title,#about-title,#about h3{color:#000 !important}
 
-  .lead{color:var(--muted);font-size:18px;margin:6px 0 0}
+  /* sadece belirtilen başlıklar siyah */
+  header h1, #services-title, #projects-title, #about-title, #about h3{
+    color:#000 !important;
+    text-shadow:none !important;
+    filter:none !important;
+  }
+
+  p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
   section{padding:28px 0}
 
   /* CTA */
@@ -152,17 +153,46 @@
   .icon svg [stroke]{stroke:#F5F3FF}
   .icon svg [fill="#6E31FF"]{fill:#F5F3FF}
 
-  /* About içindeki küçük avatar (istersen kalsın) */
-  .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,.08);box-shadow:0 10px 24px rgba(106,17,203,.18);background:#eee}
-  @media (prefers-color-scheme: dark){ .avatar{border-color:rgba(255,255,255,.15)} }
+  /* Avatar (iletişim bölümünde) */
+  .avatar-wrap{display:flex;align-items:center;gap:14px;margin:12px 0 6px}
+  .avatar{
+    width:96px;height:96px;border-radius:50%;object-fit:cover;
+    border:2px solid rgba(0,0,0,.08);
+    box-shadow:0 10px 24px rgba(106,17,203,.18);
+    background:#eee;
+  }
+  .avatar-fallback{
+    width:96px;height:96px;border-radius:50%;
+    display:none;align-items:center;justify-content:center;
+    font-weight:800;color:#fff;user-select:none;
+    background:linear-gradient(135deg,#8E2DE2,#6A11CB);
+    box-shadow:0 10px 24px rgba(106,17,203,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    .avatar{border-color:rgba(255,255,255,.15)}
+  }
 
+  /* --- ANİMASYONLU UZAY ARKA PLAN --- */
+  #space-bg{
+    position:fixed; inset:0; z-index:0;
+    pointer-events:none;
+    opacity:.85; filter:saturate(1.05);
+  }
+  @media (prefers-reduced-motion: reduce){
+    #space-bg{display:none}
+  }
+
+  /* Footer */
   footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)}
   a.underline{text-decoration:underline;text-underline-offset:4px}
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
+  <!-- ANİMASYONLU ARKA PLAN CANVAS -->
+  <canvas id="space-bg" aria-hidden="true"></canvas>
+
+  <!-- ÜST MENÜ -->
   <nav class="topnav" aria-label="Birincil">
     <div class="wrap">
       <a class="brand" href="/">
@@ -179,12 +209,9 @@
 
   <header>
     <div class="container">
-      <!-- AVATAR BAŞLIĞIN ÜSTÜNDE -->
-      <img src="avatar.jpg" alt="Tuğba Arslan" class="hero-avatar" width="128" height="128" loading="eager" decoding="async" onerror="this.style.display='none'">
-
       <h1>Tuğba Arslan</h1>
       <p class="lead">Software Engineer • Etik Hacker • Automation</p>
-      <p style="margin:14px 0 0"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
+      <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
       <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
         <span class="chip">HTTPS</span><span class="chip">CSP</span><span class="chip">2FA</span><span class="chip">Rate Limit</span><span class="chip">WAF</span>
       </div>
@@ -193,7 +220,7 @@
 
   <main class="container">
 
-    <!-- ===== Hizmetler ===== -->
+    <!-- Hizmetler -->
     <section id="services" aria-labelledby="services-title">
       <h2 id="services-title">Hizmetler</h2>
       <div class="grid grid-3" style="margin-top:12px">
@@ -269,7 +296,7 @@
       </div>
     </section>
 
-    <!-- ===== Projeler ===== -->
+    <!-- Projeler -->
     <section id="projects" aria-labelledby="projects-title">
       <h2 id="projects-title">Projeler</h2>
       <div class="grid grid-3" style="margin-top:12px">
@@ -300,7 +327,7 @@
       </div>
     </section>
 
-    <!-- ===== Hakkımda & İletişim ===== -->
+    <!-- Hakkımda & İletişim -->
     <section id="about" aria-labelledby="about-title">
       <h2 id="about-title">Hakkımda & İletişim</h2>
       <p style="color:var(--muted)">
@@ -309,8 +336,12 @@
 
       <h3>İletişim</h3>
 
-      <div style="display:flex;align-items:center;gap:14px;margin:12px 0 6px">
-        <img src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı" class="avatar" loading="lazy" onerror="this.style.display='none'">
+      <!-- Profil foto -->
+      <div class="avatar-wrap">
+        <img id="avatar-img" class="avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
+             loading="lazy"
+             onerror="this.style.display='none';document.getElementById('avatar-fallback').style.display='inline-flex'">
+        <span id="avatar-fallback" class="avatar-fallback" aria-hidden="true">TA</span>
       </div>
 
       <ul>
@@ -357,6 +388,89 @@
       </div>
     </div>
   </footer>
+
+  <!-- Uzay arka plan animasyonu -->
+  <script>
+  (function(){
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canvas = document.getElementById('space-bg');
+    if (!canvas || prefersReduced) return;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
+    let dpr = Math.max(1, window.devicePixelRatio || 1);
+    let W = 0, H = 0, stars = [], mx = 0.5, my = 0.5;
+
+    function resize(){
+      W = Math.floor(window.innerWidth  * dpr);
+      H = Math.floor(window.innerHeight * dpr);
+      canvas.width  = W;
+      canvas.height = H;
+      canvas.style.width  = window.innerWidth  + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      makeStars();
+    }
+
+    function makeStars(){
+      const area = window.innerWidth * window.innerHeight;
+      const count = Math.min(180, Math.max(80, Math.floor(area / 14000))); // 80–180
+      stars = Array.from({length: count}, () => {
+        const depth = Math.random() ** 2;
+        return {
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: (0.7 + Math.random()*1.8) * (1 - depth) * dpr,
+          vx: (Math.random() - 0.5) * 0.10 * dpr,
+          vy: (0.02 + Math.random()*0.12) * dpr,
+          tint: ['#ffffff','#EEDCFF','#D9B7FF','#BB68F2','#AA42EF'][ (Math.random()*5)|0 ],
+          t: Math.random()*Math.PI*2,
+          ts: 0.015 + Math.random()*0.02,
+          depth
+        };
+      });
+    }
+
+    function draw(){
+      const g = ctx.createLinearGradient(0,0,0,H);
+      g.addColorStop(0,   'rgba(142,45,226,0.12)');
+      g.addColorStop(0.5, 'rgba(106,17,203,0.08)');
+      g.addColorStop(1,   'rgba(255,255,255,0.00)');
+      ctx.clearRect(0,0,W,H);
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,W,H);
+
+      const px = (mx - 0.5) * 10 * dpr;
+      const py = (my - 0.5) * 10 * dpr;
+
+      for (let s of stars){
+        s.t += s.ts;
+        s.x += s.vx + (px * (1 - s.depth) * 0.02);
+        s.y += s.vy + (py * (1 - s.depth) * 0.02);
+
+        if (s.y > H + 10) { s.y = -10; s.x = Math.random()*W; }
+        if (s.x > W + 10)  s.x = -10;
+        if (s.x < -10)     s.x = W + 10;
+
+        const tw = 0.55 + Math.sin(s.t)*0.45;
+        ctx.globalAlpha = Math.min(1, Math.max(0.15, tw * (0.8 + (1 - s.depth)*0.4)));
+        ctx.fillStyle = s.tint;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('mousemove', e => {
+      mx = e.clientX / window.innerWidth;
+      my = e.clientY / window.innerHeight;
+    }, { passive: true });
+
+    resize();
+    draw();
+  })();
+  </script>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
 </body>
