@@ -25,7 +25,7 @@
   // Yalnızca canvas için gerekli stilleri inline veriyoruz (diğer ayarlara dokunmuyoruz)
   canvas.style.position = 'absolute';
   canvas.style.inset = '0';
-  canvas.style.zIndex = '0';
+  canvas.style.zIndex = '1'; // <— ÖNEMLİ: .hero-bg (z-index:0) ÜSTÜNDE, .hero-inner (z-index:2) ALTINDA
   canvas.style.pointerEvents = 'none';
 
   // Kapsayıcı "relative" değilse sadece Hero üzerinde relative yapıyoruz (layout'u bozmaz)
