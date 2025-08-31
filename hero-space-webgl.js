@@ -1,13 +1,10 @@
-/* Premium Galaxy Fly-Through — performance tuned
-   - WebGL başarılıysa: CSS arka plan katmanlarını (nebula, stars, twinkles, meteor, spot) otomatik gizler.
-   - Wave SVG yerinde kalır (görsel geçiş korunur).
-   - IntersectionObserver ile ekrandan çıkınca durur, görünür olunca devam eder.
-   - prefers-reduced-motion'a saygı duyar.
-   - Blue-noise (poisson) dağılım: çakışma ve simetri hissi yok.
+/* Premium Galaxy Fly-Through — anti-clump & non-symmetric
+   - Poisson disk (blue-noise) ile XY dağılımı: çakışma/üst üste binme yok.
+   - Spiral "kol" simetrisi kaldırıldı; toz katmanı swirl alanıyla doğal.
+   - Fly-through (yakınlaşma), hafif parallax, yüksek FPS (tek sefer buffer).
 */
 
 (function () {
-  // ---- Target hero ----
   const hero =
     document.querySelector('[data-hero]') ||
     document.querySelector('header.hero') ||
@@ -15,7 +12,6 @@
     document.querySelector('.hero');
   if (!hero) return;
 
-  // ---- Canvas ----
   const canvas = document.createElement('canvas');
   Object.assign(canvas.style, {
     position: 'absolute', inset: '0', zIndex: '1', pointerEvents: 'none'
@@ -28,34 +24,17 @@
   const inner = hero.querySelector('.hero-inner');
   if (inner) hero.insertBefore(canvas, inner); else hero.appendChild(canvas);
 
-  // ---- WebGL ----
   const gl = canvas.getContext('webgl', { antialias: true, alpha: true, premultipliedAlpha: false });
+  if (!gl) { console.warn('[Hero3D] WebGL not supported'); return; }
+
   const prefersReduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!gl) { /* WebGL yoksa CSS arka plan devam etsin */ return; }
+  const isMobile = matchMedia('(max-width: 768px)').matches;
 
-  // ---- CSS arka plan katmanlarını WebGL aktifken yumuşakça gizle ----
-  const cssBgNodes = hero.querySelectorAll('.nebula-sky, .stars, .twinkles, .meteor, .hero-spot');
-  function quietCssBackground() {
-    cssBgNodes.forEach(el => {
-      el.style.transition = 'opacity .35s ease';
-      el.style.opacity = '0';
-      // CPU tüketimini azaltmak için CSS animasyonlarını da durdur
-      el.style.animation = 'none';
-    });
-  }
-  function restoreCssBackground() {
-    cssBgNodes.forEach(el => {
-      el.style.opacity = '';
-      el.style.animation = '';
-      el.style.transition = '';
-    });
-  }
-
-  // ---- Shaders ----
+  // ---------- Shaders ----------
   const vs = `
-    attribute vec3 aPos;
-    attribute vec3 aCol;
-    attribute float aSize;
+    attribute vec3 aPos;    // (x,y,z0)
+    attribute vec3 aCol;    // renk
+    attribute float aSize;  // baz boyut
 
     uniform mat4 uProj, uView;
     uniform float uTime, uSpeed, uZMin, uZRange, uSizeMax;
@@ -84,6 +63,7 @@
       gl_Position = uProj * eye;
     }
   `;
+
   const fs = `
     precision mediump float;
     varying vec3 vCol;
@@ -99,18 +79,19 @@
       gl_FragColor = vec4(vCol, alpha);
     }
   `;
+
   function shader(type, src){ const s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s);
     if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){ console.error(gl.getShaderInfoLog(s)); return null; } return s; }
   function program(vsSrc, fsSrc){
     const p=gl.createProgram(), v=shader(gl.VERTEX_SHADER,vsSrc), f=shader(gl.FRAGMENT_SHADER,fsSrc);
     if(!v||!f) return null; gl.attachShader(p,v); gl.attachShader(p,f); gl.linkProgram(p);
-    if(!gl.getProgramParameter(p, gl.linkStatus || 0)){} // noop for older browsers
     if(!gl.getProgramParameter(p, gl.LINK_STATUS)){ console.error(gl.getProgramInfoLog(p)); return null; } return p;
   }
-  const prog = program(vs, fs); if (!prog) { restoreCssBackground(); return; }
+
+  const prog = program(vs, fs); if (!prog) return;
   gl.useProgram(prog);
 
-  // ---- Locations ----
+  // ---------- Locations ----------
   const aPos   = gl.getAttribLocation (prog, 'aPos');
   const aCol   = gl.getAttribLocation (prog, 'aCol');
   const aSize  = gl.getAttribLocation (prog, 'aSize');
@@ -123,13 +104,14 @@
   const uSizeMax=gl.getUniformLocation(prog, 'uSizeMax');
   const uIntensity=gl.getUniformLocation(prog, 'uIntensity');
 
-  // ---- Helpers ----
-  const isMobile = matchMedia('(max-width: 768px)').matches;
+  // ---------- Helpers ----------
   function hsl2rgb(h,s,l){
     const hue2rgb=(p,q,t)=>{ if(t<0)t+=1; if(t>1)t-=1; if(t<1/6)return p+(q-p)*6*t; if(t<1/2)return q; if(t<2/3)return p+(q-p)*(2/3-t)*6; return p; };
     let r,g,b; if(s===0){ r=g=b=l; } else { const q=l<.5?l*(1+s):l+s-l*s, p=2*l-q; r=hue2rgb(p,q,h+1/3); g=hue2rgb(p,q,h); b=hue2rgb(p,q,h-1/3); }
     return [r,g,b];
   }
+
+  // Poisson disk (Bridson) — daire içinde mavi-gürültü örnekler
   function poissonDisk(targetCount, minDist, R, k = 20){
     const cell = minDist / Math.SQRT2;
     const cols = Math.ceil((2*R) / cell);
@@ -137,6 +119,7 @@
     const grid = new Array(cols * rows).fill(-1);
     const samples = [];
     const active = [];
+
     function gridIndex(x, y){
       const gx = Math.floor((x + R) / cell);
       const gy = Math.floor((y + R) / cell);
@@ -159,10 +142,15 @@
       return true;
     }
     function addSample(x,y){
-      samples.push([x,y]); active.push([x,y]); grid[gridIndex(x,y)] = samples.length - 1;
+      samples.push([x,y]);
+      active.push([x,y]);
+      grid[gridIndex(x,y)] = samples.length - 1;
     }
+
+    // başlangıç örneği
     const theta0 = Math.random()*Math.PI*2;
     addSample(Math.cos(theta0)*R*0.2, Math.sin(theta0)*R*0.2);
+
     while(active.length && samples.length < targetCount){
       const idx = (Math.random()*active.length)|0;
       const [ax, ay] = active[idx];
@@ -172,19 +160,25 @@
         const rad = minDist*(1.0 + Math.random());
         const x = ax + Math.cos(ang)*rad;
         const y = ay + Math.sin(ang)*rad;
-        if (inCircle(x,y) && farEnough(x,y)){ addSample(x,y); placed = true; if (samples.length >= targetCount) break; }
+        if (inCircle(x,y) && farEnough(x,y)){
+          addSample(x,y);
+          placed = true;
+          if (samples.length >= targetCount) break;
+        }
       }
       if(!placed) active.splice(idx,1);
     }
     return samples;
   }
+
   function gaussian(mu=0, sigma=1){
+    // Box-Muller
     const u1 = Math.random(); const u2 = Math.random();
     const z0 = Math.sqrt(-2*Math.log(u1)) * Math.cos(2*Math.PI*u2);
     return mu + z0*sigma;
   }
 
-  // ---- Field params ----
+  // ---------- Field params ----------
   const XY_RADIUS = 180.0;
   const Z_MIN = 60.0, Z_MAX = 900.0, Z_RANGE = Z_MAX - Z_MIN;
 
@@ -197,9 +191,11 @@
   const N_STARS = isMobile ? 900 : 1600;
   const N_DUST  = isMobile ? 1400: 2200;
 
+  // Minimum ekran-üstü çakışmayı azaltacak XY mesafesi (dünya birimi)
   let MIN_DIST_STARS = isMobile ? 3.0 : 3.2;
   let MIN_DIST_DUST  = isMobile ? 2.2 : 2.6;
 
+  // Hedefe ulaşamazsa minDist'i biraz düşür
   function samplesFor(target, minDist, R){
     let s = poissonDisk(target, minDist, R);
     let tries = 0;
@@ -211,7 +207,7 @@
     return s;
   }
 
-  // ---- Generate STARS ----
+  // ---------- Generate STARS (blue-noise) ----------
   const stars_xy = samplesFor(N_STARS, MIN_DIST_STARS, XY_RADIUS);
   const stars_pos = new Float32Array(N_STARS*3);
   const stars_col = new Float32Array(N_STARS*3);
@@ -221,7 +217,8 @@
     const z0 = Z_MIN + Math.random()*Z_RANGE;
     stars_pos[i*3+0]=x; stars_pos[i*3+1]=y; stars_pos[i*3+2]=z0;
 
-    const h = 0.70 + gaussian(0, 0.06) - Math.random()*0.12;
+    // Premium palet: mor-mavi camgöbeği arası (hafif varyans)
+    const h = 0.70 + gaussian(0, 0.06) - Math.random()*0.12; // ~0.58–0.76
     const s = 0.70;
     const l = 0.64 + Math.random()*0.20;
     const [rR,rG,rB]=hsl2rgb(Math.max(0,Math.min(1,h)), s, Math.min(1,l));
@@ -230,19 +227,22 @@
     stars_size[i]= (isMobile?1.2:1.6) + Math.abs(gaussian(0, isMobile?0.4:0.6));
   }
 
-  // ---- Generate DUST (swirl + blue-noise) ----
+  // ---------- Generate DUST (blue-noise + swirl) ----------
   const dust_xy = samplesFor(N_DUST, MIN_DIST_DUST, XY_RADIUS);
   const dust_pos = new Float32Array(N_DUST*3);
   const dust_col = new Float32Array(N_DUST*3);
   const dust_size= new Float32Array(N_DUST);
 
-  const swirlK = 2.0 + Math.random()*1.0;
-  const globalRot = Math.random()*Math.PI*2;
+  const swirlK = 2.0 + Math.random()*1.0; // kıvrım gücü
+  const globalRot = Math.random()*Math.PI*2; // tüm alanın rastgele yönelimi
+
   function rotate(x,y,ang){ const c=Math.cos(ang), s=Math.sin(ang); return [x*c - y*s, x*s + y*c]; }
 
   for(let i=0;i<N_DUST;i++){
     let [x,y] = dust_xy[i] || [ (Math.random()*2-1)*XY_RADIUS, (Math.random()*2-1)*XY_RADIUS ];
+    // Global rastgele dönme
     [x,y] = rotate(x,y, globalRot);
+    // Swirl alanı: yarıçapa bağlı ek dönüş + küçük jitter
     const r = Math.hypot(x,y);
     const phi = swirlK * Math.log(1.0 + r*0.035) + (Math.random()-0.5)*0.30;
     [x,y] = rotate(x,y, phi);
@@ -252,17 +252,17 @@
 
     const h = 0.72 - Math.random()*0.14;
     const s = 0.55, l = 0.72 + Math.random()*0.20;
-    const [rR,rB_,rG_] = hsl2rgb(h,s,l); // sıraya dikkat
-    dust_col[i*3+0]=rR; dust_col[i*3+1]=rB_; dust_col[i*3+2]=rG_;
+    const [rR,rG,rB]=hsl2rgb(h,s,l);
+    dust_col[i*3+0]=rR; dust_col[i*3+1]=rG; dust_col[i*3+2]=rB;
 
     dust_size[i]= (isMobile?0.9:1.0) + Math.abs(gaussian(0, isMobile?0.5:0.7));
   }
 
-  // ---- Buffers ----
   function makeBuf(data, loc, comps){
     const b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);
     gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, comps, gl.FLOAT, false, 0, 0); return b;
   }
+
   const stars_posBuf = makeBuf(stars_pos, aPos, 3);
   const stars_colBuf = makeBuf(stars_col, aCol, 3);
   const stars_sizBuf = makeBuf(stars_size,aSize,1);
@@ -271,7 +271,7 @@
   const dust_colBuf  = makeBuf(dust_col,  aCol, 3);
   const dust_sizBuf  = makeBuf(dust_size, aSize,1);
 
-  // ---- Matrices & DPR ----
+  // ---------- Matrices ----------
   function mat4Identity(){ return [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]; }
   function mat4Multiply(a,b){ const o=new Array(16).fill(0);
     for(let r=0;r<4;r++) for(let c=0;c<4;c++)
@@ -286,25 +286,16 @@
   function mat4RotateX(m,a){ const c=Math.cos(a),s=Math.sin(a); const r=[1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1]; return mat4Multiply(m,r); }
   function mat4RotateY(m,a){ const c=Math.cos(a),s=Math.sin(a); const r=[c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1]; return mat4Multiply(m,r); }
 
-  // Ekran çözünürlüğünü biraz kısıtla (performans)
-  function currentDPR(){ return Math.min(window.devicePixelRatio || 1, 1.75); }
-
   function resize(){
     const rect = hero.getBoundingClientRect();
-    const dpr = currentDPR();
-    const w = Math.max(1, Math.floor(rect.width  * dpr));
-    const h = Math.max(1, Math.floor(rect.height * dpr));
-    if (canvas.width !== w || canvas.height !== h){
-      canvas.width  = w;
-      canvas.height = h;
-      gl.viewport(0,0,w,h);
-    }
+    const dpr = Math.min(window.devicePixelRatio||1, 2);
+    canvas.width  = Math.max(1, Math.floor(rect.width  * dpr));
+    canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+    gl.viewport(0,0,canvas.width,canvas.height);
   }
-  if ('ResizeObserver' in window) new ResizeObserver(resize).observe(hero);
-  window.addEventListener('resize', resize, { passive:true });
-  resize();
+  if ('ResizeObserver' in window) new ResizeObserver(resize).observe(hero); resize();
 
-  // ---- Pointer parallax (low) ----
+  // Parallax — düşük
   let tRX=0, tRY=0;
   function onPointerMove(e){
     const rect=hero.getBoundingClientRect();
@@ -318,13 +309,12 @@
   hero.addEventListener('touchmove',onPointerMove,{passive:true});
   let rx=0, ry=0, auto=0;
 
-  // ---- Render loop ----
+  // Render
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
   gl.clearColor(0,0,0,0);
 
   const t0 = performance.now();
-  let rafId = null;
   function draw(now){
     const sec=(now - t0)/1000;
     rx += (tRX - rx)*0.06;
@@ -364,33 +354,10 @@
     gl.uniform1f(uIntensity, 1.0);
     gl.drawArrays(gl.POINTS, 0, N_STARS);
 
-    if (!prefersReduced) rafId = requestAnimationFrame(draw);
+    if(!prefersReduced) requestAnimationFrame(draw);
   }
 
-  function startRAF(){ if (!rafId && !prefersReduced) rafId = requestAnimationFrame(draw); }
-  function stopRAF(){ if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+  if(!prefersReduced) requestAnimationFrame(draw); else draw(performance.now());
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden && !prefersReduced) requestAnimationFrame(draw); });
 
-  // ---- Görünürlük yönetimi ----
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stopRAF(); else startRAF();
-  });
-
-  if ('IntersectionObserver' in window){
-    const io = new IntersectionObserver(entries=>{
-      const e = entries[0];
-      if (e && e.isIntersecting && e.intersectionRatio > 0.1) startRAF();
-      else stopRAF();
-    }, { threshold:[0, 0.1, 0.2] });
-    io.observe(hero);
-  }
-
-  // ---- Context olayları ----
-  canvas.addEventListener('webglcontextlost', (e)=>{ e.preventDefault(); stopRAF(); restoreCssBackground(); }, false);
-  canvas.addEventListener('webglcontextrestored', ()=>{ quietCssBackground(); startRAF(); }, false);
-
-  // ---- Başlat ----
-  quietCssBackground();
-  if (!prefersReduced) startRAF(); else { // azaltılmış hareket: tek kare
-    const now = performance.now(); draw(now);
-  }
 })();
