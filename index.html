@@ -7,7 +7,7 @@
   <title>Tuğba Arslan — Software Engineer</title>
   <meta name="description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri. Meta/Google reklam entegrasyonları, SEO ve hesap kurtarma.">
   <meta name="theme-color" content="#673AB7" />
-  <link rel="canonical" href="https://tugbaarslan.com/">
+  <link rel="canonical" href="https://tugba-site-static.vercel.app/">
 
   <!-- CSP -->
   <meta http-equiv="Content-Security-Policy"
@@ -26,14 +26,14 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Tuğba Arslan — Software Engineer">
   <meta property="og:description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
-  <meta property="og:url" content="https://tugbaarslan.com/">
-  <meta property="og:image" content="https://tugbaarslan.com/og-image.png">
+  <meta property="og:url" content="https://tugba-site-static.vercel.app/">
+  <meta property="og:image" content="https://tugba-site-static.vercel.app/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Tuğba Arslan — Software Engineer">
   <meta name="twitter:description" content="Web & iOS geliştirme, siber güvenlik ve otomasyon çözümleri.">
-  <meta name="twitter:image" content="https://tugbaarslan.com/og-image.png">
+  <meta name="twitter:image" content="https://tugba-site-static.vercel.app/og-image.png">
 
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23673AB7'/%3E%3Ctext x='50' y='58' text-anchor='middle' font-size='48' fill='white' font-family='Arial,Helvetica,sans-serif'%3ETA%3C/text%3E%3C/svg%3E">
@@ -47,7 +47,7 @@
     "@type": "Person",
     "name": "Tuğba Arslan",
     "jobTitle": "Software Engineer",
-    "url": "https://tugbaarslan.com/",
+    "url": "https://tugba-site-static.vercel.app/",
     "sameAs": ["https://github.com/tugbaarslanw","https://www.linkedin.com/in/tugbaarslanw/"]
   }
   </script>
@@ -95,9 +95,7 @@
   /* ===== HERO (sadece burada animasyon) ===== */
   header.hero{
     position:relative; overflow:hidden;
-    /* rozetlerin hemen altında hafif dalga: alt padding’i arttırdık */
-    padding:110px 0 72px;
-    text-align:center;
+    padding:110px 0 40px; text-align:center;
     isolation:isolate;
   }
 
@@ -154,15 +152,7 @@
 
   /* Alt tarafta dalga (sayfaya bağlanır) */
   .wave{
-    position:absolute; left:0; right:0; bottom:-1px; width:100%;
-    height:160px; z-index:1; pointer-events:none;
-    /* dalgayı hafif yukarı al */
-    transform:translateY(-14px);
-    filter: drop-shadow(0 -2px 10px rgba(0,0,0,.06));
-  }
-  @media (max-width: 640px){
-    .wave{height:140px; transform:translateY(-10px)}
-    header.hero{padding-bottom:64px;}
+    position:absolute; left:0; right:0; bottom:-1px; width:100%; height:120px; z-index:1; pointer-events:none;
   }
 
   /* hero içeriği (her zaman üstte) */
@@ -247,6 +237,11 @@
   /* Footer */
   footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)}
   a.underline{text-decoration:underline;text-underline-offset:4px}
+
+  /* --- Hero premium micro-tweaks (only layout) --- */
+  header.hero{ padding:110px 0 72px; } /* bottom +32px: rozetlerin altına nefes */
+  .wave{ height:160px; bottom:-24px; } /* dalga biraz daha aşağı, daha uzun */
+  #chip-row{ margin-top:16px !important; position:relative; z-index:3; } /* dalganın üstünde, tam ortalı */
   </style>
 </head>
 <body>
@@ -276,15 +271,8 @@
       <div class="hero-spot"></div>
 
       <!-- alt dalga -->
-      <svg class="wave" viewBox="0 0 1440 160" preserveAspectRatio="none" aria-hidden="true">
-        <!-- daha premium ve yumuşak bir eğri -->
-        <path fill="#FFFFFF"
-          d="M0,96
-             C140,120 280,136 420,136
-             C660,136 660,76 900,76
-             C1140,76 1140,140 1320,140
-             C1385,140 1440,134 1440,134
-             L1440,160 L0,160 Z"></path>
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="#FFFFFF" d="M0,40 C120,70 240,90 360,90 C600,90 600,30 840,30 C1080,30 1080,100 1320,100 C1380,100 1440,94 1440,94 L1440,120 L0,120 Z"></path>
       </svg>
     </div>
 
@@ -297,7 +285,7 @@
       <h1>Tuğba Arslan</h1>
       <p class="lead">Software Engineer • Etik Hacker • Automation</p>
       <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
-      <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <div id="chip-row" style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
         <span class="chip">HTTPS</span><span class="chip">CSP</span><span class="chip">2FA</span><span class="chip">Rate Limit</span><span class="chip">WAF</span>
       </div>
     </div>
@@ -474,8 +462,8 @@
     </div>
   </footer>
 
-  <!-- 3D Hero (sadece bu eklendi) -->
-  <script src="hero-space-webgl.js" defer></script>
+  <!-- 3D Hero -->
+  <script src="hero-space-webgl.js?v=3" defer></script>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
 </body>
