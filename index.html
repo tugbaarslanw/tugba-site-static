@@ -245,7 +245,7 @@
       linear-gradient(135deg, #9B5CF3 0%, #6A11CB 100%);
     box-shadow: inset 0 -1px 2px rgba(0,0,0,.20), 0 4px 12px rgba(106,17,203,.35);
   }
-  header.hero .badge .icon3d svg{ width:16px; height:16px; }
+  header.hero .badge .icon3d svg{ width:14px; height:14px; }
   header.hero .badge .icon3d svg [stroke]{
     stroke:#FFFFFF; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; fill:none;
   }
@@ -288,4 +288,277 @@
         <span class="logo" aria-hidden="true">TA</span>
         <span>Tuğba Arslan</span>
       </a>
-      <div class="menu
+      <div class="menu" role="menubar">
+        <a role="menuitem" href="#services">Hizmetler</a>
+        <a role="menuitem" href="#projects">Projeler</a>
+        <a role="menuitem" href="#about">İletişim</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO: sadece burada animasyon -->
+  <header class="hero" data-hero>
+    <div class="hero-bg" aria-hidden="true">
+      <div class="nebula-sky"></div>
+      <div class="stars"></div>
+      <div class="twinkles"></div>
+      <div class="meteor"></div>
+      <div class="hero-spot"></div>
+
+      <!-- alt dalga -->
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="#FFFFFF" d="M0,40 C120,70 240,90 360,90 C600,90 600,30 840,30 C1080,30 1080,100 1320,100 C1380,100 1440,94 1440,94 L1440,120 L0,120 Z"></path>
+      </svg>
+    </div>
+
+    <div class="hero-inner">
+      <!-- Profil foto (başlığın üstünde) -->
+      <img class="hero-avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
+           onerror="this.style.display='none';document.getElementById('hero-fallback').style.display='inline-flex'">
+      <span id="hero-fallback" class="hero-fallback" aria-hidden="true">TA</span>
+
+      <h1>Tuğba Arslan</h1>
+      <p class="lead">Software Engineer • Etik Hacker • Automation</p>
+      <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
+
+      <!-- ==== Premium Rozetler ==== -->
+      <div class="badge-wrap">
+        <ul class="badges" aria-label="Güvenlik rozeti listesi">
+          <!-- TLS 1.3 + HSTS -->
+          <li class="badge">
+            <span class="icon3d" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path stroke="currentColor" d="M6 10h12v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-8z"/><path stroke="currentColor" d="M8 10V7a4 4 0 1 1 8 0v3"/></svg>
+            </span>
+            <span class="label">TLS 1.3 + HSTS</span>
+          </li>
+
+          <!-- CSP (Strict) -->
+          <li class="badge">
+            <span class="icon3d" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path stroke="currentColor" d="M12 3l8 4v5c0 5-4 8-8 9-4-1-8-4-8-9V7l8-4z"/><path stroke="currentColor" d="M9 12l2 2 4-4"/></svg>
+            </span>
+            <span class="label">CSP (Strict)</span>
+          </li>
+
+          <!-- MFA (2FA) Everywhere -->
+          <li class="badge">
+            <span class="icon3d" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path stroke="currentColor" d="M3 7h12v10H3z"/><path stroke="currentColor" d="M7 7V5a5 5 0 0 1 10 0v2"/><path stroke="currentColor" d="M6.5 12h1m3 0h1m3 0h1"/></svg>
+            </span>
+            <span class="label">MFA (2FA) Everywhere</span>
+          </li>
+
+          <!-- App Firewall + DDos Shield -->
+          <li class="badge">
+            <span class="icon3d" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path stroke="currentColor" d="M4 12h16M4 7h10M4 17h16"/><path stroke="currentColor" d="M17 9l3 2v3c0 3-2 5-3 5-1-.5-3-2-3-5v-3l3-2z"/></svg>
+            </span>
+            <span class="label">App Firewall + DDos Shield</span>
+          </li>
+
+          <!-- Rate Limiting & Abuse protection -->
+          <li class="badge">
+            <span class="icon3d" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path stroke="currentColor" d="M12 5a7 7 0 1 1-4.95 2.05"/><path stroke="currentColor" d="M12 12l4-1"/><path stroke="currentColor" d="M3 12h3M5 8h3M5 16h3"/></svg>
+            </span>
+            <span class="label">Rate Limiting &amp; Abuse protection</span>
+          </li>
+
+          <!-- Security txt + PGP -->
+          <li class="badge">
+            <span class="icon3d" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path stroke="currentColor" d="M7 3h8l4 4v14H7z"/><path stroke="currentColor" d="M15 3v4h4"/><path stroke="currentColor" d="M10 12h5"/><path stroke="currentColor" d="M10 15h5"/><path stroke="currentColor" d="M8 12v-1a2 2 0 1 1 4 0v1"/></svg>
+            </span>
+            <span class="label">Security txt + PGP</span>
+          </li>
+
+          <!-- CVD / Bug Bounty -->
+          <li class="badge">
+            <span class="icon3d" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path stroke="currentColor" d="M9 9h6v6H9z"/><path stroke="currentColor" d="M12 6v3M12 15v3"/><path stroke="currentColor" d="M6 12h3M15 12h3"/><path stroke="currentColor" d="M7 7l2 2M15 15l2 2M17 7l-2 2M9 15l-2 2"/></svg>
+            </span>
+            <span class="label">CVD / Bug Bounty</span>
+          </li>
+        </ul>
+      </div>
+      <!-- ==== /Premium Rozetler ==== -->
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Hizmetler -->
+    <section id="services" aria-labelledby="services-title">
+      <h2 id="services-title">Hizmetler</h2>
+      <div class="grid grid-3" style="margin-top:12px">
+
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="2.5" y="5" width="12" height="9.5" rx="2" stroke="#F5F3FF" stroke-width="2"/>
+              <path d="M2.5 8.5H14.5" stroke="#F5F3FF" stroke-width="2"/>
+              <rect x="16" y="3" width="5.5" height="18" rx="1.2" stroke="#F5F3FF" stroke-width="2"/>
+              <circle cx="18.75" cy="18.5" r="0.6" fill="#F5F3FF"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">Web & iOS Geliştirme</h3>
+          <p style="margin:0;opacity:.92">Next.js, Tailwind, SwiftUI, Firebase</p>
+        </article>
+
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" stroke="#F5F3FF" stroke-width="2" fill="none"/>
+              <rect x="9" y="10" width="6" height="5" rx="1.5" stroke="#F5F3FF" stroke-width="2"/>
+              <path d="M12 10V9a2 2 0 114 0v1" stroke="#F5F3FF" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">Siber Güvenlik (Pentest & Sertleştirme)</h3>
+          <p style="margin:0;opacity:.92">Uygulama pentesti, güvenlik denetimi, hardening</p>
+        </article>
+
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" stroke="#F5F3FF" stroke-width="2"/>
+              <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1l2.1-2.1M17 7l2.1-2.1" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">Otomasyon & Entegrasyon</h3>
+          <p style="margin:0;opacity:.92">Hesap açma/kapama, API entegrasyonları, RPA</p>
+        </article>
+
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M3 12h14M3 6h10M3 18h18" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">Sosyal Medya & Reklam</h3>
+          <p style="margin:0;opacity:.92">Meta/Google Ads, CAPI, GTM (Server-Side)</p>
+        </article>
+
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M4 18V6m0 12c3-6 5-8 8-3s5-5 8-9" stroke="#F5F3FF" stroke-width="2" fill="none"/>
+              <circle cx="4" cy="18" r="1.5" fill="#F5F3FF"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">SEO & Analytics</h3>
+          <p style="margin:0;opacity:.92">Teknik SEO, GSC, GA4, Lighthouse</p>
+        </article>
+
+        <article class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M12 5l7 4v4c0 4-3 7-7 8-4-1-7-4-7-8V9l7-4z" stroke="#F5F3FF" stroke-width="2"/>
+              <path d="M12 10v4" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 style="margin:10px 0 4px">Hesap Kurtarma & Olay Müdahalesi</h3>
+          <p style="margin:0;opacity:.92">Hesap geri alma, ihlal sonrası toparlama</p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Projeler -->
+    <section id="projects" aria-labelledby="projects-title">
+      <h2 id="projects-title">Projeler</h2>
+      <div class="grid grid-3" style="margin-top:12px">
+        <article class="card">
+          <h3 style="margin:0 0 4px">LinkPie</h3>
+          <p style="margin:0;opacity:.92">Next.js, Firebase, Tailwind</p>
+          <p style="margin:10px 0 0">
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
+          </p>
+        </article>
+        <article class="card">
+          <h3 style="margin:0 0 4px">iOS Wallet Pass</h3>
+          <p style="margin:0;opacity:.92">SwiftUI, Cloud Functions</p>
+          <p style="margin:10px 0 0">
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
+          </p>
+        </article>
+        <article class="card">
+          <h3 style="margin:0 0 4px">AdTech Toolkit</h3>
+          <p style="margin:0;opacity:.92">GA4, GTM SS, CAPI</p>
+          <p style="margin:10px 0 0">
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">Demo</a> ·
+            <a class="underline" href="#" target="_blank" rel="noopener" style="color:#fff">GitHub</a>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Hakkımda & İletişim -->
+    <section id="about" aria-labelledby="about-title">
+      <h2 id="about-title">Hakkımda & İletişim</h2>
+      <p style="color:var(--muted)">
+        Modern frontend, iOS ve güvenlik odaklı ürünler geliştiriyorum. Otomasyon ve veriyle karar almayı seviyorum; projelerde uçtan uca çözüm sunuyorum.
+      </p>
+
+      <h3>İletişim</h3>
+
+      <!-- Bu bölümdeki profil alanı (değişmedi) -->
+      <div class="avatar-wrap">
+        <img id="avatar-img" class="avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
+             loading="lazy"
+             onerror="this.style.display='none';document.getElementById('avatar-fallback').style.display='inline-flex'">
+        <span id="avatar-fallback" class="avatar-fallback" aria-hidden="true">TA</span>
+      </div>
+
+      <ul>
+        <li>E-posta: <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a></li>
+        <li>
+          <a class="underline" href="https://github.com/tugbaarslanw" target="_blank" rel="noopener">GitHub</a> ·
+          <a class="underline" href="https://www.linkedin.com/in/tugbaarslanw/" target="_blank" rel="noopener">LinkedIn</a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="grid grid-3" style="text-align:center">
+        <div>
+          <strong>Hızlı Erişim</strong>
+          <div style="margin-top:8px">
+            <a class="underline" href="#services">Hizmetler</a> ·
+            <a class="underline" href="#projects">Projeler</a> ·
+            <a class="underline" href="#about">İletişim</a>
+          </div>
+        </div>
+
+        <div>
+          <strong>İletişim</strong>
+          <div style="margin-top:8px">
+            <a class="underline" href="mailto:hello@tugbaarslan.com">hello@tugbaarslan.com</a>
+          </div>
+        </div>
+
+        <div>
+          <strong>Güvenlik</strong>
+          <div style="margin-top:8px">
+            <a class="underline" href="mailto:hello@tugbaarslan.com?subject=Vulnerability%20Disclosure&body=K%C4%B1sa%20%C3%B6zet%3A%0AEtki%3A%0APoC%3A">
+              Security Contact
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; color:var(--muted);">
+        © <span id="year"></span> Tuğba Arslan
+      </div>
+    </div>
+  </footer>
+
+  <!-- 3D Hero (sadece bu eklendi) -->
+  <script src="hero-space-webgl.js" defer></script>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+</body>
+</html>
