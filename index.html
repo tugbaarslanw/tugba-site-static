@@ -215,44 +215,65 @@
   .icon svg [stroke]{stroke:#F5F3FF}
   .icon svg [fill="#6E31FF"]{fill:#F5F3FF}
 
-  /* ===== Premium Rozetler (yalnızca HERO içinde uygulanır) ===== */
+  /* ===== Premium Rozetler (heydrop.app tarzı) ===== */
   header.hero .badge-wrap{ margin-top:12px; display:flex; justify-content:center; }
   header.hero .badges{
     list-style:none; padding:0; margin:0;
     display:flex; flex-wrap:wrap; gap:10px; justify-content:center;
   }
   header.hero .badge{
-    display:flex; align-items:center; gap:8px;
+    position:relative; overflow:hidden;
+    display:inline-flex; align-items:center; gap:10px;
     padding:10px 14px; border-radius:999px;
-    border:1px solid rgba(255,255,255,.22);
-    background:
-      radial-gradient(100% 100% at 28% 18%, rgba(255,255,255,.55), rgba(255,255,255,.10) 60%, rgba(255,255,255,0) 100%),
-      linear-gradient(135deg, rgba(142,45,226,.95) 0%, rgba(106,17,203,.92) 100%);
     color:#fff;
+    border:1px solid rgba(255,255,255,.28);
+    background:
+      radial-gradient(120% 140% at 20% 10%, rgba(255,255,255,.50) 0%, rgba(255,255,255,.12) 42%, rgba(255,255,255,0) 60%),
+      linear-gradient(135deg, rgba(142,45,226,.95) 0%, rgba(106,17,203,.92) 100%);
     box-shadow:
-      inset 0 -1px 2px rgba(0,0,0,.18),
       inset 0 1px 0 rgba(255,255,255,.35),
+      inset 0 -1px 2px rgba(15,0,35,.35),
       0 6px 18px rgba(106,17,203,.30);
     transform:translateZ(0);
-    will-change:transform,filter;
+    will-change:transform, filter, box-shadow;
+    transition:transform .18s ease, filter .18s ease, box-shadow .18s ease;
   }
-  header.hero .badge:hover{ transform:translateY(-1px) scale(1.02); filter:saturate(1.05); }
+  header.hero .badge::after{
+    content:"";
+    position:absolute; inset:-140% -40% auto -40%; height:260%;
+    background:
+      linear-gradient(120deg, rgba(255,255,255,.00) 0%, rgba(255,255,255,.24) 45%, rgba(255,255,255,.00) 60%);
+    transform:translateX(-30%) rotate(20deg);
+    transition:transform .5s ease;
+    pointer-events:none;
+  }
+  header.hero .badge:hover{
+    transform:translateY(-1px) scale(1.02);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.45),
+      inset 0 -1px 3px rgba(15,0,35,.45),
+      0 10px 26px rgba(106,17,203,.36);
+    filter:saturate(1.06);
+  }
+  header.hero .badge:hover::after{ transform:translateX(45%) rotate(20deg); }
+
   header.hero .badge .icon3d{
-    width:24px; height:24px; border-radius:8px;
+    width:24px; height:24px; border-radius:9px; flex:0 0 auto;
     display:inline-flex; align-items:center; justify-content:center;
     background:
-      radial-gradient(100% 100% at 30% 25%, rgba(255,255,255,.75), rgba(255,255,255,.18) 60%, rgba(255,255,255,0) 100%),
+      radial-gradient(100% 120% at 30% 25%, rgba(255,255,255,.75), rgba(255,255,255,.18) 60%, rgba(255,255,255,0) 100%),
       linear-gradient(135deg, #B18CFF 0%, #6A11CB 100%);
     box-shadow: inset 0 -1px 2px rgba(0,0,0,.20), 0 4px 12px rgba(106,17,203,.35);
   }
   header.hero .badge .icon3d svg{ width:16px; height:16px; display:block; }
-  /* Not: Renkli/3D ikonlar için stroke/fill zorlaması kaldırıldı */
+  /* SVG içi renk/derinlik kendi gradientleri ile gelir, zorlamıyoruz */
 
   header.hero .badge .label{
     font-weight:600; letter-spacing:.02em;
     font-size:clamp(12px, 1.6vw, 14px);
     white-space:nowrap;
   }
+  /* ===== /Premium Rozetler ===== */
 
   /* İletişim bölümü avatar (aynı) */
   .avatar-wrap{display:flex;align-items:center;gap:14px;margin:12px 0 6px}
@@ -320,28 +341,27 @@
       <p class="lead">Software Engineer • Etik Hacker • Automation</p>
       <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
 
-      <!-- ==== Premium Rozetler (3D renkli SVG ikonlarla) ==== -->
+      <!-- ==== Premium Rozetler (3D, hover efektli) ==== -->
       <div class="badge-wrap">
-        <ul class="badges" aria-label="Güvenlik rozeti listesi">
-
+        <ul class="badges" aria-label="Güvenlik rozetleri">
           <!-- TLS 1.3 + HSTS -->
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="TLS">
                 <defs>
-                  <linearGradient id="g-tls" x1="0" y1="0" x2="1" y2="1">
+                  <linearGradient id="g-tls-1" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stop-color="#3EE7FF"/>
                     <stop offset="100%" stop-color="#2563EB"/>
                   </linearGradient>
-                  <filter id="ds-tls" x="-50%" y="-50%" width="200%" height="200%">
+                  <filter id="ds-tls-1" x="-50%" y="-50%" width="200%" height="200%">
                     <feOffset dy="0.6" />
                     <feGaussianBlur stdDeviation="0.8"/>
                     <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0"/>
                     <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
                 </defs>
-                <g filter="url(#ds-tls)">
-                  <path d="M12 2l7 4v5c0 6-4 9-7 10-3-1-7-4-7-10V6l7-4z" fill="url(#g-tls)"/>
+                <g filter="url(#ds-tls-1)">
+                  <path d="M12 2l7 4v5c0 6-4 9-7 10-3-1-7-4-7-10V6l7-4z" fill="url(#g-tls-1)"/>
                   <rect x="9" y="10.2" width="6" height="4.2" rx="1.1" fill="#FFFFFF" opacity=".95"/>
                   <path d="M10.6 10.2V9.2a1.4 1.4 0 012.8 0v1" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
                 </g>
@@ -355,22 +375,20 @@
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="CSP">
                 <defs>
-                  <linearGradient id="g-csp" x1="0" y1="0" x2="1" y2="1">
+                  <linearGradient id="g-csp-1" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stop-color="#A78BFA"/>
                     <stop offset="100%" stop-color="#EC4899"/>
                   </linearGradient>
-                  <filter id="ds-csp" x="-50%" y="-50%" width="200%" height="200%">
+                  <filter id="ds-csp-1" x="-50%" y="-50%" width="200%" height="200%">
                     <feOffset dy="0.6" />
                     <feGaussianBlur stdDeviation="0.8"/>
                     <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0"/>
                     <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
                 </defs>
-                <g filter="url(#ds-csp)">
-                  <path d="M12 3l8 4v5c0 5-4 8-8 9-4-1-8-4-8-9V7l8-4z" fill="url(#g-csp)"/>
-                  <path d="M8.7 12.2h6.6" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
-                  <path d="M8.7 15h4.2" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
-                  <path d="M10.2 9.4h5.1" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+                <g filter="url(#ds-csp-1)">
+                  <path d="M12 3l8 4v5c0 5-4 8-8 9-4-1-8-4-8-9V7l8-4z" fill="url(#g-csp-1)"/>
+                  <path d="M8.7 12.2h6.6M8.7 15h4.2M10.2 9.4h5.1" stroke="#fff" stroke-width="1.4" stroke-linecap="round" fill="none"/>
                 </g>
               </svg>
             </span>
@@ -382,19 +400,19 @@
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="MFA">
                 <defs>
-                  <linearGradient id="g-mfa" x1="0" y1="0" x2="1" y2="1">
+                  <linearGradient id="g-mfa-1" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stop-color="#22D3EE"/>
                     <stop offset="100%" stop-color="#10B981"/>
                   </linearGradient>
-                  <filter id="ds-mfa" x="-50%" y="-50%" width="200%" height="200%">
+                  <filter id="ds-mfa-1" x="-50%" y="-50%" width="200%" height="200%">
                     <feOffset dy="0.6" />
                     <feGaussianBlur stdDeviation="0.8"/>
                     <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0"/>
                     <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
                 </defs>
-                <g filter="url(#ds-mfa)">
-                  <rect x="4" y="5" width="10.5" height="14" rx="2" fill="url(#g-mfa)"/>
+                <g filter="url(#ds-mfa-1)">
+                  <rect x="4" y="5" width="10.5" height="14" rx="2" fill="url(#g-mfa-1)"/>
                   <rect x="6.2" y="8.6" width="6.5" height="4.3" rx="1" fill="#fff" opacity=".96"/>
                   <path d="M7.4 8.6V7.7a2 2 0 014 0v.9" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/>
                   <path d="M16.4 10.2l2 1.4v2.2c0 2.2-1.4 3.6-2 3.8-.6-.3-2-1.6-2-3.8v-2.3l2-1.3z" fill="#10B981"/>
@@ -409,23 +427,23 @@
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="WAF">
                 <defs>
-                  <linearGradient id="g-waf" x1="0" y1="0" x2="1" y2="1">
+                  <linearGradient id="g-waf-1" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stop-color="#FDBA74"/>
                     <stop offset="100%" stop-color="#EF4444"/>
                   </linearGradient>
-                  <filter id="ds-waf" x="-50%" y="-50%" width="200%" height="200%">
+                  <filter id="ds-waf-1" x="-50%" y="-50%" width="200%" height="200%">
                     <feOffset dy="0.6" />
                     <feGaussianBlur stdDeviation="0.9"/>
                     <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .36 0"/>
                     <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
                 </defs>
-                <g filter="url(#ds-waf)">
+                <g filter="url(#ds-waf-1)">
                   <!-- firewall bricks -->
-                  <rect x="3" y="7" width="9.5" height="2.2" rx="0.6" fill="url(#g-waf)"/>
-                  <rect x="3" y="10.2" width="5.8" height="2.2" rx="0.6" fill="url(#g-waf)"/>
-                  <rect x="9.2" y="10.2" width="3.3" height="2.2" rx="0.6" fill="url(#g-waf)"/>
-                  <rect x="3" y="13.4" width="9.5" height="2.2" rx="0.6" fill="url(#g-waf)"/>
+                  <rect x="3" y="7" width="9.5" height="2.2" rx="0.6" fill="url(#g-waf-1)"/>
+                  <rect x="3" y="10.2" width="5.8" height="2.2" rx="0.6" fill="url(#g-waf-1)"/>
+                  <rect x="9.2" y="10.2" width="3.3" height="2.2" rx="0.6" fill="url(#g-waf-1)"/>
+                  <rect x="3" y="13.4" width="9.5" height="2.2" rx="0.6" fill="url(#g-waf-1)"/>
                   <!-- shield -->
                   <path d="M16.5 9.6l3 1.9v2.8c0 2.6-1.8 4.2-3 4.7-1.2-.5-3-2.1-3-4.7v-2.8l3-1.9z" fill="#FB7185"/>
                   <path d="M15.1 13l1.4 1.4 2.2-2.2" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -440,20 +458,20 @@
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="Rate limit">
                 <defs>
-                  <linearGradient id="g-rate" x1="0" y1="0" x2="1" y2="1">
+                  <linearGradient id="g-rate-1" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stop-color="#60A5FA"/>
                     <stop offset="100%" stop-color="#7C3AED"/>
                   </linearGradient>
-                  <filter id="ds-rate" x="-50%" y="-50%" width="200%" height="200%">
+                  <filter id="ds-rate-1" x="-50%" y="-50%" width="200%" height="200%">
                     <feOffset dy="0.6" />
                     <feGaussianBlur stdDeviation="0.8"/>
                     <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0"/>
                     <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
                 </defs>
-                <g filter="url(#ds-rate)">
-                  <path d="M6 14a6 6 0 1112 0H6z" fill="url(#g-rate)"/>
-                  <path d="M12 10.2l3.6 1.2" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+                <g filter="url(#ds-rate-1)">
+                  <path d="M6 14a6 6 0 1112 0H6z" fill="url(#g-rate-1)"/>
+                  <path d="M12 10.2l3.6 1.2" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" fill="none"/>
                   <rect x="4" y="16.2" width="3.2" height="1.6" rx="0.6" fill="#C4B5FD"/>
                   <rect x="8.6" y="16.2" width="3.2" height="1.6" rx="0.6" fill="#A78BFA"/>
                   <rect x="13.2" y="16.2" width="3.2" height="1.6" rx="0.6" fill="#8B5CF6"/>
@@ -468,19 +486,19 @@
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="security.txt">
                 <defs>
-                  <linearGradient id="g-pgp" x1="0" y1="0" x2="1" y2="1">
+                  <linearGradient id="g-pgp-1" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stop-color="#FDE68A"/>
                     <stop offset="100%" stop-color="#F59E0B"/>
                   </linearGradient>
-                  <filter id="ds-pgp" x="-50%" y="-50%" width="200%" height="200%">
+                  <filter id="ds-pgp-1" x="-50%" y="-50%" width="200%" height="200%">
                     <feOffset dy="0.6" />
                     <feGaussianBlur stdDeviation="0.8"/>
                     <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0"/>
                     <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
                 </defs>
-                <g filter="url(#ds-pgp)">
-                  <path d="M8 3h7l4 4v14H8z" fill="url(#g-pgp)"/>
+                <g filter="url(#ds-pgp-1)">
+                  <path d="M8 3h7l4 4v14H8z" fill="url(#g-pgp-1)"/>
                   <path d="M15 3v4h4" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
                   <rect x="10" y="11.2" width="5.6" height="3.6" rx="1" fill="#fff" opacity=".95"/>
                   <path d="M11.2 11.2v-.9a1.6 1.6 0 013.2 0v.9" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
@@ -495,26 +513,25 @@
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="CVD">
                 <defs>
-                  <linearGradient id="g-cvd" x1="0" y1="0" x2="1" y2="1">
+                  <linearGradient id="g-cvd-1" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stop-color="#34D399"/>
                     <stop offset="100%" stop-color="#06B6D4"/>
                   </linearGradient>
-                  <filter id="ds-cvd" x="-50%" y="-50%" width="200%" height="200%">
+                  <filter id="ds-cvd-1" x="-50%" y="-50%" width="200%" height="200%">
                     <feOffset dy="0.6" />
                     <feGaussianBlur stdDeviation="0.9"/>
                     <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .36 0"/>
                     <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
                 </defs>
-                <g filter="url(#ds-cvd)">
-                  <path d="M12 4l2.2 4.4 4.8.7-3.5 3.4.8 4.8L12 15.8 7.7 17.3l.8-4.8L5 9.1l4.8-.7L12 4z" fill="url(#g-cvd)"/>
-                  <path d="M9.4 18.2l2.6-1 .6 2.8" stroke="#0EA5A4" stroke-width="1.2" opacity=".6"/>
+                <g filter="url(#ds-cvd-1)">
+                  <path d="M12 4l2.2 4.4 4.8.7-3.5 3.4.8 4.8L12 15.8 7.7 17.3l.8-4.8L5 9.1l4.8-.7L12 4z" fill="url(#g-cvd-1)"/>
+                  <path d="M9.4 18.2l2.6-1 .6 2.8" stroke="#0EA5A4" stroke-width="1.2" opacity=".6" fill="none"/>
                 </g>
               </svg>
             </span>
             <span class="label">CVD / Bug Bounty</span>
           </li>
-
         </ul>
       </div>
       <!-- ==== /Premium Rozetler ==== -->
