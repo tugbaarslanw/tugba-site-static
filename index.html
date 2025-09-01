@@ -55,7 +55,7 @@
   <style>
   :root{
     --fg:#0F1222; --muted:#667085; --bg:#FFFFFF;
-    --heading:#000000; /* başlıklar kesin siyah */
+    --heading:#000000;
     --accent-500:#673AB7; --accent-400:#AA42EF; --accent-300:#BB68F2;
     --card:#FFFFFF; --line:#E6E6EA; --surface:#F5EEFF;
   }
@@ -70,7 +70,6 @@
   html,body{margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
-    /* sayfa genel zemini – statik */
     background:linear-gradient(180deg,#F8F5FF 0%,#F3ECFF 35%,#FFFFFF 100%);
     color:var(--fg);
     font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,Helvetica,sans-serif;
@@ -92,15 +91,12 @@
   .menu a{color:#fff;text-decoration:none;padding:8px 10px;border-radius:10px;opacity:.95}
   .menu a:hover{background:rgba(255,255,255,.10);opacity:1}
 
-  /* ===== HERO (sadece burada animasyon) ===== */
+  /* ===== HERO ===== */
   header.hero{
     position:relative; overflow:hidden;
-    padding:110px 0 120px; /* alt beyazlığı aşağı kaydırıldı */
-    text-align:center;
-    isolation:isolate;
+    padding:110px 0 120px; /* alt beyaz alanı bir miktar aşağıda dursun */
+    text-align:center; isolation:isolate;
   }
-
-  /* Nebula katmanları */
   .hero-bg{position:absolute; inset:0; z-index:0; pointer-events:none}
   .nebula-sky{
     position:absolute; inset:-20% -10% -10% -10%;
@@ -112,74 +108,33 @@
     filter: saturate(1.1) contrast(1.05);
     animation: skyPan 60s linear infinite;
   }
-  @keyframes skyPan{
-    0%{transform:translate3d(0,0,0) scale(1)}
-    50%{transform:translate3d(2%, -1%, 0) scale(1.02)}
-    100%{transform:translate3d(0,0,0) scale(1)}
-  }
-
-  .stars, .twinkles{
+  @keyframes skyPan{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(2%,-1%,0) scale(1.02)}100%{transform:translate3d(0,0,0) scale(1)}}
+  .stars,.twinkles{
     position:absolute; inset:0;
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='10' cy='20' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='80' cy='60' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='150' cy='90' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='30' cy='140' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='190' cy='160' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='110' cy='170' r='1' fill='white' opacity='.6'/%3E%3Ccircle cx='60' cy='15' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='175' cy='35' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='140' cy='150' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='20' cy='90' r='1' fill='white' opacity='.8'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='10' cy='20' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='80' cy='60' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='150' cy='90' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='30' cy='140' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='190' cy='160' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='110' cy='170' r='1' fill='white' opacity='.6'/%3E%3Ccircle cx='60' cy='15' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='175' cy='35' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='140' cy='150' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='20' cy='90' r='1' fill='white' opacity='.8'/%3E%3C/svg%3E");
     background-size:300px 300px; background-repeat:repeat;
   }
   .stars{opacity:.55; animation: starDrift 120s linear infinite}
   .twinkles{opacity:.8; animation: twinkle 2.8s ease-in-out infinite alternate}
   @keyframes starDrift{from{background-position:0 0} to{background-position:-600px 300px}}
   @keyframes twinkle{from{opacity:.25} to{opacity:.7}}
-
   .meteor{
     position:absolute; top:18%; left:-20%;
     width:220px; height:2px;
     background:linear-gradient(90deg, rgba(255,255,255,.95), rgba(255,255,255,0));
     filter:drop-shadow(0 0 6px rgba(255,255,255,.6));
-    transform:rotate(15deg);
-    animation: shoot 7s ease-in-out infinite;
+    transform:rotate(15deg); animation: shoot 7s ease-in-out infinite;
   }
-  @keyframes shoot{
-    0%,60%{opacity:0; transform:translate(-40vw,-20vh) rotate(15deg)}
-    66%,72%{opacity:1; transform:translate(5vw,2vh) rotate(15deg)}
-    100%{opacity:0; transform:translate(60vw,24vh) rotate(15deg)}
-  }
-
-  .hero-spot{
-    position:absolute; inset:0; z-index:1; pointer-events:none;
-    background:radial-gradient( circle at 50% 46%, rgba(255,255,255,.35), rgba(255,255,255,0) 55% );
-  }
-
-  .wave{
-    position:absolute; left:0; right:0; bottom:-1px; width:100%; height:120px; z-index:1; pointer-events:none;
-  }
+  @keyframes shoot{0%,60%{opacity:0; transform:translate(-40vw,-20vh) rotate(15deg)}66%,72%{opacity:1; transform:translate(5vw,2vh) rotate(15deg)}100%{opacity:0; transform:translate(60vw,24vh) rotate(15deg)}}
+  .hero-spot{position:absolute; inset:0; z-index:1; pointer-events:none; background:radial-gradient(circle at 50% 46%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%)}
+  .wave{position:absolute; left:0; right:0; bottom:-1px; width:100%; height:120px; z-index:1; pointer-events:none}
 
   .hero-inner{position:relative; z-index:2; max-width:1000px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:10px}
+  .hero-avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;margin-bottom:10px;background:#eee;border:3px solid rgba(255,255,255,.9);box-shadow:0 10px 24px rgba(106,17,203,.25)}
+  .hero-fallback{width:112px;height:112px;border-radius:50%;display:none;align-items:center;justify-content:center;font-weight:800;color:#fff;user-select:none;background:linear-gradient(135deg,#8E2DE2,#6A11CB);margin-bottom:10px;border:3px solid rgba(255,255,255,.9);box-shadow:0 10px 24px rgba(106,17,203,.25)}
 
-  .hero-avatar{
-    width:112px;height:112px;border-radius:50%;object-fit:cover;
-    margin-bottom:10px;background:#eee;
-    border:3px solid rgba(255,255,255,.9);
-    box-shadow:0 10px 24px rgba(106,17,203,.25);
-  }
-  .hero-fallback{
-    width:112px;height:112px;border-radius:50%;
-    display:none;align-items:center;justify-content:center;
-    font-weight:800;color:#fff;user-select:none;
-    background:linear-gradient(135deg,#8E2DE2,#6A11CB);
-    margin-bottom:10px; border:3px solid rgba(255,255,255,.9);
-    box-shadow:0 10px 24px rgba(106,17,203,.25);
-  }
-
-  header h1{
-    margin:0 0 8px 0;
-    font-size:clamp(44px,7vw,68px);
-    font-weight:800;
-    line-height:1.08;
-    letter-spacing:-.015em;
-    color:var(--heading);
-  }
-  #services-title, #projects-title, #about-title, #about h3, header h1{
-    color:#000 !important; text-shadow:none !important; filter:none !important;
-  }
+  header h1{margin:0 0 8px 0; font-size:clamp(44px,7vw,68px); font-weight:800; line-height:1.08; letter-spacing:-.015em; color:var(--heading)}
+  #services-title, #projects-title, #about-title, #about h3, header h1{color:#000 !important; text-shadow:none !important; filter:none !important}
 
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
   section{padding:28px 0}
@@ -193,105 +148,33 @@
   .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
   @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-  .card{
-    color:#fff;
-    background:linear-gradient(135deg,#8E2DE2 0%, #6A11CB 100%);
-    border:none;border-radius:18px;padding:20px;
-    box-shadow:0 14px 28px rgba(106,17,203,.24), 0 4px 10px rgba(106,17,203,.16);
-    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
-  }
+  .card{color:#fff;background:linear-gradient(135deg,#8E2DE2 0%, #6A11CB 100%);border:none;border-radius:18px;padding:20px;box-shadow:0 14px 28px rgba(106,17,203,.24), 0 4px 10px rgba(106,17,203,.16);transition:transform .18s ease, box-shadow .18s ease, filter .18s ease}
   .card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(106,17,203,.28), 0 6px 14px rgba(106,17,203,.18);filter:saturate(1.06)}
 
   .icon{height:48px;width:48px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
   .icon svg [stroke]{stroke:#F5F3FF}
   .icon svg [fill="#6E31FF"]{fill:#F5F3FF}
 
-  /* ===== Premium Rozetler (yalnızca HERO içinde uygulanır) ===== */
+  /* Rozetler (değişmedi) */
   header.hero .badge-wrap{ margin-top:12px; display:flex; justify-content:center; }
-  header.hero .badges{
-    list-style:none; padding:0; margin:0;
-    display:flex; flex-wrap:wrap; gap:12px; justify-content:center;
-  }
-  header.hero .badge{
-    display:flex; align-items:center; gap:10px;
-    padding:12px 16px; border-radius:999px;
-    border:1px solid rgba(255,255,255,.22);
-    background:
-      radial-gradient(100% 100% at 28% 18%, rgba(255,255,255,.55), rgba(255,255,255,.10) 60%, rgba(255,255,255,0) 100%),
-      linear-gradient(135deg, rgba(142,45,226,.95) 0%, rgba(106,17,203,.92) 100%);
-    color:#fff;
-    box-shadow:
-      inset 0 -1px 2px rgba(0,0,0,.18),
-      inset 0 1px 0 rgba(255,255,255,.35),
-      0 10px 26px rgba(106,17,203,.35);
-    transform:translateZ(0);
-    will-change:transform,filter;
-    perspective:600px;
-  }
-  header.hero .badge:hover{
-    transform:translateY(-1px) scale(1.02);
-    filter:saturate(1.06) brightness(1.03);
-    box-shadow:
-      inset 0 -1px 2px rgba(0,0,0,.18),
-      inset 0 1px 0 rgba(255,255,255,.38),
-      0 14px 34px rgba(106,17,203,.45);
-  }
-  header.hero .badge .label{
-    font-weight:700; letter-spacing:.02em;
-    font-size:clamp(12px, 1.6vw, 14px);
-    white-space:nowrap;
-    text-shadow:0 1px 0 rgba(0,0,0,.18);
-  }
-  header.hero .badge .icon3d{
-    width:26px; height:26px; border-radius:10px;
-    display:inline-flex; align-items:center; justify-content:center;
-    position:relative; transform-style:preserve-3d;
-    background:
-      radial-gradient(120% 120% at 25% 20%, rgba(255,255,255,.9), rgba(255,255,255,.18) 45%, rgba(255,255,255,0) 60%),
-      linear-gradient(135deg, #B18CFF 0%, #6A11CB 100%);
-    box-shadow:
-      inset 0 -2px 4px rgba(0,0,0,.25),
-      0 6px 14px rgba(26,16,59,.35);
-  }
-  header.hero .badge .icon3d::before{
-    content:""; position:absolute; inset:-1px; border-radius:12px;
-    background:radial-gradient(160% 80% at 50% -10%, rgba(255,255,255,.7), rgba(255,255,255,0) 55%);
-    transform:translateZ(6px); pointer-events:none;
-  }
-  header.hero .badge .icon3d::after{
-    content:""; position:absolute; inset:-3px; border-radius:14px; filter:blur(6px);
-    background:radial-gradient(80% 80% at 50% 60%, rgba(0,0,0,.18), rgba(0,0,0,0) 70%);
-    transform:translateZ(-1px); pointer-events:none;
-  }
-  header.hero .badge .icon3d svg{ width:18px; height:18px; display:block; transform:translateZ(8px); }
+  header.hero .badges{list-style:none; padding:0; margin:0; display:flex; flex-wrap:wrap; gap:12px; justify-content:center}
+  header.hero .badge{display:flex; align-items:center; gap:10px; padding:12px 16px; border-radius:999px; border:1px solid rgba(255,255,255,.22); background:radial-gradient(100% 100% at 28% 18%, rgba(255,255,255,.55), rgba(255,255,255,.10) 60%, rgba(255,255,255,0) 100%), linear-gradient(135deg, rgba(142,45,226,.95) 0%, rgba(106,17,203,.92) 100%); color:#fff; box-shadow:inset 0 -1px 2px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.35), 0 10px 26px rgba(106,17,203,.35)}
+  header.hero .badge .label{font-weight:700; letter-spacing:.02em; font-size:clamp(12px, 1.6vw, 14px); white-space:nowrap; text-shadow:0 1px 0 rgba(0,0,0,.18)}
+  header.hero .badge .icon3d{width:26px; height:26px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; position:relative; transform-style:preserve-3d; background:radial-gradient(120% 120% at 25% 20%, rgba(255,255,255,.9), rgba(255,255,255,.18) 45%, rgba(255,255,255,0) 60%), linear-gradient(135deg, #B18CFF 0%, #6A11CB 100%); box-shadow:inset 0 -2px 4px rgba(0,0,0,.25), 0 6px 14px rgba(26,16,59,.35)}
+  header.hero .badge .icon3d::before{content:""; position:absolute; inset:-1px; border-radius:12px; background:radial-gradient(160% 80% at 50% -10%, rgba(255,255,255,.7), rgba(255,255,255,0) 55%); transform:translateZ(6px); pointer-events:none}
+  header.hero .badge .icon3d::after{content:""; position:absolute; inset:-3px; border-radius:14px; filter:blur(6px); background:radial-gradient(80% 80% at 50% 60%, rgba(0,0,0,.18), rgba(0,0,0,0) 70%); transform:translateZ(-1px); pointer-events:none}
+  header.hero .badge .icon3d svg{ width:18px; height:18px; display:block; transform:translateZ(8px) }
 
-  /* ====== HERO ALTINDA LOGO ŞERİDİ — SADECE LOGO ALANI ====== */
-  .brand-strip{background:#FFFFFF; margin-top:-2px;}
-  /* logosu olan beyaz bantta tam orta hizalama (üst-alt) */
-  .brand-strip .container{display:flex; align-items:center; justify-content:center; min-height:140px;}
-  .partners{
-    display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
-    gap:18px 22px;
+  /* --- SADE LOGO ALANI (yalnız bu eklendi/korundu) --- */
+  .logos{
+    background:#FFFFFF;
+    display:flex; justify-content:center; align-items:center;
+    flex-wrap:wrap; gap:24px;
+    padding:28px 24px;
   }
-  .partner-chip{
-    display:inline-flex; align-items:center; gap:12px;
-    padding:10px 14px; border-radius:16px;
-    background:linear-gradient(180deg,#FFFFFF 0%, #F8FAFC 100%);
-    border:1px solid #E5E7EB;
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.75),
-      0 10px 22px rgba(17,24,39,.08),
-      0 3px 8px rgba(17,24,39,.06);
-    user-select:none;
-  }
-  .partner-chip img{
-    width:28px; height:28px; object-fit:contain;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,.2));
-  }
-  .partner-chip span{
-    font-weight:700; letter-spacing:.01em;
-    color:#4B5563; font-size:14px;
-    white-space:nowrap;
+  .logos img{
+    height:50px; width:auto; object-fit:contain;
+    display:block;
   }
 
   /* Footer */
@@ -316,7 +199,7 @@
     </div>
   </nav>
 
-  <!-- HERO: sadece burada animasyon -->
+  <!-- HERO -->
   <header class="hero" data-hero>
     <div class="hero-bg" aria-hidden="true">
       <div class="nebula-sky"></div>
@@ -325,7 +208,7 @@
       <div class="meteor"></div>
       <div class="hero-spot"></div>
 
-      <!-- alt dalga (şekil ve boy aynı) -->
+      <!-- alt dalga (aynı şekil ve boy) -->
       <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
         <path fill="#FFFFFF" d="M0,40 C120,70 240,90 360,90 C600,90 600,30 840,30 C1080,30 1080,100 1320,100 C1380,100 1440,94 1440,94 L1440,120 L0,120 Z"></path>
       </svg>
@@ -340,10 +223,9 @@
       <p class="lead">Software Engineer • Etik Hacker • Automation</p>
       <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
 
-      <!-- ==== Premium Rozetler ==== -->
+      <!-- Rozetler (değişmedi) -->
       <div class="badge-wrap">
         <ul class="badges" aria-label="Güvenlik rozeti listesi">
-          <!-- (rozetler aynı bırakıldı) -->
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="TLS">
@@ -372,7 +254,6 @@
             </span>
             <span class="label">TLS 1.3 + HSTS</span>
           </li>
-
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="CSP">
@@ -396,7 +277,6 @@
             </span>
             <span class="label">CSP (Strict)</span>
           </li>
-
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="MFA">
@@ -421,7 +301,6 @@
             </span>
             <span class="label">MFA (2FA) Everywhere</span>
           </li>
-
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="WAF">
@@ -452,7 +331,6 @@
             </span>
             <span class="label">App Firewall + DDos Shield</span>
           </li>
-
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="Rate limit">
@@ -478,7 +356,6 @@
             </span>
             <span class="label">Rate Limiting &amp; Abuse protection</span>
           </li>
-
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="security.txt">
@@ -503,7 +380,6 @@
             </span>
             <span class="label">Security txt + PGP</span>
           </li>
-
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="CVD">
@@ -528,43 +404,18 @@
           </li>
         </ul>
       </div>
-      <!-- ==== /Premium Rozetler ==== -->
+      <!-- /Rozetler -->
     </div>
   </header>
 
-  <!-- ===== HERO ALTINDA BEYAZ ALANDA LOGO ŞERİDİ (tıklanamaz) ===== -->
-  <div class="brand-strip" aria-label="Desteklenen platformlar">
-    <div class="container">
-      <div class="partners">
-        <!-- PNG ikon solda + isim -->
-        <div class="partner-chip" aria-label="Apple Developer">
-          <img src="assets/brands/apple-developer-3d.png" alt="" width="28" height="28" loading="lazy">
-          <span>Apple Developer</span>
-        </div>
-
-        <div class="partner-chip" aria-label="Firebase">
-          <img src="assets/brands/firebase-3d.png" alt="" width="28" height="28" loading="lazy">
-          <span>Firebase</span>
-        </div>
-
-        <div class="partner-chip" aria-label="GitHub">
-          <img src="assets/brands/github-3d.png" alt="" width="28" height="28" loading="lazy">
-          <span>GitHub</span>
-        </div>
-
-        <div class="partner-chip" aria-label="Cloudflare">
-          <img src="assets/brands/cloudflare-3d.png" alt="" width="28" height="28" loading="lazy">
-          <span>Cloudflare</span>
-        </div>
-
-        <div class="partner-chip" aria-label="Meta for Developers">
-          <img src="assets/brands/meta-for-developers-3d.png" alt="" width="28" height="28" loading="lazy">
-          <span>Meta for Developers</span>
-        </div>
-      </div>
-    </div>
+  <!-- SADE LOGO ŞERİDİ (yalnız img'ler) -->
+  <div class="logos" aria-label="Marka logoları">
+    <img src="assets/brands/apple-developer.png" alt="">
+    <img src="assets/brands/firebase.png" alt="">
+    <img src="assets/brands/github.png" alt="">
+    <img src="assets/brands/cloudflare.png" alt="">
+    <img src="assets/brands/meta-for-developers.png" alt="">
   </div>
-  <!-- ===== /LOGO ŞERİDİ ===== -->
 
   <main class="container">
 
@@ -736,7 +587,7 @@
     </div>
   </footer>
 
-  <!-- 3D Hero (sadece bu eklendi) -->
+  <!-- 3D Hero -->
   <script src="hero-space-webgl.js" defer></script>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
