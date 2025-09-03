@@ -91,16 +91,9 @@
   .menu a{color:#fff;text-decoration:none;padding:8px 10px;border-radius:10px;opacity:.95}
   .menu a:hover{background:rgba(255,255,255,.10);opacity:1}
 
-  /* ===== HERO (sadece burada animasyon) ===== */
-  header.hero{
-    position:relative; overflow:hidden;
-    padding:110px 0 120px;
-    text-align:center;
-    isolation:isolate;
-  }
-
-  /* Nebula katmanları */
-  .hero-bg{position:absolute; inset:0; z-index:0; pointer-events:none}
+  /* ===== HERO ===== */
+  header.hero{position:relative;overflow:hidden;padding:110px 0 120px;text-align:center;isolation:isolate}
+  .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
   .nebula-sky{
     position:absolute; inset:-20% -10% -10% -10%;
     background:
@@ -108,84 +101,34 @@
       radial-gradient(900px 600px at 85% 25%, rgba(170,66,239,.45), transparent 60%),
       radial-gradient(1000px 800px at 50% 70%, rgba(106,17,203,.45), transparent 60%),
       linear-gradient(180deg, #2B0F66 0%, #3B0E86 40%, #4C10A6 70%, #5A11BF 100%);
-    filter: saturate(1.1) contrast(1.05);
-    animation: skyPan 60s linear infinite;
+    filter:saturate(1.1) contrast(1.05);
+    animation:skyPan 60s linear infinite;
   }
-  @keyframes skyPan{
-    0%{transform:translate3d(0,0,0) scale(1)}
-    50%{transform:translate3d(2%, -1%, 0) scale(1.02)}
-    100%{transform:translate3d(0,0,0) scale(1)}
-  }
-
-  /* Yıldız dokusu */
-  .stars, .twinkles{
-    position:absolute; inset:0;
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='10' cy='20' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='80' cy='60' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='150' cy='90' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='30' cy='140' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='190' cy='160' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='110' cy='170' r='1' fill='white' opacity='.6'/%3E%3Ccircle cx='60' cy='15' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='175' cy='35' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='140' cy='150' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='20' cy='90' r='1' fill='white' opacity='.8'/%3E%3C/svg%3E");
+  @keyframes skyPan{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(2%,-1%,0) scale(1.02)}100%{transform:translate3d(0,0,0) scale(1)}}
+  .stars,.twinkles{
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='10' cy='20' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='80' cy='60' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='150' cy='90' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='30' cy='140' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='190' cy='160' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='110' cy='170' r='1' fill='white' opacity='.6'/%3E%3Ccircle cx='60' cy='15' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='175' cy='35' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='140' cy='150' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='20' cy='90' r='1' fill='white' opacity='.8'/%3E%3C/svg%3E");
     background-size:300px 300px; background-repeat:repeat;
   }
-  .stars{opacity:.55; animation: starDrift 120s linear infinite}
-  .twinkles{opacity:.8; animation: twinkle 2.8s ease-in-out infinite alternate}
-  @keyframes starDrift{from{background-position:0 0} to{background-position:-600px 300px}}
-  @keyframes twinkle{from{opacity:.25} to{opacity:.7}}
+  .stars{opacity:.55;animation:starDrift 120s linear infinite}
+  .twinkles{opacity:.8;animation:twinkle 2.8s ease-in-out infinite alternate}
+  @keyframes starDrift{from{background-position:0 0}to{background-position:-600px 300px}}
+  @keyframes twinkle{from{opacity:.25}to{opacity:.7}}
+  .meteor{position:absolute;top:18%;left:-20%;width:220px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,255,255,0));filter:drop-shadow(0 0 6px rgba(255,255,255,.6));transform:rotate(15deg);animation:shoot 7s ease-in-out infinite}
+  @keyframes shoot{0%,60%{opacity:0;transform:translate(-40vw,-20vh) rotate(15deg)}66%,72%{opacity:1;transform:translate(5vw,2vh) rotate(15deg)}100%{opacity:0;transform:translate(60vw,24vh) rotate(15deg)}}
+  .hero-spot{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 50% 46%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%)}
+  .wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:120px;z-index:1;pointer-events:none}
 
-  /* Kuyruklu yıldız */
-  .meteor{
-    position:absolute; top:18%; left:-20%;
-    width:220px; height:2px;
-    background:linear-gradient(90deg, rgba(255,255,255,.95), rgba(255,255,255,0));
-    filter:drop-shadow(0 0 6px rgba(255,255,255,.6));
-    transform:rotate(15deg);
-    animation: shoot 7s ease-in-out infinite;
-  }
+  .hero-inner{position:relative;z-index:2;max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .hero-avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;margin-bottom:10px;background:#eee;border:3px solid rgba(255,255,255,.9);box-shadow:0 10px 24px rgba(106,17,203,.25)}
+  .hero-fallback{width:112px;height:112px;border-radius:50%;display:none;align-items:center;justify-content:center;font-weight:800;color:#fff;user-select:none;background:linear-gradient(135deg,#8E2DE2,#6A11CB);margin-bottom:10px;border:3px solid rgba(255,255,255,.9);box-shadow:0 10px 24px rgba(106,17,203,.25)}
 
-  /* İçerik spot */
-  .hero-spot{
-    position:absolute; inset:0; z-index:1; pointer-events:none;
-    background:radial-gradient( circle at 50% 46%, rgba(255,255,255,.35), rgba(255,255,255,0) 55% );
-  }
-
-  /* Alt dalga (renk/şekil aynı) */
-  .wave{
-    position:absolute; left:0; right:0; bottom:-1px; width:100%; height:120px; z-index:1; pointer-events:none;
-  }
-
-  /* hero içeriği */
-  .hero-inner{position:relative; z-index:2; max-width:1000px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:10px}
-
-  /* hero avatar */
-  .hero-avatar{
-    width:112px;height:112px;border-radius:50%;object-fit:cover;
-    margin-bottom:10px;background:#eee;
-    border:3px solid rgba(255,255,255,.9);
-    box-shadow:0 10px 24px rgba(106,17,203,.25);
-  }
-  .hero-fallback{
-    width:112px;height:112px;border-radius:50%;
-    display:none;align-items:center;justify-content:center;
-    font-weight:800;color:#fff;user-select:none;
-    background:linear-gradient(135deg,#8E2DE2,#6A11CB);
-    margin-bottom:10px; border:3px solid rgba(255,255,255,.9);
-    box-shadow:0 10px 24px rgba(106,17,203,.25);
-  }
-
-  /* Başlıklar */
-  header h1{
-    margin:0 0 8px 0;
-    font-size:clamp(44px,7vw,68px);
-    font-weight:800;
-    line-height:1.08;
-    letter-spacing:-.015em;
-    color:var(--heading);
-  }
-  #services-title, #projects-title, #about-title, #about h3, header h1{
-    color:#000 !important; text-shadow:none !important; filter:none !important;
-  }
+  header h1{margin:0 0 8px 0;font-size:clamp(44px,7vw,68px);font-weight:800;line-height:1.08;letter-spacing:-.015em;color:var(--heading)}
+  #services-title,#projects-title,#about-title,#about h3,header h1{color:#000 !important;text-shadow:none !important;filter:none !important}
 
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
   section{padding:28px 0}
 
-  /* CTA */
   .btn{display:inline-block;padding:12px 18px;border-radius:16px;background-image:linear-gradient(90deg,var(--accent-500),var(--accent-400));color:#fff;text-decoration:none;box-shadow:0 6px 16px rgba(170,66,239,.30);transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
   .btn:hover{transform:translateY(-1px);filter:brightness(1.04);box-shadow:0 10px 24px rgba(170,66,239,.38)}
 
@@ -195,89 +138,36 @@
   .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
   @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-  /* Kartlar (mor) */
-  .card{
-    color:#fff;
-    background:linear-gradient(135deg,#8E2DE2 0%, #6A11CB 100%);
-    border:none;border-radius:18px;padding:20px;
-    box-shadow:0 14px 28px rgba(106,17,203,.24), 0 4px 10px rgba(106,17,203,.16);
-    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
-  }
+  .card{color:#fff;background:linear-gradient(135deg,#8E2DE2 0%, #6A11CB 100%);border:none;border-radius:18px;padding:20px;box-shadow:0 14px 28px rgba(106,17,203,.24), 0 4px 10px rgba(106,17,203,.16);transition:transform .18s ease, box-shadow .18s ease, filter .18s ease}
   .card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(106,17,203,.28), 0 6px 14px rgba(106,17,203,.18);filter:saturate(1.06)}
 
   .icon{height:48px;width:48px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
   .icon svg [stroke]{stroke:#F5F3FF}
   .icon svg [fill="#6E31FF"]{fill:#F5F3FF}
 
-  /* ===== Premium Rozetler (HERO içinde) ===== */
-  header.hero .badge-wrap{ margin-top:12px; display:flex; justify-content:center; }
-  header.hero .badges{
-    list-style:none; padding:0; margin:0;
-    display:flex; flex-wrap:wrap; gap:12px; justify-content:center;
-  }
-  header.hero .badge{
-    display:flex; align-items:center; gap:10px;
-    padding:12px 16px; border-radius:999px;
-    border:1px solid rgba(255,255,255,.22);
-    background:
+  /* Premium Rozetler */
+  header.hero .badge-wrap{margin-top:12px;display:flex;justify-content:center}
+  header.hero .badges{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+  header.hero .badge{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:
       radial-gradient(100% 100% at 28% 18%, rgba(255,255,255,.55), rgba(255,255,255,.10) 60%, rgba(255,255,255,0) 100%),
-      linear-gradient(135deg, rgba(142,45,226,.95) 0%, rgba(106,17,203,.92) 100%);
-    color:#fff;
-    box-shadow:
-      inset 0 -1px 2px rgba(0,0,0,.18),
-      inset 0 1px 0 rgba(255,255,255,.35),
-      0 10px 26px rgba(106,17,203,.35);
-    transform:translateZ(0);
-    will-change:transform,filter;
-    perspective:600px;
-  }
-  header.hero .badge:hover{
-    transform:translateY(-1px) scale(1.02);
-    filter:saturate(1.06) brightness(1.03);
-    box-shadow:
-      inset 0 -1px 2px rgba(0,0,0,.18),
-      inset 0 1px 0 rgba(255,255,255,.38),
-      0 14px 34px rgba(106,17,203,.45);
-  }
-  header.hero .badge .label{
-    font-weight:700; letter-spacing:.02em;
-    font-size:clamp(12px, 1.6vw, 14px);
-    white-space:nowrap;
-    text-shadow:0 1px 0 rgba(0,0,0,.18);
-  }
-  header.hero .badge .icon3d{
-    width:26px; height:26px; border-radius:10px;
-    display:inline-flex; align-items:center; justify-content:center;
-    position:relative; transform-style:preserve-3d;
-    background:
-      radial-gradient(120% 120% at 25% 20%, rgba(255,255,255,.9), rgba(255,255,255,.18) 45%, rgba(255,255,255,0) 60%),
-      linear-gradient(135deg, #B18CFF 0%, #6A11CB 100%);
-    box-shadow:
-      inset 0 -2px 4px rgba(0,0,0,.25),
-      0 6px 14px rgba(26,16,59,.35);
-  }
-  header.hero .badge .icon3d::before{
-    content:""; position:absolute; inset:-1px; border-radius:12px;
-    background:radial-gradient(160% 80% at 50% -10%, rgba(255,255,255,.7), rgba(255,255,255,0) 55%);
-    transform:translateZ(6px); pointer-events:none;
-  }
-  header.hero .badge .icon3d::after{
-    content:""; position:absolute; inset:-3px; border-radius:14px; filter:blur(6px);
-    background:radial-gradient(80% 80% at 50% 60%, rgba(0,0,0,.18), rgba(0,0,0,0) 70%);
-    transform:translateZ(-1px); pointer-events:none;
-  }
-  header.hero .badge:hover .icon3d{
-    transform:rotateX(12deg) rotateY(-12deg) translateZ(2px);
-    box-shadow:
-      inset 0 -2px 4px rgba(0,0,0,.28),
-      0 10px 20px rgba(26,16,59,.45);
-  }
-  header.hero .badge .icon3d svg{ width:18px; height:18px; display:block; transform:translateZ(8px); }
+      linear-gradient(135deg, rgba(142,45,226,.95) 0%, rgba(106,17,203,.92) 100%);color:#fff;box-shadow:inset 0 -1px 2px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.35), 0 10px 26px rgba(106,17,203,.35)}
+  header.hero .badge:hover{transform:translateY(-1px) scale(1.02);filter:saturate(1.06) brightness(1.03);box-shadow:inset 0 -1px 2px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.38), 0 14px 34px rgba(106,17,203,.45)}
+  header.hero .badge .label{font-weight:700;letter-spacing:.02em;font-size:clamp(12px,1.6vw,14px);white-space:nowrap;text-shadow:0 1px 0 rgba(0,0,0,.18)}
+  header.hero .badge .icon3d{width:26px;height:26px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;position:relative;transform-style:preserve-3d;background:radial-gradient(120% 120% at 25% 20%, rgba(255,255,255,.9), rgba(255,255,255,.18) 45%, rgba(255,255,255,0) 60%), linear-gradient(135deg, #B18CFF 0%, #6A11CB 100%);box-shadow:inset 0 -2px 4px rgba(0,0,0,.25), 0 6px 14px rgba(26,16,59,.35)}
+  header.hero .badge .icon3d::before{content:"";position:absolute;inset:-1px;border-radius:12px;background:radial-gradient(160% 80% at 50% -10%, rgba(255,255,255,.7), rgba(255,255,255,0) 55%);transform:translateZ(6px);pointer-events:none}
+  header.hero .badge .icon3d::after{content:"";position:absolute;inset:-3px;border-radius:14px;filter:blur(6px);background:radial-gradient(80% 80% at 50% 60%, rgba(0,0,0,.18), rgba(0,0,0,0) 70%);transform:translateZ(-1px);pointer-events:none}
+  header.hero .badge:hover .icon3d{transform:rotateX(12deg) rotateY(-12deg) translateZ(2px);box-shadow:inset 0 -2px 4px rgba(0,0,0,.28), 0 10px 20px rgba(26,16,59,.45)}
+  header.hero .badge .icon3d svg{width:18px;height:18px;display:block;transform:translateZ(8px)}
 
-  /* ====== HERO ALTINDA LOGO ŞERİDİ (PNG) ====== */
-  .brand-strip{background:#FFFFFF; margin-top:-2px;}
-  .logos{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:36px; padding:18px 0 8px; user-select:none;}
-  .logos img{height:50px; width:auto; display:block; pointer-events:none; image-rendering:auto; filter:saturate(1.02) contrast(1.02);}
+  /* Marka şeridi */
+  .brand-strip{background:#FFFFFF;margin-top:-2px}
+  .logos{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:36px;padding:18px 0 8px;user-select:none}
+  .logos img{height:50px;width:auto;display:block;pointer-events:none;image-rendering:auto;filter:saturate(1.02) contrast(1.02)}
+
+  /* İletişim avatarı – yuvarlak kesin */
+  .avatar{width:96px;height:96px;border-radius:50% !important;object-fit:cover;border:2px solid rgba(0,0,0,.08);box-shadow:0 10px 24px rgba(106,17,203,.18);background:#eee}
+  .avatar-fallback{width:96px;height:96px;border-radius:50%;display:none;align-items:center;justify-content:center;font-weight:800;color:#fff;user-select:none;background:linear-gradient(135deg,#8E2DE2,#6A11CB);box-shadow:0 10px 24px rgba(106,17,203,.18)}
+  @media (prefers-color-scheme: dark){.avatar{border-color:rgba(255,255,255,.15)}}
 
   /* Footer */
   footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)}
@@ -317,7 +207,6 @@
     </div>
 
     <div class="hero-inner">
-      <!-- Profil foto -->
       <img class="hero-avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
            onerror="this.style.display='none';document.getElementById('hero-fallback').style.display='inline-flex'">
       <span id="hero-fallback" class="hero-fallback" aria-hidden="true">TA</span>
@@ -326,7 +215,7 @@
       <p class="lead">Software Engineer • Etik Hacker • Automation</p>
       <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
 
-      <!-- ==== Premium Rozetler (geri getirildi) ==== -->
+      <!-- ==== Premium Rozetler ==== -->
       <div class="badge-wrap">
         <ul class="badges" aria-label="Güvenlik rozeti listesi">
           <!-- TLS 1.3 + HSTS -->
@@ -335,18 +224,12 @@
               <svg viewBox="0 0 24 24" role="img" aria-label="TLS">
                 <defs>
                   <linearGradient id="g-tls" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#3EE7FF"/>
-                    <stop offset="100%" stop-color="#2563EB"/>
+                    <stop offset="0%" stop-color="#3EE7FF"/><stop offset="100%" stop-color="#2563EB"/>
                   </linearGradient>
                   <radialGradient id="s-tls" cx="50%" cy="20%" r="70%">
-                    <stop offset="0%" stop-color="#fff" stop-opacity=".95"/>
-                    <stop offset="60%" stop-color="#fff" stop-opacity=".0"/>
+                    <stop offset="0%" stop-color="#fff" stop-opacity=".95"/><stop offset="60%" stop-color="#fff" stop-opacity=".0"/>
                   </radialGradient>
-                  <filter id="ds-tls" x="-50%" y="-50%" width="200%" height="200%">
-                    <feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/>
-                    <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0.2  0 0 0 0 0.6  0 0 0 .35 0"/>
-                    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-                  </filter>
+                  <filter id="ds-tls" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0.2  0 0 0 0 0.6  0 0 0 .35 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
                 <g filter="url(#ds-tls)">
                   <path d="M12 2l7 4v5c0 6-4 9-7 10-3-1-7-4-7-10V6l7-4z" fill="url(#g-tls)"/>
@@ -359,20 +242,15 @@
             <span class="label">TLS 1.3 + HSTS</span>
           </li>
 
-          <!-- CSP (Strict) -->
+          <!-- CSP -->
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="CSP">
                 <defs>
                   <linearGradient id="g-csp" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#A78BFA"/>
-                    <stop offset="100%" stop-color="#EC4899"/>
+                    <stop offset="0%" stop-color="#A78BFA"/><stop offset="100%" stop-color="#EC4899"/>
                   </linearGradient>
-                  <filter id="ds-csp" x="-50%" y="-50%" width="200%" height="200%">
-                    <feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/>
-                    <feColorMatrix type="matrix" values="0 0 0 0 .4  0 0 0 0 0  0 0 0 0 .4  0 0 0 .35 0"/>
-                    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-                  </filter>
+                  <filter id="ds-csp" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/><feColorMatrix type="matrix" values="0 0 0 0 .4  0 0 0 0 0  0 0 0 0 .4  0 0 0 .35 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
                 <g filter="url(#ds-csp)">
                   <path d="M12 3l8 4v5c0 5-4 8-8 9-4-1-8-4-8-9V7l8-4z" fill="url(#g-csp)"/>
@@ -390,14 +268,9 @@
               <svg viewBox="0 0 24 24" role="img" aria-label="MFA">
                 <defs>
                   <linearGradient id="g-mfa" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#22D3EE"/>
-                    <stop offset="100%" stop-color="#10B981"/>
+                    <stop offset="0%" stop-color="#22D3EE"/><stop offset="100%" stop-color="#10B981"/>
                   </linearGradient>
-                  <filter id="ds-mfa" x="-50%" y="-50%" width="200%" height="200%">
-                    <feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.8"/>
-                    <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 .25  0 0 0 0 .25  0 0 0 .36 0"/>
-                    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-                  </filter>
+                  <filter id="ds-mfa" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.8"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 .25  0 0 0 0 .25  0 0 0 .36 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
                 <g filter="url(#ds-mfa)">
                   <rect x="4.2" y="5" width="10.6" height="14" rx="2" fill="url(#g-mfa)"/>
@@ -416,18 +289,12 @@
               <svg viewBox="0 0 24 24" role="img" aria-label="WAF">
                 <defs>
                   <linearGradient id="g-waf" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#FDBA74"/>
-                    <stop offset="100%" stop-color="#EF4444"/>
+                    <stop offset="0%" stop-color="#FDBA74"/><stop offset="100%" stop-color="#EF4444"/>
                   </linearGradient>
                   <linearGradient id="g-waf-shield" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#FF80AB"/>
-                    <stop offset="100%" stop-color="#DB2777"/>
+                    <stop offset="0%" stop-color="#FF80AB"/><stop offset="100%" stop-color="#DB2777"/>
                   </linearGradient>
-                  <filter id="ds-waf" x="-50%" y="-50%" width="200%" height="200%">
-                    <feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/>
-                    <feColorMatrix type="matrix" values="0 0 0 0 .6  0 0 0 0 .2  0 0 0 0 .2  0 0 0 .36 0"/>
-                    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-                  </filter>
+                  <filter id="ds-waf" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/><feColorMatrix type="matrix" values="0 0 0 0 .6  0 0 0 0 .2  0 0 0 0 .2  0 0 0 .36 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
                 <g filter="url(#ds-waf)">
                   <rect x="3" y="7" width="9.6" height="2.2" rx="0.6" fill="url(#g-waf)"/>
@@ -448,14 +315,9 @@
               <svg viewBox="0 0 24 24" role="img" aria-label="Rate limit">
                 <defs>
                   <linearGradient id="g-rate" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#60A5FA"/>
-                    <stop offset="100%" stop-color="#7C3AED"/>
+                    <stop offset="0%" stop-color="#60A5FA"/><stop offset="100%" stop-color="#7C3AED"/>
                   </linearGradient>
-                  <filter id="ds-rate" x="-50%" y="-50%" width="200%" height="200%">
-                    <feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.8"/>
-                    <feColorMatrix type="matrix" values="0 0 0 0 .2  0 0 0 0 .2  0 0 0 0 .6  0 0 0 .35 0"/>
-                    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-                  </filter>
+                  <filter id="ds-rate" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.8"/><feColorMatrix type="matrix" values="0 0 0 0 .2  0 0 0 0 .2  0 0 0 0 .6  0 0 0 .35 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
                 <g filter="url(#ds-rate)">
                   <path d="M6 14a6 6 0 1112 0H6z" fill="url(#g-rate)"/>
@@ -475,14 +337,9 @@
               <svg viewBox="0 0 24 24" role="img" aria-label="security.txt">
                 <defs>
                   <linearGradient id="g-pgp" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#FDE68A"/>
-                    <stop offset="100%" stop-color="#F59E0B"/>
+                    <stop offset="0%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#F59E0B"/>
                   </linearGradient>
-                  <filter id="ds-pgp" x="-50%" y="-50%" width="200%" height="200%">
-                    <feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.8"/>
-                    <feColorMatrix type="matrix" values="0 0 0 0 .6  0 0 0 0 .4  0 0 0 0 .1  0 0 0 .35 0"/>
-                    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-                  </filter>
+                  <filter id="ds-pgp" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.8"/><feColorMatrix type="matrix" values="0 0 0 0 .6  0 0 0 0 .4  0 0 0 0 .1  0 0 0 .35 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
                 <g filter="url(#ds-pgp)">
                   <path d="M8 3h7l4 4v14H8z" fill="url(#g-pgp)"/>
@@ -501,14 +358,9 @@
               <svg viewBox="0 0 24 24" role="img" aria-label="CVD">
                 <defs>
                   <linearGradient id="g-cvd" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#34D399"/>
-                    <stop offset="100%" stop-color="#06B6D4"/>
+                    <stop offset="0%" stop-color="#34D399"/><stop offset="100%" stop-color="#06B6D4"/>
                   </linearGradient>
-                  <filter id="ds-cvd" x="-50%" y="-50%" width="200%" height="200%">
-                    <feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/>
-                    <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .36 0"/>
-                    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-                  </filter>
+                  <filter id="ds-cvd" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .36 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
                 </defs>
                 <g filter="url(#ds-cvd)">
                   <path d="M12 4l2.2 4.4 4.8.7-3.5 3.4.8 4.8L12 15.8 7.7 17.3l.8-4.8L5 9.1l4.8-.7L12 4z" fill="url(#g-cvd)"/>
@@ -529,7 +381,9 @@
     <div class="container">
       <div class="logos">
         <img src="/assets/logos/apple-developer.png" alt="Apple Developer" loading="lazy" />
-        <img src="/assets/logos/firebase-logo.png" alt="Firebase" loading="lazy" />
+        <!-- Firebase: dosya adı varyasyon fallback -->
+        <img src="/assets/logos/firebase-logo.png" alt="Firebase" loading="lazy"
+             onerror="if(!this.dataset.alt){this.dataset.alt=1;this.src='/assets/logos/Firebase-Logo.png';}"/>
         <img src="/assets/logos/github.png" alt="GitHub" loading="lazy" />
         <img src="/assets/logos/cloudflare.png" alt="Cloudflare" loading="lazy" />
         <img src="/assets/logos/meta-for-developers.png" alt="Meta for Developers" loading="lazy" />
@@ -663,7 +517,7 @@
 
       <h3>İletişim</h3>
 
-      <div class="avatar-wrap">
+      <div class="avatar-wrap" style="display:flex;align-items:center;gap:14px;margin:12px 0 6px">
         <img id="avatar-img" class="avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
              loading="lazy"
              onerror="this.style.display='none';document.getElementById('avatar-fallback').style.display='inline-flex'">
