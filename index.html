@@ -92,8 +92,13 @@
   .menu a:hover{background:rgba(255,255,255,.10);opacity:1}
 
   /* ===== HERO ===== */
-  header.hero{position:relative;overflow:hidden;padding:110px 0 120px;text-align:center;isolation:isolate}
-  .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+  header.hero{
+    position:relative; overflow:hidden;
+    padding:110px 0 120px;
+    text-align:center;
+    isolation:isolate;
+  }
+  .hero-bg{position:absolute; inset:0; z-index:0; pointer-events:none}
   .nebula-sky{
     position:absolute; inset:-20% -10% -10% -10%;
     background:
@@ -101,30 +106,72 @@
       radial-gradient(900px 600px at 85% 25%, rgba(170,66,239,.45), transparent 60%),
       radial-gradient(1000px 800px at 50% 70%, rgba(106,17,203,.45), transparent 60%),
       linear-gradient(180deg, #2B0F66 0%, #3B0E86 40%, #4C10A6 70%, #5A11BF 100%);
-    filter:saturate(1.1) contrast(1.05);
-    animation:skyPan 60s linear infinite;
+    filter: saturate(1.1) contrast(1.05);
+    animation: skyPan 60s linear infinite;
   }
-  @keyframes skyPan{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(2%,-1%,0) scale(1.02)}100%{transform:translate3d(0,0,0) scale(1)}}
-  .stars,.twinkles{
-    position:absolute;inset:0;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='10' cy='20' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='80' cy='60' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='150' cy='90' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='30' cy='140' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='190' cy='160' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='110' cy='170' r='1' fill='white' opacity='.6'/%3E%3Ccircle cx='60' cy='15' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='175' cy='35' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='140' cy='150' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='20' cy='90' r='1' fill='white' opacity='.8'/%3E%3C/svg%3E");
+  @keyframes skyPan{
+    0%{transform:translate3d(0,0,0) scale(1)}
+    50%{transform:translate3d(2%, -1%, 0) scale(1.02)}
+    100%{transform:translate3d(0,0,0) scale(1)}
+  }
+  .stars, .twinkles{
+    position:absolute; inset:0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='10' cy='20' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='80' cy='60' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='150' cy='90' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='30' cy='140' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='190' cy='160' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='110' cy='170' r='1' fill='white' opacity='.6'/%3E%3Ccircle cx='60' cy='15' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='175' cy='35' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='140' cy='150' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='20' cy='90' r='1' fill='white' opacity='.8'/%3E%3C/svg%3E");
     background-size:300px 300px; background-repeat:repeat;
   }
-  .stars{opacity:.55;animation:starDrift 120s linear infinite}
-  .twinkles{opacity:.8;animation:twinkle 2.8s ease-in-out infinite alternate}
-  @keyframes starDrift{from{background-position:0 0}to{background-position:-600px 300px}}
-  @keyframes twinkle{from{opacity:.25}to{opacity:.7}}
-  .meteor{position:absolute;top:18%;left:-20%;width:220px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,255,255,0));filter:drop-shadow(0 0 6px rgba(255,255,255,.6));transform:rotate(15deg);animation:shoot 7s ease-in-out infinite}
-  @keyframes shoot{0%,60%{opacity:0;transform:translate(-40vw,-20vh) rotate(15deg)}66%,72%{opacity:1;transform:translate(5vw,2vh) rotate(15deg)}100%{opacity:0;transform:translate(60vw,24vh) rotate(15deg)}}
-  .hero-spot{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 50% 46%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%)}
-  .wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:120px;z-index:1;pointer-events:none}
+  .stars{opacity:.55; animation: starDrift 120s linear infinite}
+  .twinkles{opacity:.8; animation: twinkle 2.8s ease-in-out infinite alternate}
+  @keyframes starDrift{from{background-position:0 0} to{background-position:-600px 300px}}
+  @keyframes twinkle{from{opacity:.25} to{opacity:.7}}
 
-  .hero-inner{position:relative;z-index:2;max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:10px}
-  .hero-avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;margin-bottom:10px;background:#eee;border:3px solid rgba(255,255,255,.9);box-shadow:0 10px 24px rgba(106,17,203,.25)}
-  .hero-fallback{width:112px;height:112px;border-radius:50%;display:none;align-items:center;justify-content:center;font-weight:800;color:#fff;user-select:none;background:linear-gradient(135deg,#8E2DE2,#6A11CB);margin-bottom:10px;border:3px solid rgba(255,255,255,.9);box-shadow:0 10px 24px rgba(106,17,203,.25)}
+  .meteor{
+    position:absolute; top:18%; left:-20%;
+    width:220px; height:2px;
+    background:linear-gradient(90deg, rgba(255,255,255,.95), rgba(255,255,255,0));
+    filter:drop-shadow(0 0 6px rgba(255,255,255,.6));
+    transform:rotate(15deg);
+    animation: shoot 7s ease-in-out infinite;
+  }
+  @keyframes shoot{
+    0%,60%{opacity:0; transform:translate(-40vw,-20vh) rotate(15deg)}
+    66%,72%{opacity:1; transform:translate(5vw,2vh) rotate(15deg)}
+    100%{opacity:0; transform:translate(60vw,24vh) rotate(15deg)}
+  }
+  .hero-spot{
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:radial-gradient( circle at 50% 46%, rgba(255,255,255,.35), rgba(255,255,255,0) 55% );
+  }
+  .wave{
+    position:absolute; left:0; right:0; bottom:-1px; width:100%; height:120px; z-index:1; pointer-events:none;
+  }
+  .hero-inner{position:relative; z-index:2; max-width:1000px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:10px}
+  .hero-avatar{
+    width:112px;height:112px;border-radius:50%;object-fit:cover;
+    margin-bottom:10px;background:#eee;
+    border:3px solid rgba(255,255,255,.9);
+    box-shadow:0 10px 24px rgba(106,17,203,.25);
+  }
+  .hero-fallback{
+    width:112px;height:112px;border-radius:50%;
+    display:none;align-items:center;justify-content:center;
+    font-weight:800;color:#fff;user-select:none;
+    background:linear-gradient(135deg,#8E2DE2,#6A11CB);
+    margin-bottom:10px; border:3px solid rgba(255,255,255,.9);
+    box-shadow:0 10px 24px rgba(106,17,203,.25);
+  }
 
-  header h1{margin:0 0 8px 0;font-size:clamp(44px,7vw,68px);font-weight:800;line-height:1.08;letter-spacing:-.015em;color:var(--heading)}
-  #services-title,#projects-title,#about-title,#about h3,header h1{color:#000 !important;text-shadow:none !important;filter:none !important}
+  header h1{
+    margin:0 0 8px 0;
+    font-size:clamp(44px,7vw,68px);
+    font-weight:800;
+    line-height:1.08;
+    letter-spacing:-.015em;
+    color:var(--heading);
+  }
+  #services-title, #projects-title, #about-title, #about h3, header h1{
+    color:#000 !important; text-shadow:none !important; filter:none !important;
+  }
 
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
   section{padding:28px 0}
@@ -138,36 +185,26 @@
   .grid-3{grid-template-columns:repeat(1,minmax(0,1fr))}
   @media(min-width:860px){.grid-3{grid-template-columns:repeat(3,1fr)}}
 
-  .card{color:#fff;background:linear-gradient(135deg,#8E2DE2 0%, #6A11CB 100%);border:none;border-radius:18px;padding:20px;box-shadow:0 14px 28px rgba(106,17,203,.24), 0 4px 10px rgba(106,17,203,.16);transition:transform .18s ease, box-shadow .18s ease, filter .18s ease}
+  .card{
+    color:#fff;
+    background:linear-gradient(135deg,#8E2DE2 0%, #6A11CB 100%);
+    border:none;border-radius:18px;padding:20px;
+    box-shadow:0 14px 28px rgba(106,17,203,.24), 0 4px 10px rgba(106,17,203,.16);
+    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  }
   .card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(106,17,203,.28), 0 6px 14px rgba(106,17,203,.18);filter:saturate(1.06)}
 
   .icon{height:48px;width:48px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
   .icon svg [stroke]{stroke:#F5F3FF}
   .icon svg [fill="#6E31FF"]{fill:#F5F3FF}
 
-  /* Premium Rozetler */
-  header.hero .badge-wrap{margin-top:12px;display:flex;justify-content:center}
-  header.hero .badges{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
-  header.hero .badge{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:
-      radial-gradient(100% 100% at 28% 18%, rgba(255,255,255,.55), rgba(255,255,255,.10) 60%, rgba(255,255,255,0) 100%),
-      linear-gradient(135deg, rgba(142,45,226,.95) 0%, rgba(106,17,203,.92) 100%);color:#fff;box-shadow:inset 0 -1px 2px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.35), 0 10px 26px rgba(106,17,203,.35)}
-  header.hero .badge:hover{transform:translateY(-1px) scale(1.02);filter:saturate(1.06) brightness(1.03);box-shadow:inset 0 -1px 2px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.38), 0 14px 34px rgba(106,17,203,.45)}
-  header.hero .badge .label{font-weight:700;letter-spacing:.02em;font-size:clamp(12px,1.6vw,14px);white-space:nowrap;text-shadow:0 1px 0 rgba(0,0,0,.18)}
-  header.hero .badge .icon3d{width:26px;height:26px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;position:relative;transform-style:preserve-3d;background:radial-gradient(120% 120% at 25% 20%, rgba(255,255,255,.9), rgba(255,255,255,.18) 45%, rgba(255,255,255,0) 60%), linear-gradient(135deg, #B18CFF 0%, #6A11CB 100%);box-shadow:inset 0 -2px 4px rgba(0,0,0,.25), 0 6px 14px rgba(26,16,59,.35)}
-  header.hero .badge .icon3d::before{content:"";position:absolute;inset:-1px;border-radius:12px;background:radial-gradient(160% 80% at 50% -10%, rgba(255,255,255,.7), rgba(255,255,255,0) 55%);transform:translateZ(6px);pointer-events:none}
-  header.hero .badge .icon3d::after{content:"";position:absolute;inset:-3px;border-radius:14px;filter:blur(6px);background:radial-gradient(80% 80% at 50% 60%, rgba(0,0,0,.18), rgba(0,0,0,0) 70%);transform:translateZ(-1px);pointer-events:none}
-  header.hero .badge:hover .icon3d{transform:rotateX(12deg) rotateY(-12deg) translateZ(2px);box-shadow:inset 0 -2px 4px rgba(0,0,0,.28), 0 10px 20px rgba(26,16,59,.45)}
-  header.hero .badge .icon3d svg{width:18px;height:18px;display:block;transform:translateZ(8px)}
-
-  /* Marka şeridi */
-  .brand-strip{background:#FFFFFF;margin-top:-2px}
-  .logos{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:36px;padding:18px 0 8px;user-select:none}
-  .logos img{height:50px;width:auto;display:block;pointer-events:none;image-rendering:auto;filter:saturate(1.02) contrast(1.02)}
-
-  /* İletişim avatarı – yuvarlak kesin */
-  .avatar{width:96px;height:96px;border-radius:50% !important;object-fit:cover;border:2px solid rgba(0,0,0,.08);box-shadow:0 10px 24px rgba(106,17,203,.18);background:#eee}
-  .avatar-fallback{width:96px;height:96px;border-radius:50%;display:none;align-items:center;justify-content:center;font-weight:800;color:#fff;user-select:none;background:linear-gradient(135deg,#8E2DE2,#6A11CB);box-shadow:0 10px 24px rgba(106,17,203,.18)}
-  @media (prefers-color-scheme: dark){.avatar{border-color:rgba(255,255,255,.15)}}
+  /* ===== LOGO ŞERİDİ (PNG) ===== */
+  .brand-strip{background:#FFFFFF; margin-top:-2px;}
+  .logos{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:36px; padding:18px 0 8px; user-select:none;}
+  .logos img{height:50px; width:auto; display:block; pointer-events:none; image-rendering:auto; filter:saturate(1.02) contrast(1.02);}
+  /* Sadece Firebase için görünürlüğü arttır (wordmark geniş olduğu için) */
+  .logos img.logo-firebase{height:64px}
+  @media (max-width:640px){ .logos img.logo-firebase{height:56px} }
 
   /* Footer */
   footer{padding:36px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;background:rgba(255,255,255,.65)}
@@ -218,7 +255,6 @@
       <!-- ==== Premium Rozetler ==== -->
       <div class="badge-wrap">
         <ul class="badges" aria-label="Güvenlik rozeti listesi">
-          <!-- TLS 1.3 + HSTS -->
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="TLS">
@@ -229,7 +265,11 @@
                   <radialGradient id="s-tls" cx="50%" cy="20%" r="70%">
                     <stop offset="0%" stop-color="#fff" stop-opacity=".95"/><stop offset="60%" stop-color="#fff" stop-opacity=".0"/>
                   </radialGradient>
-                  <filter id="ds-tls" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0.2  0 0 0 0 0.6  0 0 0 .35 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                  <filter id="ds-tls" x="-50%" y="-50%" width="200%" height="200%">
+                    <feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0.2  0 0 0 0 0.6  0 0 0 .35 0"/>
+                    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
                 </defs>
                 <g filter="url(#ds-tls)">
                   <path d="M12 2l7 4v5c0 6-4 9-7 10-3-1-7-4-7-10V6l7-4z" fill="url(#g-tls)"/>
@@ -242,7 +282,6 @@
             <span class="label">TLS 1.3 + HSTS</span>
           </li>
 
-          <!-- CSP -->
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="CSP">
@@ -250,7 +289,11 @@
                   <linearGradient id="g-csp" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stop-color="#A78BFA"/><stop offset="100%" stop-color="#EC4899"/>
                   </linearGradient>
-                  <filter id="ds-csp" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/><feColorMatrix type="matrix" values="0 0 0 0 .4  0 0 0 0 0  0 0 0 0 .4  0 0 0 .35 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                  <filter id="ds-csp" x="-50%" y="-50%" width="200%" height="200%">
+                    <feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 .4  0 0 0 0 0  0 0 0 0 .4  0 0 0 .35 0"/>
+                    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
                 </defs>
                 <g filter="url(#ds-csp)">
                   <path d="M12 3l8 4v5c0 5-4 8-8 9-4-1-8-4-8-9V7l8-4z" fill="url(#g-csp)"/>
@@ -262,7 +305,6 @@
             <span class="label">CSP (Strict)</span>
           </li>
 
-          <!-- MFA -->
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="MFA">
@@ -270,7 +312,11 @@
                   <linearGradient id="g-mfa" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stop-color="#22D3EE"/><stop offset="100%" stop-color="#10B981"/>
                   </linearGradient>
-                  <filter id="ds-mfa" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.8"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 .25  0 0 0 0 .25  0 0 0 .36 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                  <filter id="ds-mfa" x="-50%" y="-50%" width="200%" height="200%">
+                    <feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.8"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 .25  0 0 0 0 .25  0 0 0 .36 0"/>
+                    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
                 </defs>
                 <g filter="url(#ds-mfa)">
                   <rect x="4.2" y="5" width="10.6" height="14" rx="2" fill="url(#g-mfa)"/>
@@ -283,7 +329,6 @@
             <span class="label">MFA (2FA) Everywhere</span>
           </li>
 
-          <!-- WAF -->
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="WAF">
@@ -309,7 +354,6 @@
             <span class="label">App Firewall + DDos Shield</span>
           </li>
 
-          <!-- Rate Limiting -->
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="Rate limit">
@@ -331,7 +375,6 @@
             <span class="label">Rate Limiting &amp; Abuse protection</span>
           </li>
 
-          <!-- Security txt + PGP -->
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="security.txt">
@@ -352,7 +395,6 @@
             <span class="label">Security txt + PGP</span>
           </li>
 
-          <!-- CVD / Bug Bounty -->
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" aria-label="CVD">
@@ -380,12 +422,11 @@
   <div class="brand-strip" aria-label="Desteklenen platformlar">
     <div class="container">
       <div class="logos">
-        <img src="/assets/logos/apple-developer.png" alt="Apple Developer" loading="lazy" />
-        <!-- Sadece bu satır güncellendi -->
-        <img src="/assets/logos/firebase.png" alt="Firebase" loading="lazy" />
-        <img src="/assets/logos/github.png" alt="GitHub" loading="lazy" />
-        <img src="/assets/logos/cloudflare.png" alt="Cloudflare" loading="lazy" />
-        <img src="/assets/logos/meta-for-developers.png" alt="Meta for Developers" loading="lazy" />
+        <img src="assets/logos/apple-developer.png" alt="Apple Developer" loading="lazy" />
+        <img src="assets/logos/firebase.png" alt="Firebase" loading="lazy" class="logo-firebase" />
+        <img src="assets/logos/github.png" alt="GitHub" loading="lazy" />
+        <img src="assets/logos/cloudflare.png" alt="Cloudflare" loading="lazy" />
+        <img src="assets/logos/meta-for-developers.png" alt="Meta for Developers" loading="lazy" />
       </div>
     </div>
   </div>
@@ -397,76 +438,149 @@
       <h2 id="services-title">Hizmetler</h2>
       <div class="grid grid-3" style="margin-top:12px">
 
-        <!-- Web & iOS Geliştirme (3D PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <img
-              src="/assets/icons/web-ios.png?v=3"
-              alt=""
-              width="40" height="40"
-              style="width:40px;height:40px;display:block"
-              loading="eager" decoding="async"
-              onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><rect x='2.5' y='5' width='12' height='9.5' rx='2' stroke='#F5F3FF' stroke-width='2' fill='none'/><path d='M2.5 8.5H14.5' stroke='#F5F3FF' stroke-width='2'/><rect x='16' y='3' width='5.5' height='18' rx='1.2' stroke='#F5F3FF' stroke-width='2' fill='none'/><circle cx='18.75' cy='18.5' r='0.6' fill='#F5F3FF'/></svg>`);"
-            />
+            <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+              <defs>
+                <linearGradient id="g-web-a" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#22D3EE"/>
+                </linearGradient>
+                <linearGradient id="g-web-b" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#10B981"/>
+                </linearGradient>
+                <filter id="ds-web" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="rgba(0,0,0,0.35)"/>
+                </filter>
+              </defs>
+              <g filter="url(#ds-web)">
+                <rect x="3" y="6" width="14" height="9" rx="2" fill="url(#g-web-a)"/>
+                <rect x="5.2" y="8.3" width="9.6" height="4.6" rx="1.1" fill="rgba(255,255,255,.95)"/>
+                <rect x="6.5" y="13.2" width="7" height="0.8" rx="0.4" fill="rgba(255,255,255,.85)"/>
+                <rect x="14.2" y="3" width="6.3" height="14.5" rx="1.6" fill="url(#g-web-b)"/>
+                <rect x="16.2" y="7.2" width="2.8" height="5.2" rx="0.8" fill="#FFFFFF" opacity=".96"/>
+                <circle cx="17.3" cy="15.2" r="0.6" fill="#fff" />
+              </g>
+            </svg>
           </div>
           <h3 style="margin:10px 0 4px">Web & iOS Geliştirme</h3>
           <p style="margin:0;opacity:.92">Next.js, Tailwind, SwiftUI, Firebase</p>
         </article>
 
-        <!-- Siber Güvenlik -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" stroke="#F5F3FF" stroke-width="2"/>
-              <rect x="9" y="10" width="6" height="5" rx="1.5" stroke="#F5F3FF" stroke-width="2"/>
-              <path d="M12 10V9a2 2 0 114 0v1" stroke="#F5F3FF" stroke-width="2"/>
+            <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+              <defs>
+                <linearGradient id="g-sec-a" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#FF6B6B"/><stop offset="100%" stop-color="#F43F5E"/>
+                </linearGradient>
+                <radialGradient id="g-sec-h" cx="50%" cy="20%" r="70%">
+                  <stop offset="0%" stop-color="#ffffff" stop-opacity=".9"/><stop offset="70%" stop-color="#ffffff" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="ds-sec" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="0" dy="1" stdDeviation="1.1" flood-color="rgba(0,0,0,0.35)"/>
+                </filter>
+              </defs>
+              <g filter="url(#ds-sec)">
+                <path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" fill="url(#g-sec-a)"/>
+                <ellipse cx="12" cy="6.2" rx="6" ry="3.2" fill="url(#g-sec-h)"/>
+                <rect x="9.2" y="10.4" width="5.6" height="4.6" rx="1.2" fill="#FFFFFF" opacity=".96"/>
+                <rect x="10.2" y="9.6" width="3.6" height="1.6" rx="0.8" fill="#ffffff" opacity=".9"/>
+              </g>
             </svg>
           </div>
           <h3 style="margin:10px 0 4px">Siber Güvenlik (Pentest & Sertleştirme)</h3>
           <p style="margin:0;opacity:.92">Uygulama pentesti, güvenlik denetimi, hardening</p>
         </article>
 
-        <!-- Otomasyon & Entegrasyon -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" stroke="#F5F3FF" stroke-width="2"/>
-              <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1l2.1-2.1M17 7l2.1-2.1" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+            <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+              <defs>
+                <linearGradient id="g-auto-a" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#34D399"/><stop offset="100%" stop-color="#06B6D4"/>
+                </linearGradient>
+                <filter id="ds-auto" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="0" dy="1" stdDeviation="1.1" flood-color="rgba(0,0,0,0.35)"/>
+                </filter>
+              </defs>
+              <g filter="url(#ds-auto)">
+                <circle cx="6.5" cy="12" r="2.3" fill="url(#g-auto-a)"/>
+                <circle cx="12" cy="6.5" r="2.1" fill="url(#g-auto-a)"/>
+                <circle cx="17.5" cy="12.2" r="2.3" fill="url(#g-auto-a)"/>
+                <rect x="6.5" y="10.6" width="11" height="2.8" rx="1.4" fill="url(#g-auto-a)" opacity=".7"/>
+                <rect x="9.1" y="7.2" width="2.8" height="6.2" rx="1.4" fill="url(#g-auto-a)" opacity=".7"/>
+              </g>
             </svg>
           </div>
           <h3 style="margin:10px 0 4px">Otomasyon & Entegrasyon</h3>
           <p style="margin:0;opacity:.92">Hesap açma/kapama, API entegrasyonları, RPA</p>
         </article>
 
-        <!-- Sosyal Medya & Reklam -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M3 12h14M3 6h10M3 18h18" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+            <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+              <defs>
+                <linearGradient id="g-ads-a" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#FB7185"/>
+                </linearGradient>
+                <filter id="ds-ads" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="0" dy="1" stdDeviation="1.1" flood-color="rgba(0,0,0,0.35)"/>
+                </filter>
+              </defs>
+              <g filter="url(#ds-ads)">
+                <path d="M4 12.2l8-3v6l-8-3z" fill="url(#g-ads-a)"/>
+                <rect x="4" y="11.2" width="2.2" height="2" rx="0.6" fill="#ffffff" opacity=".9"/>
+                <rect x="12" y="9" width="2.6" height="8" rx="1.2" fill="url(#g-ads-a)"/>
+                <rect x="13.2" y="13.8" width="3.8" height="2.2" rx="1" transform="rotate(20 13.2 13.8)" fill="#ffffff" opacity=".9"/>
+              </g>
             </svg>
           </div>
           <h3 style="margin:10px 0 4px">Sosyal Medya & Reklam</h3>
           <p style="margin:0;opacity:.92">Meta/Google Ads, CAPI, GTM (Server-Side)</p>
         </article>
 
-        <!-- SEO & Analytics -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 18V6m0 12c3-6 5-8 8-3s5-5 8-9" stroke="#F5F3FF" stroke-width="2" fill="none"/>
-              <circle cx="4" cy="18" r="1.5" fill="#F5F3FF"/>
+            <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+              <defs>
+                <linearGradient id="g-seo-a" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#60A5FA"/><stop offset="100%" stop-color="#7C3AED"/>
+                </linearGradient>
+                <filter id="ds-seo" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="0" dy="1" stdDeviation="1.1" flood-color="rgba(0,0,0,0.35)"/>
+                </filter>
+              </defs>
+              <g filter="url(#ds-seo)">
+                <rect x="4" y="14.8" width="3" height="3.2" rx="0.8" fill="url(#g-seo-a)"/>
+                <rect x="8.2" y="12.4" width="3" height="5.6" rx="0.8" fill="url(#g-seo-a)"/>
+                <rect x="12.4" y="10" width="3" height="8" rx="0.8" fill="url(#g-seo-a)"/>
+                <path d="M5 11l4.5-2.6 3.4 1.8 5-4.2 1.8.9-6.6 5.6-3.6-1.9L6 12.2 5 11z" fill="url(#g-seo-a)"/>
+              </g>
             </svg>
           </div>
           <h3 style="margin:10px 0 4px">SEO & Analytics</h3>
           <p style="margin:0;opacity:.92">Teknik SEO, GSC, GA4, Lighthouse</p>
         </article>
 
-        <!-- Hesap Kurtarma & Olay Müdahalesi -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 5l7 4v4c0 4-3 7-7 8-4-1-7-4-7-8V9l7-4z" stroke="#F5F3FF" stroke-width="2"/>
-              <path d="M12 10v4" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
+            <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+              <defs>
+                <linearGradient id="g-ir-a" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#F97316"/><stop offset="100%" stop-color="#F43F5E"/>
+                </linearGradient>
+                <filter id="ds-ir" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="0" dy="1" stdDeviation="1.1" flood-color="rgba(0,0,0,0.35)"/>
+                </filter>
+              </defs>
+              <g filter="url(#ds-ir)">
+                <circle cx="12" cy="12" r="8" fill="url(#g-ir-a)"/>
+                <circle cx="12" cy="12" r="4.6" fill="#ffffff" opacity=".95"/>
+                <rect x="11.2" y="3.5" width="1.6" height="3.2" fill="#fff" opacity=".9"/>
+                <rect x="11.2" y="17.3" width="1.6" height="3.2" fill="#fff" opacity=".9"/>
+                <rect x="3.5" y="11.2" width="3.2" height="1.6" fill="#fff" opacity=".9"/>
+                <rect x="17.3" y="11.2" width="3.2" height="1.6" fill="#fff" opacity=".9"/>
+              </g>
             </svg>
           </div>
           <h3 style="margin:10px 0 4px">Hesap Kurtarma & Olay Müdahalesi</h3>
@@ -516,7 +630,7 @@
 
       <h3>İletişim</h3>
 
-      <div class="avatar-wrap" style="display:flex;align-items:center;gap:14px;margin:12px 0 6px">
+      <div class="avatar-wrap">
         <img id="avatar-img" class="avatar" src="avatar.jpg" alt="Tuğba Arslan profil fotoğrafı"
              loading="lazy"
              onerror="this.style.display='none';document.getElementById('avatar-fallback').style.display='inline-flex'">
@@ -570,6 +684,7 @@
 
   <!-- 3D Hero -->
   <script src="hero-space-webgl.js" defer></script>
+
   <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
 </body>
 </html>
