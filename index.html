@@ -94,15 +94,20 @@
   /* ===== HERO ===== */
   header.hero{position:relative;overflow:hidden;padding:110px 0 120px;text-align:center;isolation:isolate}
   .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-  /* >>> Video katmanı <<< */
+
+  /* Video katmanı */
   .hero-video{
     position:absolute; inset:0;
     width:100%; height:100%;
     object-fit:cover;
     z-index:0;
   }
-  /* Video varsa nebula arka planı gizle */
-  .hero-bg.has-video .nebula-sky{opacity:0;}
+  /* Video varken arkadaki overlay katmanları kapat */
+  .hero-bg.has-video .nebula-sky,
+  .hero-bg.has-video .stars,
+  .hero-bg.has-video .twinkles,
+  .hero-bg.has-video .meteor,
+  .hero-bg.has-video .hero-spot{display:none;}
 
   .nebula-sky{
     position:absolute; inset:-20% -10% -10% -10%;
@@ -135,7 +140,7 @@
   header h1{margin:0 0 8px 0;font-size:clamp(44px,7vw,68px);font-weight:800;line-height:1.08;letter-spacing:-.015em;color:var(--heading)}
   #services-title,#projects-title,#about-title,#about h3,header h1{color:#000 !important;text-shadow:none !important;filter:none !important}
 
-  /* >>> SADECE HERO BAŞLIK VE ALT SATIRI BEYAZ <<< */
+  /* Yalnızca HERO başlık ve alt satır beyaz */
   header.hero .hero-inner h1{color:#fff !important;text-shadow:none !important;filter:none !important}
   header.hero .lead{color:#fff !important}
 
@@ -206,7 +211,7 @@
 
   <!-- HERO -->
   <header class="hero" data-hero>
-    <!-- DİKKAT: video görünürlüğü için has-video sınıfı eklendi -->
+    <!-- Video görünürlüğü için has-video sınıfı -->
     <div class="hero-bg has-video" aria-hidden="true">
       <!-- Video arka plan -->
       <video class="hero-video"
@@ -593,7 +598,7 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // (İsteğe bağlı) Video hazırsa sınıf yine eklensin
+    // Video yüklenmişse emin olmak için sınıfı yine ekle
     (function () {
       var v = document.querySelector('.hero-video');
       if (!v) return;
