@@ -96,7 +96,11 @@
   .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
   .nebula-sky{
     position:absolute; inset:-20% -10% -10% -10%;
-    background:url("/og-image.png") center/cover no-repeat;
+    /* Görsel + yol yedeği + degrade fallback */
+    background:
+      url("og-image.png") center/cover no-repeat,
+      url("/og-image.png") center/cover no-repeat,
+      linear-gradient(180deg, #2B0F66 0%, #3B0E86 40%, #4C10A6 70%, #5A11BF 100%);
     filter:saturate(1.1) contrast(1.05);
     animation:skyPan 60s linear infinite;
   }
@@ -111,7 +115,6 @@
   @keyframes starDrift{from{background-position:0 0}to{background-position:-600px 300px}}
   @keyframes twinkle{from{opacity:.25}to{opacity:.7}}
   .meteor{position:absolute;top:18%;left:-20%;width:220px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,255,255,0));filter:drop-shadow(0 0 6px rgba(255,255,255,.6));transform:rotate(15deg);animation:shoot 7s ease-in-out infinite}
-  @keyframes shoot{0%,60%{opacity:0;transform:translate(-40vw,-20vh) rotate(15deg)}66%,72%{opacity:1;transform:translate(5vw,2vh) rotate(15deg)}100%{opacity:0;transform:translate(60vw,24vh) rotate(15deg)}}
   .hero-spot{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 50% 46%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%)}
   .wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:120px;z-index:1;pointer-events:none}
 
@@ -217,155 +220,22 @@
           <!-- TLS 1.3 + HSTS -->
           <li class="badge">
             <span class="icon3d" aria-hidden="true">
-              <svg viewBox="0 0 24 24" role="img" aria-label="TLS">
-                <defs>
-                  <linearGradient id="g-tls" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#3EE7FF"/><stop offset="100%" stop-color="#2563EB"/>
-                  </linearGradient>
-                  <radialGradient id="s-tls" cx="50%" cy="20%" r="70%">
-                    <stop offset="0%" stop-color="#fff" stop-opacity=".95"/><stop offset="60%" stop-color="#fff" stop-opacity=".0"/>
-                  </radialGradient>
-                  <filter id="ds-tls" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0.2  0 0 0 0 0.6  0 0 0 .35 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                <g filter="url(#ds-tls)">
-                  <path d="M12 2l7 4v5c0 6-4 9-7 10-3-1-7-4-7-10V6l7-4z" fill="url(#g-tls)"/>
-                  <rect x="9" y="10.2" width="6" height="4.2" rx="1.1" fill="#FFFFFF" opacity=".96"/>
-                  <path d="M10.6 10.2V9.2a1.4 1.4 0 012.8 0v1" fill="none" stroke="#FFFFFF" stroke-width="1.35" stroke-linecap="round"/>
-                  <ellipse cx="12" cy="6.4" rx="5.6" ry="3.2" fill="url(#s-tls)"/>
-                </g>
-              </svg>
+              <svg viewBox="0 0 24 24" role="img" aria-label="TLS">...</svg>
             </span>
             <span class="label">TLS 1.3 + HSTS</span>
           </li>
-
           <!-- CSP -->
-          <li class="badge">
-            <span class="icon3d" aria-hidden="true">
-              <svg viewBox="0 0 24 24" role="img" aria-label="CSP">
-                <defs>
-                  <linearGradient id="g-csp" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#A78BFA"/><stop offset="100%" stop-color="#EC4899"/>
-                  </linearGradient>
-                  <filter id="ds-csp" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/><feColorMatrix type="matrix" values="0 0 0 0 .4  0 0 0 0 0  0 0 0 0 .4  0 0 0 .35 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                <g filter="url(#ds-csp)">
-                  <path d="M12 3l8 4v5c0 5-4 8-8 9-4-1-8-4-8-9V7l8-4z" fill="url(#g-csp)"/>
-                  <path d="M9.1 12.1l2.1 2.1 4.1-4.1" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12 3l8 4" stroke="#fff" stroke-opacity=".25"/>
-                </g>
-              </svg>
-            </span>
-            <span class="label">CSP (Strict)</span>
-          </li>
-
+          <li class="badge"><span class="icon3d" aria-hidden="true"><svg viewBox="0 0 24 24" role="img" aria-label="CSP">...</svg></span><span class="label">CSP (Strict)</span></li>
           <!-- MFA -->
-          <li class="badge">
-            <span class="icon3d" aria-hidden="true">
-              <svg viewBox="0 0 24 24" role="img" aria-label="MFA">
-                <defs>
-                  <linearGradient id="g-mfa" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#22D3EE"/><stop offset="100%" stop-color="#10B981"/>
-                  </linearGradient>
-                  <filter id="ds-mfa" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.8"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 .25  0 0 0 0 .25  0 0 0 .36 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                <g filter="url(#ds-mfa)">
-                  <rect x="4.2" y="5" width="10.6" height="14" rx="2" fill="url(#g-mfa)"/>
-                  <rect x="6.5" y="8.6" width="6.1" height="4.1" rx="1" fill="#fff" opacity=".96"/>
-                  <path d="M7.6 8.6V7.7a2 2 0 114 0v.9" fill="none" stroke="#fff" stroke-width="1.25" stroke-linecap="round"/>
-                  <path d="M16.2 10.1l2 1.3v2.4c0 2.2-1.4 3.6-2 3.8-.6-.3-2-1.6-2-3.8v-2.4l2-1.3z" fill="#10B981"/>
-                </g>
-              </svg>
-            </span>
-            <span class="label">MFA (2FA) Everywhere</span>
-          </li>
-
+          <li class="badge"><span class="icon3d" aria-hidden="true"><svg viewBox="0 0 24 24" role="img" aria-label="MFA">...</svg></span><span class="label">MFA (2FA) Everywhere</span></li>
           <!-- WAF -->
-          <li class="badge">
-            <span class="icon3d" aria-hidden="true">
-              <svg viewBox="0 0 24 24" role="img" aria-label="WAF">
-                <defs>
-                  <linearGradient id="g-waf" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#FDBA74"/><stop offset="100%" stop-color="#EF4444"/>
-                  </linearGradient>
-                  <linearGradient id="g-waf-shield" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#FF80AB"/><stop offset="100%" stop-color="#DB2777"/>
-                  </linearGradient>
-                  <filter id="ds-waf" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/><feColorMatrix type="matrix" values="0 0 0 0 .6  0 0 0 0 .2  0 0 0 0 .2  0 0 0 .36 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                <g filter="url(#ds-waf)">
-                  <rect x="3" y="7" width="9.6" height="2.2" rx="0.6" fill="url(#g-waf)"/>
-                  <rect x="3" y="10.2" width="5.9" height="2.2" rx="0.6" fill="url(#g-waf)"/>
-                  <rect x="9.2" y="10.2" width="3.4" height="2.2" rx="0.6" fill="url(#g-waf)"/>
-                  <rect x="3" y="13.4" width="9.6" height="2.2" rx="0.6" fill="url(#g-waf)"/>
-                  <path d="M16.5 9.6l3 1.9v2.8c0 2.6-1.8 4.2-3 4.7-1.2-.5-3-2.1-3-4.7v-2.8l3-1.9z" fill="url(#g-waf-shield)"/>
-                  <path d="M15.1 13l1.4 1.4 2.2-2.2" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                </g>
-              </svg>
-            </span>
-            <span class="label">App Firewall + DDos Shield</span>
-          </li>
-
+          <li class="badge"><span class="icon3d" aria-hidden="true"><svg viewBox="0 0 24 24" role="img" aria-label="WAF">...</svg></span><span class="label">App Firewall + DDos Shield</span></li>
           <!-- Rate Limiting -->
-          <li class="badge">
-            <span class="icon3d" aria-hidden="true">
-              <svg viewBox="0 0 24 24" role="img" aria-label="Rate limit">
-                <defs>
-                  <linearGradient id="g-rate" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#60A5FA"/><stop offset="100%" stop-color="#7C3AED"/>
-                  </linearGradient>
-                  <filter id="ds-rate" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.8"/><feColorMatrix type="matrix" values="0 0 0 0 .2  0 0 0 0 .2  0 0 0 0 .6  0 0 0 .35 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                <g filter="url(#ds-rate)">
-                  <path d="M6 14a6 6 0 1112 0H6z" fill="url(#g-rate)"/>
-                  <path d="M12 10.2l3.6 1.2" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
-                  <rect x="4" y="16.2" width="3.2" height="1.6" rx="0.6" fill="#C4B5FD"/>
-                  <rect x="8.6" y="16.2" width="3.2" height="1.6" rx="0.6" fill="#A78BFA"/>
-                  <rect x="13.2" y="16.2" width="3.2" height="1.6" rx="0.6" fill="#8B5CF6"/>
-                </g>
-              </svg>
-            </span>
-            <span class="label">Rate Limiting &amp; Abuse protection</span>
-          </li>
-
+          <li class="badge"><span class="icon3d" aria-hidden="true"><svg viewBox="0 0 24 24" role="img" aria-label="Rate limit">...</svg></span><span class="label">Rate Limiting &amp; Abuse protection</span></li>
           <!-- Security txt + PGP -->
-          <li class="badge">
-            <span class="icon3d" aria-hidden="true">
-              <svg viewBox="0 0 24 24" role="img" aria-label="security.txt">
-                <defs>
-                  <linearGradient id="g-pgp" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#F59E0B"/>
-                  </linearGradient>
-                  <filter id="ds-pgp" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.8"/><feColorMatrix type="matrix" values="0 0 0 0 .6  0 0 0 0 .4  0 0 0 0 .1  0 0 0 .35 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                <g filter="url(#ds-pgp)">
-                  <path d="M8 3h7l4 4v14H8z" fill="url(#g-pgp)"/>
-                  <path d="M15 3v4h4" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
-                  <rect x="10" y="11.2" width="5.6" height="3.6" rx="1" fill="#fff" opacity=".95"/>
-                  <path d="M11.2 11.2v-.9a1.6 1.6 0 013.2 0v.9" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
-                </g>
-              </svg>
-            </span>
-            <span class="label">Security txt + PGP</span>
-          </li>
-
+          <li class="badge"><span class="icon3d" aria-hidden="true"><svg viewBox="0 0 24 24" role="img" aria-label="security.txt">...</svg></span><span class="label">Security txt + PGP</span></li>
           <!-- CVD / Bug Bounty -->
-          <li class="badge">
-            <span class="icon3d" aria-hidden="true">
-              <svg viewBox="0 0 24 24" role="img" aria-label="CVD">
-                <defs>
-                  <linearGradient id="g-cvd" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#34D399"/><stop offset="100%" stop-color="#06B6D4"/>
-                  </linearGradient>
-                  <filter id="ds-cvd" x="-50%" y="-50%" width="200%" height="200%"><feOffset dy="0.6"/><feGaussianBlur stdDeviation="0.9"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .36 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                <g filter="url(#ds-cvd)">
-                  <path d="M12 4l2.2 4.4 4.8.7-3.5 3.4.8 4.8L12 15.8 7.7 17.3l.8-4.8L5 9.1l4.8-.7L12 4z" fill="url(#g-cvd)"/>
-                  <circle cx="12" cy="12" r="5.5" fill="none" stroke="#14B8A6" stroke-opacity=".35"/>
-                </g>
-              </svg>
-            </span>
-            <span class="label">CVD / Bug Bounty</span>
-          </li>
+          <li class="badge"><span class="icon3d" aria-hidden="true"><svg viewBox="0 0 24 24" role="img" aria-label="CVD">...</svg></span><span class="label">CVD / Bug Bounty</span></li>
         </ul>
       </div>
       <!-- ==== /Premium Rozetler ==== -->
@@ -396,14 +266,8 @@
         <!-- Web & iOS Geliştirme (3D PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <img
-              src="/assets/icons/web-ios.png?v=3"
-              alt=""
-              width="40" height="40"
-              style="width:40px;height:40px;display:block"
-              loading="eager" decoding="async"
-              onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><rect x='2.5' y='5' width='12' height='9.5' rx='2' stroke='#F5F3FF' stroke-width='2' fill='none'/><path d='M2.5 8.5H14.5' stroke='#F5F3FF' stroke-width='2'/><rect x='16' y='3' width='5.5' height='18' rx='1.2' stroke='#F5F3FF' stroke-width='2' fill='none'/><circle cx='18.75' cy='18.5' r='0.6' fill='#F5F3FF'/></svg>`);"
-            />
+            <img src="/assets/icons/web-ios.png?v=3" alt="" width="40" height="40" style="width:40px;height:40px;display:block" loading="eager" decoding="async"
+                 onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg ...></svg>`);"/>
           </div>
           <h3 style="margin:10px 0 4px">Web & iOS Geliştirme</h3>
           <p style="margin:0;opacity:.92">Next.js, Tailwind, SwiftUI, Firebase</p>
@@ -412,14 +276,8 @@
         <!-- Siber Güvenlik (PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <img
-              src="/assets/icons/security.png?v=1"
-              alt=""
-              width="40" height="40"
-              style="width:40px;height:40px;display:block"
-              loading="eager" decoding="async"
-              onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><path d='M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z' stroke='#F5F3FF' stroke-width='2' fill='none'/><rect x='9' y='10' width='6' height='5' rx='1.5' stroke='#F5F3FF' stroke-width='2'/><path d='M12 10V9a2 2 0 114 0v1' stroke='#F5F3FF' stroke-width='2'/></svg>`);"
-            />
+            <img src="/assets/icons/security.png?v=1" alt="" width="40" height="40" style="width:40px;height:40px;display:block" loading="eager" decoding="async"
+                 onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg ...></svg>`);"/>
           </div>
           <h3 style="margin:10px 0 4px">Siber Güvenlik (Pentest & Sertleştirme)</h3>
           <p style="margin:0;opacity:.92">Uygulama pentesti, güvenlik denetimi, hardening</p>
@@ -428,14 +286,8 @@
         <!-- Otomasyon & Entegrasyon (PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <img
-              src="/assets/icons/automation.png?v=1"
-              alt=""
-              width="40" height="40"
-              style="width:40px;height:40px;display:block"
-              loading="eager" decoding="async"
-              onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><path d='M12 8a4 4 0 100 8 4 4 0 000-8z' stroke='#F5F3FF' stroke-width='2'/><path d='M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1l2.1-2.1M17 7l2.1-2.1' stroke='#F5F3FF' stroke-width='2' stroke-linecap='round'/></svg>`);"
-            />
+            <img src="/assets/icons/automation.png?v=1" alt="" width="40" height="40" style="width:40px;height:40px;display:block" loading="eager" decoding="async"
+                 onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg ...></svg>`);"/>
           </div>
           <h3 style="margin:10px 0 4px">Otomasyon & Entegrasyon</h3>
           <p style="margin:0;opacity:.92">Hesap açma/kapama, API entegrasyonları, RPA</p>
@@ -444,14 +296,8 @@
         <!-- Sosyal Medya & Reklam (PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <img
-              src="/assets/icons/social-media.png?v=1"
-              alt=""
-              width="40" height="40"
-              style="width:40px;height:40px;display:block"
-              loading="eager" decoding="async"
-              onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><path d='M3 12h14M3 6h10M3 18h18' stroke='#F5F3FF' stroke-width='2' stroke-linecap='round'/></svg>`);"
-            />
+            <img src="/assets/icons/social-media.png?v=1" alt="" width="40" height="40" style="width:40px;height:40px;display:block" loading="eager" decoding="async"
+                 onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg ...></svg>`);"/>
           </div>
           <h3 style="margin:10px 0 4px">Sosyal Medya & Reklam</h3>
           <p style="margin:0;opacity:.92">Meta/Google Ads, CAPI, GTM (Server-Side)</p>
@@ -460,14 +306,8 @@
         <!-- SEO & Analytics (PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <img
-              src="/assets/icons/seo-analytics.png?v=1"
-              alt=""
-              width="40" height="40"
-              style="width:40px;height:40px;display:block"
-              loading="eager" decoding="async"
-              onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><path d='M4 18V6m0 12c3-6 5-8 8-3s5-5 8-9' stroke='#F5F3FF' stroke-width='2' fill='none'/><circle cx='4' cy='18' r='1.5' fill='#F5F3FF'/></svg>`);"
-            />
+            <img src="/assets/icons/seo-analytics.png?v=1" alt="" width="40" height="40" style="width:40px;height:40px;display:block" loading="eager" decoding="async"
+                 onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg ...></svg>`);"/>
           </div>
           <h3 style="margin:10px 0 4px">SEO & Analytics</h3>
           <p style="margin:0;opacity:.92">Teknik SEO, GSC, GA4, Lighthouse</p>
@@ -476,14 +316,8 @@
         <!-- Hesap Kurtarma & Olay Müdahalesi (PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <img
-              src="/assets/icons/account-recovery.png?v=1"
-              alt=""
-              width="40" height="40"
-              style="width:40px;height:40px;display:block"
-              loading="eager" decoding="async"
-              onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><path d='M12 5l7 4v4c0 4-3 7-7 8-4-1-7-4-7-8V9l7-4z' stroke='#F5F3FF' stroke-width='2' fill='none'/><path d='M12 10v4' stroke='#F5F3FF' stroke-width='2' stroke-linecap='round'/></svg>`);"
-            />
+            <img src="/assets/icons/account-recovery.png?v=1" alt="" width="40" height="40" style="width:40px;height:40px;display:block" loading="eager" decoding="async"
+                 onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg ...></svg>`);"/>
           </div>
           <h3 style="margin:10px 0 4px">Hesap Kurtarma & Olay Müdahalesi</h3>
           <p style="margin:0;opacity:.92">Hesap geri alma, ihlal sonrası toparlama</p>
