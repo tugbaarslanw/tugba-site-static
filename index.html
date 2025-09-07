@@ -95,31 +95,23 @@
   header.hero{position:relative;overflow:hidden;padding:110px 0 120px;text-align:center;isolation:isolate}
   .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
 
-  /* Video katmanı */
+  /* >>> Video arka plan */
   .hero-video{
     position:absolute; inset:0;
     width:100%; height:100%;
     object-fit:cover;
     z-index:0;
+    filter:saturate(1.05) contrast(1.03);
   }
-  /* Video varken arkadaki overlay katmanları kapat */
-  .hero-bg.has-video .nebula-sky,
-  .hero-bg.has-video .stars,
-  .hero-bg.has-video .twinkles,
-  .hero-bg.has-video .meteor,
-  .hero-bg.has-video .hero-spot{display:none;}
 
+  /* Önceden görsel/degrade olan katman – videonun görünmesi için arka planı kapattık */
   .nebula-sky{
     position:absolute; inset:-20% -10% -10% -10%;
-    background:
-      radial-gradient(1200px 700px at 10% 15%, rgba(142,45,226,.55), transparent 60%),
-      radial-gradient(900px 600px at 85% 25%, rgba(170,66,239,.45), transparent 60%),
-      radial-gradient(1000px 800px at 50% 70%, rgba(106,17,203,.45), transparent 60%),
-      linear-gradient(180deg, #2B0F66 0%, #3B0E86 40%, #4C10A6 70%, #5A11BF 100%);
-    filter:saturate(1.1) contrast(1.05);
+    background:none; /* video arkada görünsün */
     animation:skyPan 60s linear infinite;
   }
   @keyframes skyPan{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(2%,-1%,0) scale(1.02)}100%{transform:translate3d(0,0,0) scale(1)}}
+
   .stars,.twinkles{
     position:absolute;inset:0;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='10' cy='20' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='80' cy='60' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='150' cy='90' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='30' cy='140' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='190' cy='160' r='1' fill='white' opacity='.8'/%3E%3Ccircle cx='110' cy='170' r='1' fill='white' opacity='.6'/%3E%3Ccircle cx='60' cy='15' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='175' cy='35' r='1' fill='white' opacity='.9'/%3E%3Ccircle cx='140' cy='150' r='1' fill='white' opacity='.7'/%3E%3Ccircle cx='20' cy='90' r='1' fill='white' opacity='.8'/%3E%3C/svg%3E");
@@ -129,7 +121,10 @@
   .twinkles{opacity:.8;animation:twinkle 2.8s ease-in-out infinite alternate}
   @keyframes starDrift{from{background-position:0 0}to{background-position:-600px 300px}}
   @keyframes twinkle{from{opacity:.25}to{opacity:.7}}
+
   .meteor{position:absolute;top:18%;left:-20%;width:220px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,255,255,0));filter:drop-shadow(0 0 6px rgba(255,255,255,.6));transform:rotate(15deg);animation:shoot 7s ease-in-out infinite}
+  @keyframes shoot{0%,60%{opacity:0;transform:translate(-40vw,-20vh) rotate(15deg)}66%,72%{opacity:1;transform:translate(5vw,2vh) rotate(15deg)}100%{opacity:0;transform:translate(60vw,24vh) rotate(15deg)}}
+
   .hero-spot{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 50% 46%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%)}
   .wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:120px;z-index:1;pointer-events:none}
 
@@ -139,10 +134,6 @@
 
   header h1{margin:0 0 8px 0;font-size:clamp(44px,7vw,68px);font-weight:800;line-height:1.08;letter-spacing:-.015em;color:var(--heading)}
   #services-title,#projects-title,#about-title,#about h3,header h1{color:#000 !important;text-shadow:none !important;filter:none !important}
-
-  /* Yalnızca HERO başlık ve alt satır beyaz */
-  header.hero .hero-inner h1{color:#fff !important;text-shadow:none !important;filter:none !important}
-  header.hero .lead{color:#fff !important}
 
   p.lead{color:var(--muted);font-size:18px;margin:8px 0 0}
   section{padding:28px 0}
@@ -211,13 +202,12 @@
 
   <!-- HERO -->
   <header class="hero" data-hero>
-    <!-- Video görünürlüğü için has-video sınıfı -->
-    <div class="hero-bg has-video" aria-hidden="true">
-      <!-- Video arka plan -->
-      <video class="hero-video"
-             src="/assets/hero/hero.mp4"
-             poster="/assets/hero/hero-poster.jpg"
-             autoplay muted loop playsinline preload="auto"></video>
+    <div class="hero-bg" aria-hidden="true">
+      <!-- >>> Video arka plan (poster yedek görsel) -->
+      <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="/og-image.png">
+        <source src="/assets/media/hero.mp4" type="video/mp4">
+        <!-- Tarayıcı video desteklemiyorsa poster gösterilecek -->
+      </video>
 
       <div class="nebula-sky"></div>
       <div class="stars"></div>
@@ -237,7 +227,7 @@
       <span id="hero-fallback" class="hero-fallback" aria-hidden="true">TA</span>
 
       <h1>Tuğba Arslan</h1>
-      <p class="lead">Software Engineer • Ethical Hacker • Automation</p>
+      <p class="lead">Software Engineer • Etik Hacker • Automation</p>
       <p style="margin-top:18px"><a class="btn" href="mailto:hello@tugbaarslan.com">İletişime Geç</a></p>
 
       <!-- ==== Premium Rozetler ==== -->
@@ -406,7 +396,6 @@
     <div class="container">
       <div class="logos">
         <img src="/assets/logos/apple-developer.png" alt="Apple Developer" loading="lazy" />
-        <!-- Sadece bu satır güncellendi -->
         <img src="/assets/logos/firebase.png" alt="Firebase" loading="lazy" />
         <img src="/assets/logos/github.png" alt="GitHub" loading="lazy" />
         <img src="/assets/logos/cloudflare.png" alt="Cloudflare" loading="lazy" />
@@ -438,61 +427,51 @@
           <p style="margin:0;opacity:.92">Next.js, Tailwind, SwiftUI, Firebase</p>
         </article>
 
-        <!-- Siber Güvenlik -->
+        <!-- Siber Güvenlik (PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z" stroke="#F5F3FF" stroke-width="2"/>
-              <rect x="9" y="10" width="6" height="5" rx="1.5" stroke="#F5F3FF" stroke-width="2"/>
-              <path d="M12 10V9a2 2 0 114 0v1" stroke="#F5F3FF" stroke-width="2"/>
-            </svg>
+            <img src="/assets/icons/security.png?v=1" alt="" width="40" height="40" style="width:40px;height:40px;display:block" loading="eager" decoding="async"
+                 onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><path d='M12 3l7 3v5c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-3z' stroke='#F5F3FF' stroke-width='2' fill='none'/><rect x='9' y='10' width='6' height='5' rx='1.5' stroke='#F5F3FF' stroke-width='2' fill='none'/><path d='M12 10V9a2 2 0 114 0v1' stroke='#F5F3FF' stroke-width='2'/></svg>`);"/>
           </div>
           <h3 style="margin:10px 0 4px">Siber Güvenlik (Pentest & Sertleştirme)</h3>
           <p style="margin:0;opacity:.92">Uygulama pentesti, güvenlik denetimi, hardening</p>
         </article>
 
-        <!-- Otomasyon & Entegrasyon -->
+        <!-- Otomasyon & Entegrasyon (PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" stroke="#F5F3FF" stroke-width="2"/>
-              <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1l2.1-2.1M17 7l2.1-2.1" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+            <img src="/assets/icons/automation.png?v=1" alt="" width="40" height="40" style="width:40px;height:40px;display:block" loading="eager" decoding="async"
+                 onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='4' stroke='#F5F3FF' stroke-width='2' fill='none'/><path d='M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1l2.1-2.1M17 7l2.1-2.1' stroke='#F5F3FF' stroke-width='2' stroke-linecap='round'/></svg>`);"/>
           </div>
           <h3 style="margin:10px 0 4px">Otomasyon & Entegrasyon</h3>
           <p style="margin:0;opacity:.92">Hesap açma/kapama, API entegrasyonları, RPA</p>
         </article>
 
-        <!-- Sosyal Medya & Reklam -->
+        <!-- Sosyal Medya & Reklam (PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M3 12h14M3 6h10M3 18h18" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+            <img src="/assets/icons/social-media.png?v=1" alt="" width="40" height="40" style="width:40px;height:40px;display:block" loading="eager" decoding="async"
+                 onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><path d='M3 12h14M3 6h10M3 18h18' stroke='#F5F3FF' stroke-width='2' stroke-linecap='round' fill='none'/></svg>`);"/>
           </div>
           <h3 style="margin:10px 0 4px">Sosyal Medya & Reklam</h3>
           <p style="margin:0;opacity:.92">Meta/Google Ads, CAPI, GTM (Server-Side)</p>
         </article>
 
-        <!-- SEO & Analytics -->
+        <!-- SEO & Analytics (PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 18V6m0 12c3-6 5-8 8-3s5-5 8-9" stroke="#F5F3FF" stroke-width="2" fill="none"/>
-              <circle cx="4" cy="18" r="1.5" fill="#F5F3FF"/>
-            </svg>
+            <img src="/assets/icons/seo-analytics.png?v=1" alt="" width="40" height="40" style="width:40px;height:40px;display:block" loading="eager" decoding="async"
+                 onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><path d='M4 18V6m0 12c3-6 5-8 8-3s5-5 8-9' stroke='#F5F3FF' stroke-width='2' fill='none'/><circle cx='4' cy='18' r='1.5' fill='#F5F3FF'/></svg>`);"/>
           </div>
           <h3 style="margin:10px 0 4px">SEO & Analytics</h3>
           <p style="margin:0;opacity:.92">Teknik SEO, GSC, GA4, Lighthouse</p>
         </article>
 
-        <!-- Hesap Kurtarma & Olay Müdahalesi -->
+        <!-- Hesap Kurtarma & Olay Müdahalesi (PNG) -->
         <article class="card">
           <div class="icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 5l7 4v4c0 4-3 7-7 8-4-1-7-4-7-8V9l7-4z" stroke="#F5F3FF" stroke-width="2"/>
-              <path d="M12 10v4" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+            <img src="/assets/icons/account-recovery.png?v=1" alt="" width="40" height="40" style="width:40px;height:40px;display:block" loading="eager" decoding="async"
+                 onerror="this.remove();this.parentNode.insertAdjacentHTML('beforeend', `<svg width='26' height='26' viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='8' stroke='#F5F3FF' stroke-width='2' fill='none'/><path d='M12 10v4' stroke='#F5F3FF' stroke-width='2' stroke-linecap='round'/></svg>`);"/>
           </div>
           <h3 style="margin:10px 0 4px">Hesap Kurtarma & Olay Müdahalesi</h3>
           <p style="margin:0;opacity:.92">Hesap geri alma, ihlal sonrası toparlama</p>
@@ -595,20 +574,6 @@
 
   <!-- 3D Hero -->
   <script src="hero-space-webgl.js" defer></script>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Video yüklenmişse emin olmak için sınıfı yine ekle
-    (function () {
-      var v = document.querySelector('.hero-video');
-      if (!v) return;
-      function onReady(){
-        var bg = document.querySelector('.hero-bg');
-        if (bg) bg.classList.add('has-video');
-      }
-      v.addEventListener('loadeddata', onReady, { once: true });
-      if (v.readyState >= 2) onReady();
-    })();
-  </script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
 </body>
 </html>
