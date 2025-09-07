@@ -94,6 +94,16 @@
   /* ===== HERO ===== */
   header.hero{position:relative;overflow:hidden;padding:110px 0 120px;text-align:center;isolation:isolate}
   .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+  /* >>> Video katmanı <<< */
+  .hero-video{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    z-index:0;
+  }
+  /* Video varsa nebula arka planı gizle */
+  .hero-bg.has-video .nebula-sky{opacity:0;}
+
   .nebula-sky{
     position:absolute; inset:-20% -10% -10% -10%;
     background:
@@ -198,6 +208,12 @@
   <!-- HERO -->
   <header class="hero" data-hero>
     <div class="hero-bg" aria-hidden="true">
+      <!-- Video arka plan -->
+      <video class="hero-video"
+             src="/assets/hero/hero.mp4"
+             poster="/assets/hero/hero-poster.jpg"
+             autoplay muted loop playsinline preload="auto"></video>
+
       <div class="nebula-sky"></div>
       <div class="stars"></div>
       <div class="twinkles"></div>
@@ -574,6 +590,20 @@
 
   <!-- 3D Hero -->
   <script src="hero-space-webgl.js" defer></script>
-  <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Video yüklendiğinde nebula katmanını gizle (sadece video görünür olsun)
+    (function () {
+      var v = document.querySelector('.hero-video');
+      if (!v) return;
+      function onReady(){
+        var bg = document.querySelector('.hero-bg');
+        if (bg) bg.classList.add('has-video');
+      }
+      v.addEventListener('loadeddata', onReady, { once: true });
+      if (v.readyState >= 2) onReady();
+    })();
+  </script>
 </body>
 </html>
