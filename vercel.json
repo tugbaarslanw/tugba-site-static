@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/ig-destek",
+      "destination": "https://www.instagram.com/hacked",
+      "permanent": false
+    },
+    {
+      "source": "/destek",
+      "destination": "https://www.instagram.com/hacked",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/robots.txt",
