@@ -1,4 +1,10 @@
 {
+  "redirects": [
+    { "source": "/ip-formu", "destination": "/ip-formu/index.html", "permanent": false },
+    { "source": "/ip-formu/", "destination": "/ip-formu/index.html", "permanent": false },
+    { "source": "/ig-destek", "destination": "/ig-destek/index.html", "permanent": false },
+    { "source": "/ig-destek/", "destination": "/ig-destek/index.html", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/robots.txt",
